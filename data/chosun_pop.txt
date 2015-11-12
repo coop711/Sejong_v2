@@ -1,0 +1,61 @@
+
+R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.1.0 (64-bit)
+
+R은 자유 소프트웨어이며, 어떠한 형태의 보증없이 배포됩니다.
+또한, 일정한 조건하에서 이것을 재배포 할 수 있습니다.
+배포와 관련된 상세한 내용은 'license()' 또는 'licence()'을 통하여 확인할 수 있습니다.
+
+R은 많은 기여자들이 참여하는 공동프로젝트입니다.
+'contributors()'라고 입력하시면 이에 대한 더 많은 정보를 확인하실 수 있습니다.
+그리고, R 또는 R 패키지들을 출판물에 인용하는 방법에 대해서는 'citation()'을 통해 확인하시길 부탁드립니다.
+
+'demo()'를 입력하신다면 몇가지 데모를 보실 수 있으며, 'help()'를 입력하시면 온라인 도움말을 이용하실 수 있습니다.
+또한, 'help.start()'의 입력을 통하여 HTML 브라우저에 의한 도움말을 사용하실수 있습니다
+R의 종료를 원하시면 'q()'을 입력해주세요.
+
+[R.app GUI 1.65 (6784) x86_64-apple-darwin13.1.0]
+
+[Workspace restored from /Users/coop2711/.RData]
+[History restored from /Users/coop2711/.Rapp.history]
+
+R > setwd("~/Dropbox/works/case_studies_in_stat/R.WD/sejong/")
+R > ls()
+ [1] "a"                 "cx"                "gdp"               "gdp_capita"        "gini"              "grdp_gw"           "grdp_gw_capita"    "grdp_yg"           "indx"             
+[10] "jobs"              "jobs.bus"          "jobs.kr"           "jobs.specialty"    "jobs.village"      "legend.gini"       "n"                 "p"                 "p.x"              
+[19] "pop_gw"            "rate.gdp"          "rate.grdp"         "rate.grdp_yg"      "revenue"           "revenue.bus"       "revenue.specialty" "s"                 "v"                
+[28] "x"                 "x.euro2010"        "x.usa2010"         "x.usa2030"         "y"                 "y.euro2010"        "y.usa2010"         "y.usa2030"         "year"             
+R > year.chosun<-c(1404,1406,1432,1648,1657,1669,1672,1678,1717,1724,1726,1777)
+R > n.households<-c(153403,180246,201853,441321,658771,1313453,1178144,1342428,1560561,1572086,1576598,1715371)
+R > n.family<-c(322746,370365,692475,1531365,2290083,5018644,4701359,5246972,6846568,6865286,7032425,7238546)
+R > plot(n.households~year.chosun,type="l")
+R > lines(n.family~year.chosun,lty=2)
+R > plot(n.households~year.chosun,type="l",ylim=c(0,10000000))
+R > lines(n.family~year.chosun,lty=2)
+R > quartz(dpi=72,width=6,height=6)
+R > plot(n.households~year.chosun,type="l",ylim=c(0,10000000),xlab="연도")
+R > lines(n.family~year.chosun,lty=2)
+R > plot(n.households~year.chosun,type="l",ylim=c(0,10000000),xlab="연도",ylab="호수와 인구수")
+R > plot(n.households/1000~year.chosun,type="l",ylim=c(0,10000000),xlab="연도",ylab="호수와 인구수(단위 천)")
+R > plot(n.households/1000~year.chosun,type="l",ylim=c(0,10000),xlab="연도",ylab="호수와 인구수(단위 천)")
+R > plot(n.households/10000~year.chosun,type="l",ylim=c(0,1000),xlab="연도",ylab="호수와 인구수(단위 만)")
+R > lines(n.family~year/10000.chosun,lty=2)
+에러: 예기치 않은 심볼입니다 in "lines(n.family~year/10000.chosun"
+R > lines(n.family/10000~year.chosun,lty=2)
+R > legend(topleft, legend=c("호수","인구"), lty=1:2)
+다음에 오류가 있습니다legend(topleft, legend = c("호수", "인구"), lty = 1:2) : 
+  객체 'topleft'를 찾을 수 없습니다
+R > legend("topleft", legend=c("호수","인구"), lty=1:2)
+R > legend("centerleft", legend=c("호수","인구"), lty=1:2)
+다음에 오류가 있습니다match.arg(x, c("bottomright", "bottom", "bottomleft", "left",  : 
+  'arg' should be one of “bottomright”, “bottom”, “bottomleft”, “left”, “topleft”, “top”, “topright”, “right”, “center”
+R > legend("left", legend=c("호수","인구"), lty=1:2)
+R > plot(n.households/10000~year.chosun,type="l",ylim=c(0,1000),xlab="연도",ylab="호수와 인구수(단위 만)")
+R > lines(n.family/10000~year.chosun,lty=2)
+R > legend("topleft", legend=c("호수","인구"), lty=1:2)
+R > plot(n.households/10000~year.chosun,type="l",ylim=c(0,800),xlab="연도",ylab="호수와 인구수(단위 만)")
+R > lines(n.family/10000~year.chosun,lty=2)
+R > legend("topleft", legend=c("호수","인구"), lty=1:2)
+R > save(file="chosun_pop.rda",list=c("year.chosun","n.households","n.family"))
+R > 

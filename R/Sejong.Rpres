@@ -1,0 +1,39 @@
+Population and Households in Chosun Dynasty
+========================================================
+author: Kee-Won Lee
+date: 10/03/15
+
+Data
+========================================================
+
+- 조선시대 호수와 인구의 변화 
+
+```{r, echo=FALSE}
+load("chosun_pop.rda")
+chosun.pop.data
+```
+
+Plot
+=========================================================
+
+```{r, echo=FALSE}
+plot(population/10000~year.chosun,data=chosun.pop.data,type="b",pch=17, col="red",ylim=c(0,800),xlab="연도",ylab="호수와 인구수(단위 만)")
+lines(households/10000~year.chosun,data=chosun.pop.data,type="b",pch=17)
+legend("topleft", legend=c("인구","호수"), lty=1,col=c("red","black"))
+text(x= 1700,y=500, labels="인구",col="red")
+text(x= 1700,y=100, labels="호수")
+title(main="조선시대 호수와 인구수의 변화")
+```
+
+Code
+========================================================
+
+```
+plot(population/10000~year.chosun,data=chosun.pop.data, type="b",pch=17, col="red",ylim=c(0,800), xlab="연도", ylab="호수와 인구수(단위 만)")
+lines(households/10000~year.chosun, data=chosun.pop.data, type="b", pch=17)
+legend("topleft", legend=c("인구","호수"), lty=1, col=c("red","black"))
+text(x= 1700,y=500, labels="인구", col="red")
+text(x= 1700,y=100, labels="호수")
+title(main="조선시대 호수와 인구수의 변화")
+```
+

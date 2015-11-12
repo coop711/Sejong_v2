@@ -1,0 +1,171 @@
+
+R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.1.0 (64-bit)
+
+R은 자유 소프트웨어이며, 어떠한 형태의 보증없이 배포됩니다.
+또한, 일정한 조건하에서 이것을 재배포 할 수 있습니다.
+배포와 관련된 상세한 내용은 'license()' 또는 'licence()'을 통하여 확인할 수 있습니다.
+
+R은 많은 기여자들이 참여하는 공동프로젝트입니다.
+'contributors()'라고 입력하시면 이에 대한 더 많은 정보를 확인하실 수 있습니다.
+그리고, R 또는 R 패키지들을 출판물에 인용하는 방법에 대해서는 'citation()'을 통해 확인하시길 부탁드립니다.
+
+'demo()'를 입력하신다면 몇가지 데모를 보실 수 있으며, 'help()'를 입력하시면 온라인 도움말을 이용하실 수 있습니다.
+또한, 'help.start()'의 입력을 통하여 HTML 브라우저에 의한 도움말을 사용하실수 있습니다
+R의 종료를 원하시면 'q()'을 입력해주세요.
+
+[R.app GUI 1.65 (6784) x86_64-apple-darwin13.1.0]
+
+[Workspace restored from /Users/coop2711/.RData]
+[History restored from /Users/coop2711/.Rapp.history]
+
+R > ls()
+ [1] "a"                 "cx"                "gdp"               "gdp_capita"        "gini"              "grdp_gw"           "grdp_gw_capita"    "grdp_yg"           "indx"             
+[10] "jobs"              "jobs.bus"          "jobs.kr"           "jobs.specialty"    "jobs.village"      "legend.gini"       "n"                 "p"                 "p.x"              
+[19] "pop_gw"            "rate.gdp"          "rate.grdp"         "rate.grdp_yg"      "revenue"           "revenue.bus"       "revenue.specialty" "s"                 "v"                
+[28] "x"                 "x.euro2010"        "x.usa2010"         "x.usa2030"         "y"                 "y.euro2010"        "y.usa2010"         "y.usa2030"         "year"             
+R > setwd("~/Dropbox/works/생활 속의 통계학/R.WD/")
+R > load("sejong_poll.rda")
+R > ls()
+ [1] "a"                 "cx"                "gdp"               "gdp_capita"        "gini"              "grdp_gw"           "grdp_gw_capita"    "grdp_yg"           "indx"             
+[10] "jobs"              "jobs.bus"          "jobs.kr"           "jobs.specialty"    "jobs.village"      "legend.gini"       "n"                 "p"                 "p.x"              
+[19] "pop_gw"            "rate.gdp"          "rate.grdp"         "rate.grdp_yg"      "revenue"           "revenue.bus"       "revenue.specialty" "s"                 "sejong.poll"      
+[28] "v"                 "x"                 "x.euro2010"        "x.usa2010"         "x.usa2030"         "y"                 "y.euro2010"        "y.usa2010"         "y.usa2030"        
+[37] "year"             
+R > sejong.poll
+   counts vote         class      region
+1      21  yes          high       Seoul
+2     194   no          high       Seoul
+3     259  yes third.current       Seoul
+4     393   no third.current       Seoul
+5     443  yes      third.ex       Seoul
+6     117   no      third.ex       Seoul
+7    1123  yes      ordinary        yuhu
+8      71   no      ordinary        yuhu
+9      29  yes         chief     gyunggi
+10      5   no         chief     gyunggi
+11  17076  yes      ordinary     gyunggi
+12    236   no      ordinary     gyunggi
+13      1   no          high     pyungan
+14      6  yes         chief     pyungan
+15     35   no         chief     pyungan
+16   1326  yes      ordinary     pyungan
+17  28474   no      ordinary     pyungan
+18     17  yes         chief    hwanghae
+19     17   no         chief    hwanghae
+20   4454  yes      ordinary    hwanghae
+21  15601   no      ordinary    hwanghae
+22      2   no          high chungcheong
+23     35  yes         chief chungcheong
+24     26   no         chief chungcheong
+25   6982  yes      ordinary chungcheong
+26  14013   no      ordinary chungcheong
+27      5  yes         chief     kangwon
+28     10   no         chief     kangwon
+29    939  yes      ordinary     kangwon
+30   6888   no      ordinary     kangwon
+31      1   no          high      hamgil
+32      3  yes         chief      hamgil
+33     14   no         chief      hamgil
+34     75  yes      ordinary      hamgil
+35   7387   no      ordinary      hamgil
+36     55  yes         chief   gyungsang
+37     16   no         chief   gyungsang
+38  36262  yes      ordinary   gyungsang
+39    377   no      ordinary   gyungsang
+40      2   no          high      jeolla
+41     42  yes         chief      jeolla
+42     12   no         chief      jeolla
+43  29505  yes      ordinary      jeolla
+44    257   no      ordinary      jeolla
+R > ?table
+starting httpd help server ... done
+R > xtabs(sejong.poll$counts~sejong.poll$region)
+sejong.poll$region
+chungcheong     gyunggi   gyungsang      hamgil    hwanghae      jeolla     kangwon     pyungan       Seoul        yuhu 
+      21058       17346       36710        7480       20089       29818        7842       29842        1427        1194 
+R > xtabs(counts~region+vote, data=sejong.poll))
+에러: 예기치 않은 ')'입니다 in "xtabs(counts~region+vote, data=sejong.poll))"
+R > xtabs(counts~region+vote, data=sejong.poll)
+             vote
+region           no   yes
+  chungcheong 14041  7017
+  gyunggi       241 17105
+  gyungsang     393 36317
+  hamgil       7402    78
+  hwanghae    15618  4471
+  jeolla        271 29547
+  kangwon      6898   944
+  pyungan     28510  1332
+  Seoul         704   723
+  yuhu           71  1123
+R > xtabs(counts~vote+region, data=sejong.poll)
+     region
+vote  chungcheong gyunggi gyungsang hamgil hwanghae jeolla kangwon pyungan Seoul  yuhu
+  no        14041     241       393   7402    15618    271    6898   28510   704    71
+  yes        7017   17105     36317     78     4471  29547     944    1332   723  1123
+R > ?xtabs
+R > summary(xtabs(counts~vote+region, data=sejong.poll))
+Call: xtabs(formula = counts ~ vote + region, data = sejong.poll)
+Number of cases in table: 172806 
+Number of factors: 2 
+Test for independence of all factors:
+	Chisq = 125236, df = 9, p-value = 0
+R > prop.table(xtabs(counts~vote+region, data=sejong.poll),margin=1)
+     region
+vote   chungcheong      gyunggi    gyungsang       hamgil     hwanghae       jeolla      kangwon      pyungan        Seoul         yuhu
+  no  0.1893619604 0.0032502124 0.0053001389 0.0998260260 0.2106299478 0.0036548032 0.0930289013 0.3844960822 0.0094943964 0.0009575315
+  yes 0.0711252116 0.1733784729 0.3681137679 0.0007906180 0.0453186292 0.2994921800 0.0095685050 0.0135013228 0.0073284207 0.0113828720
+R > round(prop.table(xtabs(counts~vote+region, data=sejong.poll),margin=1),digits=1)
+     region
+vote  chungcheong gyunggi gyungsang hamgil hwanghae jeolla kangwon pyungan Seoul yuhu
+  no          0.2     0.0       0.0    0.1      0.2    0.0     0.1     0.4   0.0  0.0
+  yes         0.1     0.2       0.4    0.0      0.0    0.3     0.0     0.0   0.0  0.0
+R > round(prop.table(xtabs(counts~vote+region, data=sejong.poll),margin=1),digits=2)
+     region
+vote  chungcheong gyunggi gyungsang hamgil hwanghae jeolla kangwon pyungan Seoul yuhu
+  no         0.19    0.00      0.01   0.10     0.21   0.00    0.09    0.38  0.01 0.00
+  yes        0.07    0.17      0.37   0.00     0.05   0.30    0.01    0.01  0.01 0.01
+R > ?prop.table
+R > round(prop.table(xtabs(counts~vote+region, data=sejong.poll)),digits=2)
+     region
+vote  chungcheong gyunggi gyungsang hamgil hwanghae jeolla kangwon pyungan Seoul yuhu
+  no         0.08    0.00      0.00   0.04     0.09   0.00    0.04    0.16  0.00 0.00
+  yes        0.04    0.10      0.21   0.00     0.03   0.17    0.01    0.01  0.00 0.01
+R > ?margin.table
+R > margin.table(xtabs(counts~vote+region, data=sejong.poll),margin=1)
+vote
+   no   yes 
+74149 98657 
+R > margin.table(xtabs(counts~vote+region, data=sejong.poll),margin=2)
+region
+chungcheong     gyunggi   gyungsang      hamgil    hwanghae      jeolla     kangwon     pyungan       Seoul        yuhu 
+      21058       17346       36710        7480       20089       29818        7842       29842        1427        1194 
+R > addmarigis(xtabs(counts~vote+region, data=sejong.poll),margin=2)
+에러: 함수 "addmarigis"를 찾을 수 없습니다
+R > addmargins(xtabs(counts~vote+region, data=sejong.poll),margin=2)
+     region
+vote  chungcheong gyunggi gyungsang hamgil hwanghae jeolla kangwon pyungan Seoul  yuhu   Sum
+  no        14041     241       393   7402    15618    271    6898   28510   704    71 74149
+  yes        7017   17105     36317     78     4471  29547     944    1332   723  1123 98657
+R > addmargins(xtabs(counts~vote+region, data=sejong.poll))
+     region
+vote  chungcheong gyunggi gyungsang hamgil hwanghae jeolla kangwon pyungan  Seoul   yuhu    Sum
+  no        14041     241       393   7402    15618    271    6898   28510    704     71  74149
+  yes        7017   17105     36317     78     4471  29547     944    1332    723   1123  98657
+  Sum       21058   17346     36710   7480    20089  29818    7842   29842   1427   1194 172806
+R > prop.table(xtabs(counts~vote+region, data=sejong.poll))
+     region
+vote   chungcheong      gyunggi    gyungsang       hamgil     hwanghae       jeolla      kangwon      pyungan        Seoul         yuhu
+  no  0.0812529658 0.0013946275 0.0022742266 0.0428341609 0.0903788063 0.0015682326 0.0399175955 0.1649826974 0.0040739326 0.0004108654
+  yes 0.0406062290 0.0989838316 0.2101605268 0.0004513732 0.0258729442 0.1709836464 0.0054627733 0.0077080657 0.0041838825 0.0064986169
+R > apply(prop.table(xtabs(counts~vote+region, data=sejong.poll)),2,sum)
+chungcheong     gyunggi   gyungsang      hamgil    hwanghae      jeolla     kangwon     pyungan       Seoul        yuhu 
+0.121859195 0.100378459 0.212434753 0.043285534 0.116251751 0.172551879 0.045380369 0.172690763 0.008257815 0.006909482 
+R > sum(apply(prop.table(xtabs(counts~vote+region, data=sejong.poll)),2,sum))
+[1] 1
+R > apply(prop.table(xtabs(counts~vote+region, data=sejong.poll)),1,sum)
+       no       yes 
+0.4290881 0.5709119 
+R > 

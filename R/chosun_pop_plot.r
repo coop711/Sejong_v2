@@ -1,0 +1,11 @@
+year.chosun<-c(1404,1406,1432,1648,1657,1669,1672,1678,1717,1724,1726,1777)
+n.households<-c(153403,180246,201853,441321,658771,1313453,1178144,1342428,1560561,1572086,1576598,1715371)
+n.family<-c(322746,370365,692475,1531365,2290083,5018644,4701359,5246972,6846568,6865286,7032425,7238546)
+## 평범한 R base plot 으로 그리기, png 파일 로 저장 
+#png(file="chosun_pop.png",width=480,height=480)
+#quartz(dpi=72)
+plot(n.households/10000~year.chosun,type="l",ylim=c(0,800),xlab="연도",ylab="호수와 인구수(단위 만)")lines(n.family/10000~year.chosun,lty=2)
+#lines(n.family/10000~year.chosun,lty=2)
+lines(n.family/10000~year.chosun,col="blue")
+legend("topleft", legend=c("호수","인구"), col=c("black","blue")
+#dev.off()

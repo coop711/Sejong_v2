@@ -1,0 +1,19 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Sejong_Poll\"\nauthor: \"coop711\"\ndate: \"2015년 3월 12일\"\noutput: html_document\n---\n\nData\n======\n\n- Display All \n\n```{r}\nload(\"sejong_poll.rda\")\nsejong.poll[4:1]\n```\n\n- The total\n\n```{r}\nxtabs(counts~vote,data=sejong.poll)[2:1]\nround(prop.table(xtabs(counts~vote,data=sejong.poll)[2:1]),digits=3)\n```\n\n- Set orders\n\n```{r}\no.vote<-c(2,1)\no.class<-c(2,1,4,5,3)\no.region<-c(9,10,2,8,5,1,7,4,3,6)\n```\n\n- By class\n\n```{r}\nxtabs(counts~vote+class,data=sejong.poll)[2:1,c(2,1,4,5,3)]\nround(prop.table(xtabs(counts~vote+class,data=sejong.poll)[o.vote,o.class],margin=2),digits=3)\n```\n\n- By Region\n\n```{r}\nxtabs(counts~vote+region,data=sejong.poll)[o.vote,o.region]\nround(prop.table(xtabs(counts~vote+region,data=sejong.poll)[o.vote,o.region],margin=2),digits=3)\n```\n\n- Flattened table\n\n```{r}\nftable(xtabs(counts~vote+class+region,data=sejong.poll)[o.vote,o.class,o.region])\n```\n\n- Regionwise proportion, check that the coloumn sum calculates up to 1.\n\n```{r}\nftable(round(prop.table(xtabs(counts~vote+class+region,data=sejong.poll)[o.vote,o.class,o.region],margin=3),digits=3))\n```\n\n- Classwise proportion, check that the sum for each class calculates up to 1. This is not what we want. \n\n```{r}\nftable(round(prop.table(xtabs(counts~vote+class+region,data=sejong.poll)[o.vote,o.class,o.region],margin=2),digits=3))\n```\n\n- To compare the vote for each class in each region, and for the convenience of viewing, rearrange the variables, and the margin. See the NaNs.\n\n```{r}\nftable(xtabs(counts~class+vote+region,data=sejong.poll)[o.class,o.vote,o.region])\n\nftable(round(prop.table(xtabs(counts~class+vote+region,data=sejong.poll)[o.class,o.vote,o.region],margin=c(1,3)),digits=3))\n```",
+    "created" : 1447254300009.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4061953921",
+    "id" : "B878333D",
+    "lastKnownWriteTime" : 1426653617,
+    "path" : "~/Desktop/Works/Class/Case_Studies_in_Stat/R.WD/Sejong/R/Sejong_poll.Rmd",
+    "project_path" : "R/Sejong_poll.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
