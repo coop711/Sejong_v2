@@ -52,7 +52,7 @@ prop.table(xtabs(counts~vote, data=sejong.poll.2))
 - We can check the color. Coordinates of text() are found by locator(2). Try! 
 
 ```{r fig.width=4, fig.height=4}
-pie(xtabs(counts~vote, data=sejong.poll.2), col=sejong.poll.2$color)
+pie(xtabs(counts~vote, data=sejong.poll.2), col=c("cyan", "red"))
 title(main="Overall Yes or No")
 text(x=0, y=c(0.4,-0.4), labels=c("98657", "74149"))
 ```
@@ -95,10 +95,10 @@ prop.table(xtabs(counts~vote+class.2, data=sejong.poll.2), margin=2)
 ```{r fig.width=8, fig.height=4}
 attach(sejong.poll.2)
 par(mfrow=c(1,2))
-pie(xtabs(counts~vote+class.2, data=sejong.poll.2[class.2=="Bureaus",], drop=T), labels=c("yes", "no"), col=color)
+pie(xtabs(counts~vote+class.2, data=sejong.poll.2[class.2=="Bureaus",], drop=T), labels=c("yes", "no"), col=c("cyan", "red"))
 title(main="Bureacrats by vote")
 text(x=0, y=c(0.4,-0.4), labels=c("915", "845"))
-pie(xtabs(counts~vote+class.2, data=sejong.poll.2[class.2=="Commons",], drop=T), labels=c("yes", "no"), col=color)
+pie(xtabs(counts~vote+class.2, data=sejong.poll.2[class.2=="Commons",], drop=T), labels=c("yes", "no"), col=c("cyan", "red"))
 title(main="Commons by vote")
 text(x=0, y=c(0.4,-0.4), labels=c("97742", "73304"))
 par(mfrow=c(1,1))
@@ -117,19 +117,17 @@ xtabs(counts~vote+region+class.2, data=sejong.poll.2, drop=T)
 - Seoul has three times more Bureaucrats than other regions, so analyse further.
 
 ```{r}
-sejong.poll.2.seoul <- subset(sejong.poll.2, region == "Seoul")
-sejong.poll.2.seoul
+(sejong.poll.2.seoul <- subset(sejong.poll.2, region == "Seoul"))
 # xtabs(counts~vote+class, data=sejong.poll.2[region=="Seoul",], drop=T)
 xtabs(counts~vote+class, data=sejong.poll.2.seoul, drop=TRUE)
 seoul.class <- xtabs(counts~vote+class, data=sejong.poll.2.seoul, drop=TRUE)
 ```
 
-
 - Draw barplot for the vote by class in Seoul. Text positions were obtained by locator().
 
 ```{r}
-# barplot(xtabs(counts~vote+class, data=sejong.poll.2[region=="Seoul",], drop=T), col=color)
-barplot(seoul.class, col=color)
+# barplot(xtabs(counts~vote+class, data=sejong.poll.2[region=="Seoul",], drop=T), col=c("cyan", "red"))
+barplot(seoul.class, col=c("cyan", "red"))
 title(main="Seoul Vote by Class")
 text(x=c(0.7, 1.9, 1.9, 3.1, 3.1), y=c(120, 450, 135, 500, 220), labels=c("194","393", "259", "117", "443"))
 legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("yes", "no"))
@@ -144,7 +142,7 @@ ggplot(sejong.poll.2.seoul, aes(x=class, y=counts, fill=vote)) +
 - Using mosaicplot()
 
 ```{r}
-mosaicplot(xtabs(counts~class+vote, data=sejong.poll.2[region=="Seoul",], drop=T), col=color, main="Seoul by vote")
+mosaicplot(xtabs(counts~class+vote, data=sejong.poll.2[region=="Seoul",], drop=T), col=c("cyan", "red"), main="Seoul by vote")
 ```
 
 - Draw barplot() for the Bureaus by region.
@@ -154,12 +152,14 @@ mosaicplot(xtabs(counts~class+vote, data=sejong.poll.2[region=="Seoul",], drop=T
 # xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Bureaus" & !region=="Seoul",], drop=T)
 # xtabs(counts ~ vote + region, data = bureaus.region, drop = TRUE)
 (bureaus.region.tbl <- xtabs(counts ~ vote + region, data = bureaus.region, drop = TRUE))
-barplot(bureaus.region.tbl, col=color)
+barplot(bureaus.region.tbl, beside = TRUE, col=color)
+barplot(bureaus.region.tbl, beside = TRUE, col=c("cyan", "red"))
+barplot(bureaus.region.tbl, col=c("cyan", "red"))
 title(main="Bureacrats' vote by region other than Seoul")
 legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("yes", "no"))
 ```
 
-```{r, ggplot_barplots_vote by region}
+```{r, ggplot_barplots_vote by region, fig.width=12, fig.height=6}
 (bureaus.region.df <- as.data.frame(bureaus.region.tbl))
 ggplot(bureaus.region.df, aes(x=region, y=Freq, fill=vote)) +
   geom_bar(stat="identity")
@@ -168,7 +168,7 @@ ggplot(bureaus.region.df, aes(x=region, y=Freq, fill=vote)) +
 - Using mosaicplot()
 
 ```{r fig.width=12, fig.height=6}
-mosaicplot(xtabs(counts~region+vote, data=sejong.poll.2[class.2=="Bureaus" & !region=="Seoul",], drop=T), col=color, main="")
+mosaicplot(xtabs(counts~region+vote, data=sejong.poll.2[class.2=="Bureaus" & !region=="Seoul",], drop=T), col=c("cyan", "red"), main="")
 title(main="Bureacrats' vote by region other than Seoul")
 ```
 
@@ -176,14 +176,14 @@ title(main="Bureacrats' vote by region other than Seoul")
 
 ```{r fig.width=12, height=6}
 (commons.region.tbl <- xtabs(counts ~ vote + region, data = sejong.poll.2.commons, drop = TRUE))
-barplot(commons.region.tbl, col=color)
+barplot(commons.region.tbl, col=c("cyan", "red"))
 # xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Commons",], drop=T)
-# barplot(xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Commons",], drop=T), col=color)
+# barplot(xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Commons",], drop=T), col=c("cyan", "red"))
 title(main="Commons' vote by region")
 legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("yes", "no"))
 ```
 
-```{r, ggplot_barplots_vote : Commons by region}
+```{r, ggplot_barplots_vote : Commons by region, fig.width=12, fig.height=6}
 (commons.region.df <- as.data.frame(commons.region.tbl))
 ggplot(commons.region.df, aes(x=region, y=Freq, fill=vote)) +
   geom_bar(stat="identity")
@@ -193,7 +193,7 @@ ggplot(commons.region.df, aes(x=region, y=Freq, fill=vote)) +
 - Draw by mosaicplot() in base graphics.
 
 ```{r fig.width=12, fig.height=6}
-mosaicplot(xtabs(counts~region+vote, data=sejong.poll.2[class.2=="Commons",], drop=T), col=color, main="Commons' votes by region")
+mosaicplot(xtabs(counts~region+vote, data=sejong.poll.2[class.2=="Commons",], drop=T), col=c("cyan", "red"), main="Commons' votes by region")
 ```
 
 - Chungcheong's case.
@@ -201,7 +201,7 @@ mosaicplot(xtabs(counts~region+vote, data=sejong.poll.2[class.2=="Commons",], dr
 ```{r}
 xtabs(counts~vote+class, data=sejong.poll.2[region=="Chungcheong",], drop=T)
 prop.table(xtabs(counts~vote+class, data=sejong.poll.2[region=="Chungcheong",], drop=T), margin=2)
-barplot(prop.table(xtabs(counts~vote+class, data=sejong.poll.2[region=="Chungcheong",], drop=T), margin=2), col=color, ylim=c(0, 1.5), axes=F)
+barplot(prop.table(xtabs(counts~vote+class, data=sejong.poll.2[region=="Chungcheong",], drop=T), margin=2), col=c("cyan", "red"), ylim=c(0, 1.5), axes=F)
 axis(side=2, at=c(0, 0.5, 1.0), labels=c("0", "50%", "100%"))
 title(main="Chungcheong's vote proportion by class")
 legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("yes", "no"))
@@ -211,7 +211,7 @@ text(x=c(0.7, 1.9, 1.9, 3.1, 3.1), y=c(0.5, 0.3, 0.8, 0.15, 0.65), labels=c(2, 3
 - With mosaicplot, it's hard to compare.
 
 ```{r}
-mosaicplot(xtabs(counts~class+vote, data=sejong.poll.2[region=="Chungcheong",], drop=T), col=color, main="")
+mosaicplot(xtabs(counts~class+vote, data=sejong.poll.2[region=="Chungcheong",], drop=T), col=c("cyan", "red"), main="")
 title(main="Chungcheong's vote")
 ```
 
