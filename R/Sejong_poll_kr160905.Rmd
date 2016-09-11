@@ -1,60 +1,53 @@
 ---
 title: "King Sejong's National Poll on Tax Reform(Korean)"
 author: "coop711"
-date: "2015년 3월 29일"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
-Data Management
----------------
+# Data 
 
-- 원자료는 세종실록, 요약표는 오기수 교수의 논문에서.
+원자료는 [세종실록](http://sillok.history.go.kr/id/kda_11208010_005), 요약표는 오기수 교수의 논문에서.
 
-```{r}
-library(knitr)
+```{r, data, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library(pander)
+library(knitr)
+panderOptions('table.split.table', Inf)
 load("sejong_poll_kr_2.rda")
-str(sejong.poll.kr.2)
+# str(sejong.poll.kr.2)
 kable(sejong.poll.kr.2)
 ```
 
-- 전체 찬반을 `xtabs()` 로 파악. `digits=3`의 역할에 유의
+- 전체 찬반을 `xtabs()` 로 파악. `digits = 3`의 역할에 유의
 
-```{r}
-options(digits=3)
+```{r, overall votes}
+options(digits =3)
 pander(xtabs(counts~vote, data=sejong.poll.kr.2))
 str(xtabs(counts~vote, data=sejong.poll.kr.2))
 pander(xtabs(counts~vote, data=sejong.poll.kr.2))
 kable(t(as.table(xtabs(counts~vote, data=sejong.poll.kr.2))))
-pander(prop.table(xtabs(counts~vote, data=sejong.poll.kr.2)))
+pander(format(prop.table(xtabs(counts~vote, data=sejong.poll.kr.2))*100, nsmall = 1), caption = "전체 찬반(%)")
 ```
 
-- `col=` 을 이용하여 색으로 찬반구분. 
+- 전체 찬반을 원형그래프로 표현
 
-```
-sejong.poll.kr.2$color[sejong.poll.kr.2$vote=="찬성"]<-"cyan"
-sejong.poll.kr.2$color[sejong.poll.kr.2$vote=="반대"]<-"red"
-```
-- 윗 식을 한줄로 줄이려면 `ifelse()`를 이용하여
-
-```
-color<-ifelse(sejong.poll.kr.2$vote=="찬성", "cyan", "red")
-```
-
-
-```{r fig.width=4, fig.height=4}
+```{r, fig.width = 4, fig.height = 4}
 par(family = "나눔고딕")
-pie(xtabs(counts~vote, data=sejong.poll.kr.2), col=c("cyan", "red"))
-title(main="전체 찬반")
-text(x=0, y=c(0.4,-0.4), labels=c("98,657", "74,149"))
+gray.2 <- gray.colors(12)[c(12, 7)]
+vote.total <- xtabs(counts ~ vote, data = sejong.poll.kr.2)
+pie(vote.total, col = gray.2)
+title(main = "전체 찬반")
+# text(x=0, y=c(0.4,-0.4), labels=c("98,657", "74,149"))
+text(x=0, y=c(0.4,-0.4), labels = vote.total)
 ```
 
 - 계급별 찬반.
 
-```{r}
+```{r, vote by classes, results = 'html'}
 xtabs(counts~vote+class, data=sejong.poll.kr.2)
-kable(xtabs(counts~vote+class, data=sejong.poll.kr.2))
-kable(round(prop.table(xtabs(counts ~ vote + class, data = sejong.poll.kr.2), margin = 2)*100, digits = 2), caption = "계급별 찬반(%)")
+kable(xtabs(counts~vote+class, data=sejong.poll.kr.2), align = rep("r", 5), caption = "계급별 찬반")
+kable(format(prop.table(xtabs(counts ~ vote + class, data = sejong.poll.kr.2), margin = 2)*100, nsmall = 1), align = rep("r", 5), caption = "계급별 찬반(%)")
 ```
 
 - 품관촌민의 수효가 상대적으로 많아서 별도로 분석.
@@ -78,7 +71,7 @@ kable(addmargins(xtabs(counts~vote+class.2, data=sejong.poll.kr.2)))
 - 비율을 계산하여 주변에 집계. 
 
 ```{r}
-kable(prop.table(xtabs(counts~vote+class.2, data=sejong.poll.kr.2), margin=2))
+kable(format(prop.table(xtabs(counts~vote+class.2, data=sejong.poll.kr.2), margin=2)*100, nsmall = 1), caption = "관료외 품관촌민")
 ```
 
 - 관료와 품관촌민의 찬반을 Pie chart에 도식화
@@ -87,10 +80,10 @@ kable(prop.table(xtabs(counts~vote+class.2, data=sejong.poll.kr.2), margin=2))
 attach(sejong.poll.kr.2)
 par(family = "나눔고딕")
 par(mfrow=c(1,2))
-pie(xtabs(counts~vote+class.2, data=sejong.poll.kr.2[class.2=="관료",], drop=T), labels=c("찬성", "반대"), col=c("cyan", "red"))
+pie(xtabs(counts~vote+class.2, data=sejong.poll.kr.2[class.2=="관료",], drop=T), labels=c("찬성", "반대"), col=gray.2)
 title(main="관료들의 찬반")
 text(x=0, y=c(0.4,-0.4), labels=c("915", "845"))
-pie(xtabs(counts~vote+class.2, data=sejong.poll.kr.2[class.2=="품관촌민",], drop=T), labels=c("찬성", "반대"), col=c("cyan", "red"))
+pie(xtabs(counts~vote+class.2, data=sejong.poll.kr.2[class.2=="품관촌민",], drop=T), labels=c("찬성", "반대"), col=gray.2)
 title(main="품관촌민의 찬반")
 text(x=0, y=c(0.4,-0.4), labels=c("97,742", "73,304"))
 par(mfrow=c(1,1))
@@ -114,17 +107,17 @@ kable(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="서울",], drop=T)
 
 ```{r}
 par(family = "나눔고딕")
-barplot(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="서울",], drop=T), col=c("cyan", "red"))
+barplot(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="서울",], drop = TRUE), col = gray.2)
 title(main="서울의 찬반")
 text(x=c(0.7, 1.9, 1.9, 3.1, 3.1), y=c(120, 450, 135, 500, 220), labels=c("194","393", "259", "117", "443"))
-legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("찬성", "반대"))
+legend("topleft", inset=0.05, fill = gray.2, legend=c("찬성", "반대"))
 ```
 
 - mosaicplot()의 활용.
 
 ```{r}
 par(family = "나눔고딕")
-mosaicplot(xtabs(counts~class+vote, data=sejong.poll.kr.2[region=="서울",], drop=T), col=c("cyan", "red"), main="서울의 찬반", xlab="계급" , ylab ="찬반")
+mosaicplot(xtabs(counts~class+vote, data=sejong.poll.kr.2[region=="서울",], drop=T), col=gray.2, main="서울의 찬반", xlab="계급" , ylab ="찬반")
 ```
 
 - 지역별 관료들의 찬반을 barplot()으로 그려봄.
@@ -132,16 +125,16 @@ mosaicplot(xtabs(counts~class+vote, data=sejong.poll.kr.2[region=="서울",], dr
 ```{r}
 par(family = "나눔고딕")
 kable(xtabs(counts~vote+region, data=sejong.poll.kr.2[class.2=="관료" & !region=="서울",], drop=T))
-barplot(xtabs(counts~vote+region, data=sejong.poll.kr.2[class.2=="관료" & !region=="서울",], drop=T), beside=TRUE, col=c("cyan", "red"))
+barplot(xtabs(counts~vote+region, data=sejong.poll.kr.2[class.2=="관료" & !region=="서울",], drop=T), beside=TRUE, col=gray.2)
 title(main="지방 관료들의 찬반")
-legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("찬성", "반대"))
+legend("topleft", inset=0.05, fill=gray.2, legend=c("찬성", "반대"))
 ```
 
 - mosaicplot()의 활용
 
 ```{r}
 par(family = "나눔고딕")
-mosaicplot(xtabs(counts~region+vote, data=sejong.poll.kr.2[class.2=="관료" & !region=="서울",], drop=T), col=c("cyan", "red"), main="", xlab="계급", ylab="찬반")
+mosaicplot(xtabs(counts~region+vote, data=sejong.poll.kr.2[class.2=="관료" & !region=="서울",], drop=T), col=gray.2, main="", xlab="계급", ylab="찬반")
 title(main="지방 관료들의 찬반")
 ```
 
@@ -149,16 +142,16 @@ title(main="지방 관료들의 찬반")
 
 ```{r}
 par(family = "나눔고딕")
-barplot(xtabs(counts~vote+region, data=sejong.poll.kr.2[class.2=="품관촌민",], drop=T), beside=TRUE, col=c("cyan", "red"))
+barplot(xtabs(counts~vote+region, data=sejong.poll.kr.2[class.2=="품관촌민",], drop=T), beside=TRUE, col=gray.2)
 title(main="품관촌민들의 지역별 찬반")
-legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("찬성", "반대"))
+legend("topleft", inset=0.05, fill=gray.2, legend=c("찬성", "반대"))
 ```
 
 - mosaicplot()의 활용
 
 ```{r}
 par(family = "나눔고딕")
-mosaicplot(xtabs(counts~region+vote, data=sejong.poll.kr.2[class.2=="품관촌민",], drop=T), col=c("cyan", "red"), main="품관촌민의 지역별 찬반", xlab="지역", ylab="찬반")
+mosaicplot(xtabs(counts~region+vote, data=sejong.poll.kr.2[class.2=="품관촌민",], drop=T), col=gray.2, main="품관촌민의 지역별 찬반", xlab="지역", ylab="찬반")
 ```
 
 - 충청도는 관료들의 찬반과 품관촌민의 찬반이 다른 곳.
@@ -166,11 +159,11 @@ mosaicplot(xtabs(counts~region+vote, data=sejong.poll.kr.2[class.2=="품관촌�
 ```{r}
 par(family = "나눔고딕")
 kable(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="충청",], drop=T))
-kable(prop.table(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="충청",], drop=T), margin=2))
-barplot(prop.table(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="충청",], drop=T), margin=2), col=c("cyan", "red"), ylim=c(0, 1.5), axes=F)
+kable(format(prop.table(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="충청",], drop=T), margin=2)*100, nsmall = 1), caption = "충청도 사례", align = rep("r", 3))
+barplot(prop.table(xtabs(counts~vote+class, data=sejong.poll.kr.2[region=="충청",], drop=T), margin=2), col=gray.2, ylim=c(0, 1.5), axes=F)
 axis(side=2, at=c(0, 0.5, 1.0), labels=c("0", "50%", "100%"))
 title(main="충청도의 계급별 찬반 비율")
-legend("topleft", inset=0.05, fill=c("cyan", "red"), legend=c("찬성", "반대"))
+legend("topleft", inset=0.05, fill=gray.2, legend=c("찬성", "반대"))
 text(x=c(0.7, 1.9, 1.9, 3.1, 3.1), y=c(0.5, 0.3, 0.8, 0.15, 0.65), labels=c(2, 35, 26, 6982, 14013))
 ```
 
@@ -178,7 +171,7 @@ text(x=c(0.7, 1.9, 1.9, 3.1, 3.1), y=c(0.5, 0.3, 0.8, 0.15, 0.65), labels=c(2, 3
 
 ```{r fig.width=12, fig.height=6}
 par(family = "나눔고딕")
-mosaicplot(xtabs(counts~class+vote, data=sejong.poll.kr.2[region=="충청",], drop=T), col=c("cyan", "red"), main="", xlab="계급", ylab="찬반")
+mosaicplot(xtabs(counts~class+vote, data=sejong.poll.kr.2[region=="충청",], drop=T), col=gray.2, main="", xlab="계급", ylab="찬반")
 title(main="충청도의 찬반")
 ```
 

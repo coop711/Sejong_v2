@@ -122,64 +122,302 @@ $(document).ready(function () {
 </div>
 
 
-<div id="data-management" class="section level2">
-<h2>Data Management</h2>
-<ul>
-<li>Original data came from intenet version of Sejong silok, summarized by Oh, Ki-Soo.</li>
-</ul>
-<pre class="r"><code>sejong.poll&lt;-read.table(&quot;../data/sejong_poll.txt&quot;, header = TRUE, sep = &quot;&quot;)
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>Original data came from intenet version of Sejong silok, summarized by Oh, Ki-Soo.</p>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+library(pander)
+library(knitr)
+sejong.poll &lt;- read.table(&quot;../data/sejong_poll.txt&quot;, header = TRUE, sep = &quot;&quot;)
 str(sejong.poll)</code></pre>
 <pre><code>## 'data.frame':    44 obs. of  4 variables:
 ##  $ counts: int  21 194 259 393 443 117 1123 71 29 5 ...
 ##  $ vote  : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 2 1 2 1 2 1 2 1 2 1 ...
 ##  $ class : Factor w/ 5 levels &quot;chief&quot;,&quot;high&quot;,..: 2 2 4 4 5 5 3 3 1 1 ...
 ##  $ region: Factor w/ 10 levels &quot;chungcheong&quot;,..: 9 9 9 9 9 9 10 10 2 2 ...</code></pre>
-<pre class="r"><code>sejong.poll</code></pre>
-<pre><code>##    counts vote         class      region
-## 1      21  yes          high       Seoul
-## 2     194   no          high       Seoul
-## 3     259  yes third.current       Seoul
-## 4     393   no third.current       Seoul
-## 5     443  yes      third.ex       Seoul
-## 6     117   no      third.ex       Seoul
-## 7    1123  yes      ordinary        yuhu
-## 8      71   no      ordinary        yuhu
-## 9      29  yes         chief     gyunggi
-## 10      5   no         chief     gyunggi
-## 11  17076  yes      ordinary     gyunggi
-## 12    236   no      ordinary     gyunggi
-## 13      1   no          high     pyungan
-## 14      6  yes         chief     pyungan
-## 15     35   no         chief     pyungan
-## 16   1326  yes      ordinary     pyungan
-## 17  28474   no      ordinary     pyungan
-## 18     17  yes         chief    hwanghae
-## 19     17   no         chief    hwanghae
-## 20   4454  yes      ordinary    hwanghae
-## 21  15601   no      ordinary    hwanghae
-## 22      2   no          high chungcheong
-## 23     35  yes         chief chungcheong
-## 24     26   no         chief chungcheong
-## 25   6982  yes      ordinary chungcheong
-## 26  14013   no      ordinary chungcheong
-## 27      5  yes         chief     kangwon
-## 28     10   no         chief     kangwon
-## 29    939  yes      ordinary     kangwon
-## 30   6888   no      ordinary     kangwon
-## 31      1   no          high      hamgil
-## 32      3  yes         chief      hamgil
-## 33     14   no         chief      hamgil
-## 34     75  yes      ordinary      hamgil
-## 35   7387   no      ordinary      hamgil
-## 36     55  yes         chief   gyungsang
-## 37     16   no         chief   gyungsang
-## 38  36262  yes      ordinary   gyungsang
-## 39    377   no      ordinary   gyungsang
-## 40      2   no          high      jeolla
-## 41     42  yes         chief      jeolla
-## 42     12   no         chief      jeolla
-## 43  29505  yes      ordinary      jeolla
-## 44    257   no      ordinary      jeolla</code></pre>
+<pre class="r"><code>pander(sejong.poll)</code></pre>
+<table style="width:57%;">
+<colgroup>
+<col width="12%"></col>
+<col width="9%"></col>
+<col width="19%"></col>
+<col width="15%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">counts</th>
+<th align="center">vote</th>
+<th align="center">class</th>
+<th align="center">region</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">21</td>
+<td align="center">yes</td>
+<td align="center">high</td>
+<td align="center">Seoul</td>
+</tr>
+<tr class="even">
+<td align="center">194</td>
+<td align="center">no</td>
+<td align="center">high</td>
+<td align="center">Seoul</td>
+</tr>
+<tr class="odd">
+<td align="center">259</td>
+<td align="center">yes</td>
+<td align="center">third.current</td>
+<td align="center">Seoul</td>
+</tr>
+<tr class="even">
+<td align="center">393</td>
+<td align="center">no</td>
+<td align="center">third.current</td>
+<td align="center">Seoul</td>
+</tr>
+<tr class="odd">
+<td align="center">443</td>
+<td align="center">yes</td>
+<td align="center">third.ex</td>
+<td align="center">Seoul</td>
+</tr>
+<tr class="even">
+<td align="center">117</td>
+<td align="center">no</td>
+<td align="center">third.ex</td>
+<td align="center">Seoul</td>
+</tr>
+<tr class="odd">
+<td align="center">1123</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">yuhu</td>
+</tr>
+<tr class="even">
+<td align="center">71</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">yuhu</td>
+</tr>
+<tr class="odd">
+<td align="center">29</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">gyunggi</td>
+</tr>
+<tr class="even">
+<td align="center">5</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">gyunggi</td>
+</tr>
+<tr class="odd">
+<td align="center">17076</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">gyunggi</td>
+</tr>
+<tr class="even">
+<td align="center">236</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">gyunggi</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">no</td>
+<td align="center">high</td>
+<td align="center">pyungan</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">pyungan</td>
+</tr>
+<tr class="odd">
+<td align="center">35</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">pyungan</td>
+</tr>
+<tr class="even">
+<td align="center">1326</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">pyungan</td>
+</tr>
+<tr class="odd">
+<td align="center">28474</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">pyungan</td>
+</tr>
+<tr class="even">
+<td align="center">17</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">hwanghae</td>
+</tr>
+<tr class="odd">
+<td align="center">17</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">hwanghae</td>
+</tr>
+<tr class="even">
+<td align="center">4454</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">hwanghae</td>
+</tr>
+<tr class="odd">
+<td align="center">15601</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">hwanghae</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">no</td>
+<td align="center">high</td>
+<td align="center">chungcheong</td>
+</tr>
+<tr class="odd">
+<td align="center">35</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">chungcheong</td>
+</tr>
+<tr class="even">
+<td align="center">26</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">chungcheong</td>
+</tr>
+<tr class="odd">
+<td align="center">6982</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">chungcheong</td>
+</tr>
+<tr class="even">
+<td align="center">14013</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">chungcheong</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">kangwon</td>
+</tr>
+<tr class="even">
+<td align="center">10</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">kangwon</td>
+</tr>
+<tr class="odd">
+<td align="center">939</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">kangwon</td>
+</tr>
+<tr class="even">
+<td align="center">6888</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">kangwon</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">no</td>
+<td align="center">high</td>
+<td align="center">hamgil</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">hamgil</td>
+</tr>
+<tr class="odd">
+<td align="center">14</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">hamgil</td>
+</tr>
+<tr class="even">
+<td align="center">75</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">hamgil</td>
+</tr>
+<tr class="odd">
+<td align="center">7387</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">hamgil</td>
+</tr>
+<tr class="even">
+<td align="center">55</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">gyungsang</td>
+</tr>
+<tr class="odd">
+<td align="center">16</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">gyungsang</td>
+</tr>
+<tr class="even">
+<td align="center">36262</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">gyungsang</td>
+</tr>
+<tr class="odd">
+<td align="center">377</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">gyungsang</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">no</td>
+<td align="center">high</td>
+<td align="center">jeolla</td>
+</tr>
+<tr class="odd">
+<td align="center">42</td>
+<td align="center">yes</td>
+<td align="center">chief</td>
+<td align="center">jeolla</td>
+</tr>
+<tr class="even">
+<td align="center">12</td>
+<td align="center">no</td>
+<td align="center">chief</td>
+<td align="center">jeolla</td>
+</tr>
+<tr class="odd">
+<td align="center">29505</td>
+<td align="center">yes</td>
+<td align="center">ordinary</td>
+<td align="center">jeolla</td>
+</tr>
+<tr class="even">
+<td align="center">257</td>
+<td align="center">no</td>
+<td align="center">ordinary</td>
+<td align="center">jeolla</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>We need vote, class, region as factors. If you leave them as chr, it will be coerced to factor when you tabulate it according to alphabetical order, which is not what you want. So, use factor() to convert them. First, make a working copy vesion of sejong.poll</li>
 </ul>
