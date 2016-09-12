@@ -918,7 +918,7 @@ kable(vote.class.a, caption = &quot;계급별&quot;)</code></pre>
 <div id="commons-vs-bureaucrats" class="section level3">
 <h3>Commons vs Bureaucrats</h3>
 <p>We need to analyse Commons separately.</p>
-<pre class="r"><code>sejong.poll.kr$class.2 &lt;- factor(ifelse(sejong.poll.kr$class == &quot;품관촌민&quot;, &quot;평민&quot;, &quot;관료&quot;), levels = c(&quot;관료&quot;, &quot;평민&quot;))
+<pre class="r"><code>sejong.poll.kr$class.2 &lt;- factor(ifelse(sejong.poll.kr$class == &quot;품관촌민&quot;, &quot;품관촌민&quot;, &quot;관료&quot;), levels = c(&quot;관료&quot;, &quot;품관촌민&quot;))
 kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <table>
 <thead>
@@ -976,14 +976,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="odd">
 <td align="left">유후사</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">1123</td>
 </tr>
 <tr class="even">
 <td align="left">유후사</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">71</td>
 </tr>
@@ -1004,14 +1004,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="odd">
 <td align="left">경기</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">17076</td>
 </tr>
 <tr class="even">
 <td align="left">경기</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">236</td>
 </tr>
@@ -1039,14 +1039,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="even">
 <td align="left">평안</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">1326</td>
 </tr>
 <tr class="odd">
 <td align="left">평안</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">28474</td>
 </tr>
@@ -1067,14 +1067,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="even">
 <td align="left">황해</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">4454</td>
 </tr>
 <tr class="odd">
 <td align="left">황해</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">15601</td>
 </tr>
@@ -1102,14 +1102,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="odd">
 <td align="left">충청</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">6982</td>
 </tr>
 <tr class="even">
 <td align="left">충청</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">14013</td>
 </tr>
@@ -1130,14 +1130,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="odd">
 <td align="left">강원</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">939</td>
 </tr>
 <tr class="even">
 <td align="left">강원</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">6888</td>
 </tr>
@@ -1165,14 +1165,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="even">
 <td align="left">함길</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">75</td>
 </tr>
 <tr class="odd">
 <td align="left">함길</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">7387</td>
 </tr>
@@ -1193,14 +1193,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="even">
 <td align="left">경상</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">36262</td>
 </tr>
 <tr class="odd">
 <td align="left">경상</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">377</td>
 </tr>
@@ -1228,14 +1228,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <tr class="odd">
 <td align="left">전라</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">찬성</td>
 <td align="right">29505</td>
 </tr>
 <tr class="even">
 <td align="left">전라</td>
 <td align="left">품관촌민</td>
-<td align="left">평민</td>
+<td align="left">품관촌민</td>
 <td align="left">반대</td>
 <td align="right">257</td>
 </tr>
@@ -1247,17 +1247,17 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 ##  $ vote   : Factor w/ 2 levels &quot;찬성&quot;,&quot;반대&quot;: 1 2 1 2 1 2 1 2 1 2 ...
 ##  $ class  : Factor w/ 5 levels &quot;대신 등&quot;,&quot;수령&quot;,..: 1 1 2 2 3 3 5 5 4 4 ...
 ##  $ region : Factor w/ 10 levels &quot;서울&quot;,&quot;유후사&quot;,..: 1 1 1 1 1 1 2 2 3 3 ...
-##  $ class.2: Factor w/ 2 levels &quot;관료&quot;,&quot;평민&quot;: 1 1 1 1 1 1 2 2 1 1 ...</code></pre>
+##  $ class.2: Factor w/ 2 levels &quot;관료&quot;,&quot;품관촌민&quot;: 1 1 1 1 1 1 2 2 1 1 ...</code></pre>
 <p>Compare the votes by <code>class.2</code>, (Bureaucrats vs Commons)</p>
 <pre class="r"><code>vote.class.2 &lt;- xtabs(counts ~ vote + class.2, data = sejong.poll.kr)
-kable(vote.class.2, caption = &quot;관료와 평민&quot;)</code></pre>
+kable(vote.class.2, caption = &quot;관료와 품관촌민&quot;)</code></pre>
 <table>
-<caption>관료와 평민</caption>
+<caption>관료와 품관촌민</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
 <th align="center">관료</th>
-<th align="center">평민</th>
+<th align="center">품관촌민</th>
 </tr>
 </thead>
 <tbody>
@@ -1273,15 +1273,15 @@ kable(vote.class.2, caption = &quot;관료와 평민&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>vote.class.2.a &lt;- cbind(&quot;관료&quot; = rowSums(vote.class.a[, -5]), &quot;평민&quot; =  vote.class.a[, 5])
-kable(vote.class.2.a, caption = &quot;관료와 평민&quot;)</code></pre>
+<pre class="r"><code>vote.class.2.a &lt;- cbind(&quot;관료&quot; = rowSums(vote.class.a[, -5]), &quot;품관촌민&quot; =  vote.class.a[, 5])
+kable(vote.class.2.a, caption = &quot;관료와 품관촌민&quot;)</code></pre>
 <table>
-<caption>관료와 평민</caption>
+<caption>관료와 품관촌민</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
 <th align="center">관료</th>
-<th align="center">평민</th>
+<th align="center">품관촌민</th>
 </tr>
 </thead>
 <tbody>
@@ -1307,7 +1307,7 @@ kable(vote.class.2.am, align = rep(&quot;r&quot;, 3))</code></pre>
 <tr class="header">
 <th align="left"></th>
 <th align="center">관료</th>
-<th align="center">평민</th>
+<th align="center">품관촌민</th>
 <th align="center">계</th>
 </tr>
 </thead>
@@ -1333,14 +1333,14 @@ kable(vote.class.2.am, align = rep(&quot;r&quot;, 3))</code></pre>
 </tbody>
 </table>
 <p>Compute the marginal proportions. Note the use of <code>digits = 3</code> and <code>nsmall = 1</code>.</p>
-<pre class="r"><code>kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), caption = &quot;관료와 평민&quot;, align = rep(&quot;r&quot;, 2))</code></pre>
+<pre class="r"><code>kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), caption = &quot;관료와 품관촌민&quot;, align = rep(&quot;r&quot;, 2))</code></pre>
 <table>
-<caption>관료와 평민</caption>
+<caption>관료와 품관촌민</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
 <th align="center">관료</th>
-<th align="center">평민</th>
+<th align="center">품관촌민</th>
 </tr>
 </thead>
 <tbody>
@@ -1407,10 +1407,10 @@ kable(vote.region.bureau, caption = &quot;집계(관료)&quot;)</code></pre>
 </tbody>
 </table>
 <pre class="r"><code># xtabs(counts ~ vote + region, data = sejong.poll.kr[class.2 == &quot;Bureaus&quot;, ], drop = TRUE)
-vote.region.commons &lt;- xtabs(counts ~ vote + region, data = sejong.poll.kr, class.2 == &quot;평민&quot;, drop = TRUE)
-kable(vote.region.commons, caption = &quot;집계(평민)&quot;, align = rep(&quot;r&quot;, 9))</code></pre>
+vote.region.commons &lt;- xtabs(counts ~ vote + region, data = sejong.poll.kr, class.2 == &quot;품관촌민&quot;, drop = TRUE)
+kable(vote.region.commons, caption = &quot;집계(품관촌민)&quot;, align = rep(&quot;r&quot;, 9))</code></pre>
 <table>
-<caption>집계(평민)</caption>
+<caption>집계(품관촌민)</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1538,7 +1538,7 @@ kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 
 <ul>
 <li>Save the working directory image.</li>
 </ul>
-<pre class="r"><code>save.image(file=&quot;sejong_poll_data_kr.rda&quot;)</code></pre>
+<pre class="r"><code>save.image(file = &quot;sejong_poll_data_kr.rda&quot;)</code></pre>
 </div>
 </div>
 

@@ -34,7 +34,7 @@ sejong.poll.kr$class <- factor(sejong.poll.kr$class, levels = class.levels, labe
 region.labels.kr <- c("서울", "유후사", "경기", "평안", "황해", "충청", "강원", "함길", "경상", "전라")
 sejong.poll.kr$region <- factor(sejong.poll.kr$region, levels = region.levels, labels = region.labels.kr)
 vnames.kr <- c("소계", "찬반", "계급", "지역")
-# names(sejong.poll.kr) <- vnames.kr
+names(sejong.poll.kr) <- vnames.kr
 kable(sejong.poll.kr[4:1])
 # kable(sejong.poll.kr[4:1], align = NULL, col.names = vnames.kr[4:1])
 ```
@@ -42,13 +42,13 @@ kable(sejong.poll.kr[4:1])
 ### Cross Tables
 
 ```{r, cross tables}
-tbl.vote <- xtabs(counts ~ vote, data = sejong.poll.kr)
-tbl.class <- xtabs(counts ~ class, data = sejong.poll.kr)
-tbl.region <- xtabs(counts ~ region, data = sejong.poll.kr)
-tbl.vote.class <- xtabs(counts ~ vote + class, data = sejong.poll.kr)
-tbl.vote.region <- xtabs(counts ~ vote + region, data = sejong.poll.kr)
-tbl.vote.class.region <- xtabs(counts ~ vote + class + region, data = sejong.poll.kr)
-ftbl.vote.class.region <- ftable(xtabs(counts ~ vote + class + region, data = sejong.poll.kr))
+tbl.vote <- xtabs(소계 ~ 찬반, data = sejong.poll.kr)
+tbl.class <- xtabs(소계 ~ 계급, data = sejong.poll.kr)
+tbl.region <- xtabs(소계 ~ 지역, data = sejong.poll.kr)
+tbl.vote.class <- xtabs(소계 ~ 찬반 + 계급, data = sejong.poll.kr)
+tbl.vote.region <- xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr)
+tbl.vote.class.region <- xtabs(소계 ~ 찬반 + 계급 + 지역, data = sejong.poll.kr)
+ftbl.vote.class.region <- ftable(xtabs(소계 ~ 찬반 + 계급 + 지역, data = sejong.poll.kr))
 ```
 
 ### Array
@@ -56,7 +56,7 @@ ftbl.vote.class.region <- ftable(xtabs(counts ~ vote + class + region, data = se
 We can set up the data as an array
 
 ```{r, array structure}
-sejong.poll.array <- xtabs(counts ~ vote + class + region, data = sejong.poll.kr)
+sejong.poll.array <- xtabs(소계 ~ 찬반 + 계급 + 지역, data = sejong.poll.kr)
 str(sejong.poll.array)
 sejong.poll.array
 ```
@@ -68,7 +68,7 @@ sejong.poll.array
 Check the total vote with xtabs()
 
 ```{r, total yes or no}
-vote.total <- xtabs(counts ~ vote, data = sejong.poll.kr)
+vote.total <- xtabs(소계 ~ 찬반, data = sejong.poll.kr)
 kable(t(as.matrix(vote.total)), caption = "총계")
 # format(prop.table(vote.total)*100, digits = 3, nsmall = 1)
 kable(t(as.matrix(format(prop.table(vote.total)*100, digits = 3, nsmall = 1))), caption = "백분률", align = rep("r", 2))
@@ -80,7 +80,7 @@ kable(t(as.matrix(vote.total.2)), caption = "총계")
 ### Vote by class
 
 ```{r, by class}
-vote.class <- xtabs(counts ~ vote + class, data = sejong.poll.kr)
+vote.class <- xtabs(소계 ~ 찬반 + 계급, data = sejong.poll.kr)
 kable(vote.class, caption = "계급별")
 vote.class.a <- apply(sejong.poll.array, 1:2, sum)
 kable(vote.class.a, caption = "계급별")
@@ -91,7 +91,7 @@ kable(vote.class.a, caption = "계급별")
 We need to analyse Commons separately. 
 
 ```{r, commons vs bureaus}
-sejong.poll.kr$class.2 <- factor(ifelse(sejong.poll.kr$class == "품관촌민", "품관촌민", "관료"), levels = c("관료", "품관촌민"))
+sejong.poll.kr$class.2 <- factor(ifelse(sejong.poll.kr$"계급" == "품관촌민", "품관촌민", "관료"), levels = c("관료", "품관촌민"))
 kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])
 str(sejong.poll.kr)
 ```
@@ -99,7 +99,7 @@ str(sejong.poll.kr)
 Compare the votes by `class.2`,  (Bureaucrats vs Commons)
 
 ```{r, vote by class.2}
-vote.class.2 <- xtabs(counts ~ vote + class.2, data = sejong.poll.kr)
+vote.class.2 <- xtabs(소계 ~ 찬반 + class.2, data = sejong.poll.kr)
 kable(vote.class.2, caption = "관료와 품관촌민")
 vote.class.2.a <- cbind("관료" = rowSums(vote.class.a[, -5]), "품관촌민" =  vote.class.a[, 5])
 kable(vote.class.2.a, caption = "관료와 품관촌민")
@@ -126,18 +126,18 @@ Count the vote by region class.2 wise.
 
 ```{r, region w.r.t class.2}
 class.2 <- sejong.poll.kr$class.2
-vote.region.bureau <- xtabs(counts ~ vote + region, data = sejong.poll.kr, class.2 == "관료", drop = TRUE)
+vote.region.bureau <- xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr, class.2 == "관료", drop = TRUE)
 kable(vote.region.bureau, caption = "집계(관료)")
-# xtabs(counts ~ vote + region, data = sejong.poll.kr[class.2 == "Bureaus", ], drop = TRUE)
-vote.region.commons <- xtabs(counts ~ vote + region, data = sejong.poll.kr, class.2 == "품관촌민", drop = TRUE)
+# xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr[class.2 == "Bureaus", ], drop = TRUE)
+vote.region.commons <- xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr, class.2 == "품관촌민", drop = TRUE)
 kable(vote.region.commons, caption = "집계(품관촌민)", align = rep("r", 9))
 ```
 
 Seoul has three times more Bureaucrats than other regions, so analyse further.
 
 ```{r, Seoul}
-region <- sejong.poll.kr$region
-vote.seoul.class <- xtabs(counts ~ vote + class, data = sejong.poll.kr, region == "서울", drop = TRUE)
+region <- sejong.poll.kr$"지역"
+vote.seoul.class <- xtabs(소계 ~ 찬반 + 계급, data = sejong.poll.kr, region == "서울", drop = TRUE)
 kable(vote.seoul.class, caption = "서울")
 kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = "서울", align = rep("r", 3))
 ```
@@ -145,12 +145,12 @@ kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall =
 Chungcheong's case.
 
 ```{r, Chungcheong}
-vote.chung.class <- xtabs(counts ~ vote + class, data = sejong.poll.kr, region == "충청", drop = TRUE)
+vote.chung.class <- xtabs(소계 ~ 찬반 + 계급, data = sejong.poll.kr, region == "충청", drop = TRUE)
 kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "충청", align = rep("r", 3))
 ```
 
 - Save the working directory image.
 
 ```{r, save}
-save.image(file = "sejong_poll_data_kr.rda")
+save.image(file="sejong_poll_data_kr_2.rda")
 ```
