@@ -1,44 +1,62 @@
 ---
-title: "King Sejong's National Poll on Tax Reform"
+title: "King Sejong's National Referendum on Tax Reform"
 author: "coop711"
-date: "2015년 3월 29일"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
-# Data
+## Data
+
+### Reading Data 
 
 Original data came from intenet version of Sejong silok, summarized by Oh, Ki-Soo.
 
-```{r, reading data}
+```{r, setup, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(pander)
 library(knitr)
+options(width = 180)
+```
+
+```{r, reading data}
 sejong.poll <- read.table("../data/sejong_poll.txt", header = TRUE, sep = "")
 str(sejong.poll)
-pander(sejong.poll)
+# pander(sejong.poll)
 kable(sejong.poll[4:1])
 ```
 
-We need vote, class, region as `factor`s. If you leave them as `chr`, it will be coerced to factor when you tabulate it according to alphabetical order, which is not what you want. So, use `factor()` to convert them. First, make a working copy vesion of sejong.poll
+### Factor conversion
+
+We need vote, class, region as `factor`s. If you leave them as `chr`, it will be coerced to factor when you tabulate it according to alphabetical order, which is not what you want. So, use `factor()` to convert them. First, make a working copy vesion of `sejong.poll`
 
 ```{r, duplicate}
 sejong.poll.2 <- sejong.poll
-sejong.poll.2$vote <- factor(sejong.poll.2$vote, levels = c("yes","no"), labels = c("yes", "no"))
-str(sejong.poll.2)
+```
+
+```{r, vote as factor}
+sejong.poll.2$vote <- factor(sejong.poll.2$vote, levels = c("yes","no"), labels = c("Yes", "No"))
 ```
 
 You can check that `labels = ` is not necessary if same as levels. Continue with class and region.
 
-```{r, class as factors}
+```{r, class as factor}
 class.levels <- c("high","third.current", "third.ex", "chief", "ordinary")
 class.labels <- c("High","3rd.current", "3rd.former", "Chief", "Commons")
 sejong.poll.2$class <- factor(sejong.poll.2$class, levels = class.levels, labels = class.labels)
+```
+
+```{r, region as factor}
 region.levels <- c("Seoul","yuhu", "gyunggi", "pyungan", "hwanghae", "chungcheong", "kangwon", "hamgil", "gyungsang", "jeolla")
 region.labels <- c("Seoul","Yuhu", "Gyunggi", "Pyungan", "Hwanghae", "Chungcheong", "Kangwon", "Hamgil", "Gyungsang", "Jeolla")
 sejong.poll.2$region <- factor(sejong.poll.2$region, levels = region.levels, labels = region.labels)
+```
+
+```{r, data in dataframe}
 str(sejong.poll.2)
 kable(sejong.poll.2[4:1])
 ```
+
+### Array
 
 We can set up the data as an array
 
@@ -48,156 +66,96 @@ str(sejong.poll.array)
 sejong.poll.array
 ```
 
-
 ## Votes
+
+### Total
 
 Check the total vote with xtabs()
 
 ```{r, total yes or no}
-xtabs(counts ~ vote, data = sejong.poll.2)
-prop.table(xtabs(counts ~ vote, data = sejong.poll.2))
-
+vote.total <- xtabs(counts ~ vote, data = sejong.poll.2)
+kable(t(as.matrix(vote.total)), caption = "Total")
+# format(prop.table(vote.total)*100, digits = 3, nsmall = 1)
+kable(t(as.matrix(format(prop.table(vote.total)*100, digits = 3, nsmall = 1))), caption = "Percentage", align = rep("r", 2))
+vote.total.2 <- apply(sejong.poll.array, 1, sum)
+# kable(t(as.matrix(vote.total.2)))
+kable(t(as.matrix(vote.total.2)), caption = "Total")
 ```
 
-- We can check the color. Coordinates of text() are found by locator(2). Try! 
+### Vote by class
 
-```{r fig.width=4, fig.height=4}
-pie(xtabs(counts~vote, data=sejong.poll.2), col=sejong.poll.2$color)
-title(main="Overall Yes or No")
-text(x=0, y=c(0.4,-0.4), labels=c("98657", "74149"))
+```{r, by class}
+vote.class <- xtabs(counts ~ vote + class, data = sejong.poll.2)
+kable(vote.class, caption = "By Class")
+vote.class.a <- apply(sejong.poll.array, 1:2, sum)
+kable(vote.class.a, caption = "By Class")
 ```
 
-- Vote by class
+### Commons vs Bureaucrats
 
-```{r}
-xtabs(counts~vote+class, data=sejong.poll.2)
-```
+We need to analyse Commons separately. 
 
-- We need to analyse Commons separately. 
-
-```{r}
-sejong.poll.2$class.2<-ifelse(sejong.poll.2$class=="Commons", "Commons", "Bureaus")
+```{r, commons vs bureaus}
+sejong.poll.2$class.2 <- factor(ifelse(sejong.poll.2$class == "Commons", "Commons", "Bureaus"), levels = c("Bureaus", "Commons"))
+kable(sejong.poll.2[c(4, 3, 5, 2, 1)])
 str(sejong.poll.2)
 ```
 
-- Compare the votes by class.2,  (Bureaucrats vs Commons)
+Compare the votes by `class.2`,  (Bureaucrats vs Commons)
 
-```{r}
-xtabs(counts~vote+class.2, data=sejong.poll.2)
+```{r, vote by class.2}
+vote.class.2 <- xtabs(counts ~ vote + class.2, data = sejong.poll.2)
+kable(vote.class.2, caption = "By Bureaus and Commons")
+vote.class.2.a <- cbind("Bureaus" = rowSums(vote.class.a[, -5]), "Commons" =  vote.class.a[, 5])
+kable(vote.class.2.a, caption = "By Bureaus and Commons")
 ```
 
-- Add subtotals to the margins, 
+Add subtotals to the margins, 
 
-```{r}
-addmargins(xtabs(counts~vote+class.2, data=sejong.poll.2))
+```{r, subtotals}
+vote.class.2.am <- addmargins(vote.class.2)
+kable(vote.class.2.am)
 ```
 
-- Compute the marginal proportions. Note the use of digits=3.
+Compute the marginal proportions. Note the use of `digits = 3` and `nsmall = 1`.
 
-
-```{r}
-prop.table(xtabs(counts~vote+class.2, data=sejong.poll.2), margin=2)
+```{r, proportions}
+kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), caption = "Bureaus and Commons", align = rep("r", 2))
 ```
 
-- Pie charts for Bureacrats by vote and Commons by vote.
+### Votes by region with respect to class.2 
 
-```{r fig.width=8, fig.height=4}
-attach(sejong.poll.2)
-par(mfrow=c(1,2))
-pie(xtabs(counts~vote+class.2, data=sejong.poll.2[class.2=="Bureaus",], drop=T), labels=c("yes", "no"))
-title(main="Bureacrats by vote")
-text(x=0, y=c(0.4,-0.4), labels=c("915", "845"))
-pie(xtabs(counts~vote+class.2, data=sejong.poll.2[class.2=="Commons",], drop=T), labels=c("yes", "no"))
-title(main="Commons by vote")
-text(x=0, y=c(0.4,-0.4), labels=c("97742", "73304"))
-par(mfrow=c(1,1))
+Count the vote by region class.2 wise.
+
+```{r, region w.r.t class.2}
+class.2 <- sejong.poll.2$class.2
+vote.region.bureau <- xtabs(counts ~ vote + region, data = sejong.poll.2, class.2 == "Bureaus", drop = TRUE)
+kable(vote.region.bureau, caption = "Votes(Bureaus)")
+# xtabs(counts ~ vote + region, data = sejong.poll.2[class.2 == "Bureaus", ], drop = TRUE)
+vote.region.commons <- xtabs(counts ~ vote + region, data = sejong.poll.2, class.2 == "Commons", drop = TRUE)
+kable(vote.region.commons, caption = "Votes(Commons)")
 ```
 
-- Count the vote by region class.2 wise.
+Seoul has three times more Bureaucrats than other regions, so analyse further.
 
-```{r}
-xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Bureaus",], drop=T)
-xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Commons",], drop=T)
+```{r, Seoul}
+region <- sejong.poll.2$region
+vote.seoul.class <- xtabs(counts ~ vote + class, data = sejong.poll.2, region == "Seoul", drop = TRUE)
+kable(vote.seoul.class, caption = "Seoul")
+kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = "Seoul", align = rep("r", 3))
 ```
 
-- Seoul has three times more Bureaucrats than other regions, so analyse further.
+Chungcheong's case.
 
-```{r}
-xtabs(counts~vote+class, data=sejong.poll.2[region=="Seoul",], drop=T)
+```{r, Chungcheong}
+vote.chung.class <- xtabs(counts ~ vote + class, data = sejong.poll.2, region == "Chungcheong", drop = TRUE)
+kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "Chungcheong", align = rep("r", 3))
 ```
 
+- Save the working directory image.
 
-- Draw barplot for the vote by class in Seoul. Text positions were obtained by locator().
-
-```{r}
-barplot(xtabs(counts~vote+class, data=sejong.poll.2[region=="Seoul",], drop=T))
-title(main="Seoul by vote")
-text(x=c(0.7, 1.9, 1.9, 3.1, 3.1), y=c(120, 450, 135, 500, 220), labels=c("194","393", "259", "117", "443"))
-legend("topleft", inset=0.05, legend=c("yes", "no"))
-```
-
-- Using mosaicplot()
-
-```{r}
-mosaicplot(xtabs(counts~class+vote, data=sejong.poll.2[region=="Seoul",], drop=T), main="Seoul by vote")
-```
-
-- Draw barplot() for the Bureaus by region.
-
-```{r fig.width=12, fig.height=6}
-xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Bureaus" & !region=="Seoul",], drop=T)
-barplot(xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Bureaus" & !region=="Seoul",], drop=T))
-title(main="Bureacrats' vote by region other than Seoul")
-legend("topleft", inset=0.05, legend=c("yes", "no"))
-```
-
-- Using mosaicplot()
-
-```{r fig.width=12, fig.height=6}
-mosaicplot(xtabs(counts~region+vote, data=sejong.poll.2[class.2=="Bureaus" & !region=="Seoul",], drop=T), main="")
-title(main="Bureacrats' vote by region other than Seoul")
-```
-
-- Draw barplot() for the Commons by region.
-
-```{r fig.width=12, height=6}
-xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Commons",], drop=T)
-barplot(xtabs(counts~vote+region, data=sejong.poll.2[class.2=="Commons",], drop=T))
-title(main="Commons' vote by region")
-legend("topleft", inset=0.05, legend=c("yes", "no"))
-```
-
-- Draw by mosaicplot() in base graphics.
-
-```{r fig.width=12, fig.height=6}
-mosaicplot(xtabs(counts~region+vote, data=sejong.poll.2[class.2=="Commons",], drop=T), main="Commons' votes by region")
-```
-
-- Chungcheong's case.
-
-```{r}
-xtabs(counts~vote+class, data=sejong.poll.2[region=="Chungcheong",], drop=T)
-prop.table(xtabs(counts~vote+class, data=sejong.poll.2[region=="Chungcheong",], drop=T), margin=2)
-barplot(prop.table(xtabs(counts~vote+class, data=sejong.poll.2[region=="Chungcheong",], drop=T), margin=2), ylim=c(0, 1.5), axes=F)
-axis(side=2, at=c(0, 0.5, 1.0), labels=c("0", "50%", "100%"))
-title(main="Chungcheong's vote proportion by class")
-legend("topleft", inset=0.05, legend=c("yes", "no"))
-text(x=c(0.7, 1.9, 1.9, 3.1, 3.1), y=c(0.5, 0.3, 0.8, 0.15, 0.65), labels=c(2, 35, 26, 6982, 14013))
-```
-
-- With mosaicplot, it's hard to compare.
-
-```{r}
-mosaicplot(xtabs(counts~class+vote, data=sejong.poll.2[region=="Chungcheong",], drop=T), main="")
-title(main="Chungcheong's vote")
-```
-
-- Save the working directory image, save history and quit.
-
-```
-save.image(file="sejong_poll0328.rda")
-savehistory(file="sejong_poll0328.Rhistory")
-q("no")
+```{r, save}
+save.image(file="sejong_poll_data.rda")
 ```
 
 
