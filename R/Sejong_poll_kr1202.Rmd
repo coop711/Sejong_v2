@@ -32,21 +32,8 @@ kable(t(as.table(xtabs(counts~vote, data=sejong.poll.kr.2))))
 prop.table(xtabs(counts~vote, data=sejong.poll.kr.2))
 ```
 
-- `col=` 을 이용하여 색으로 찬반구분. 
-
-```
-sejong.poll.kr.2$color[sejong.poll.kr.2$vote=="찬성"]<-"cyan"
-sejong.poll.kr.2$color[sejong.poll.kr.2$vote=="반대"]<-"red"
-```
-- 윗 식을 한줄로 줄이려면 `ifelse()`를 이용하여
-
-```
-color<-ifelse(sejong.poll.kr.2$vote=="찬성", "cyan", "red")
-```
-
-
 ```{r fig.width=4, fig.height=4}
-pie(xtabs(counts~vote, data=sejong.poll.kr.2), col=sejong.poll.kr.2$color)
+pie(xtabs(counts~vote, data=sejong.poll.kr.2), col=c("cyan", "red"))
 title(main="전체 찬반")
 text(x=0, y=c(0.4,-0.4), labels=c("98,657", "74,149"))
 dev.copy(png, file = "../pics/sejong_pie1.png", width = 960, height = 540)
