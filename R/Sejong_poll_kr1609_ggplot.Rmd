@@ -13,6 +13,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(pander)
 library(knitr)
+library(ggplot2)
 panderOptions('table.split.table', Inf)
 load("sejong_poll_data_kr.rda")
 kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])
@@ -29,12 +30,87 @@ pander(format(prop.table(tbl.vote)*100, digits = 3, nsmall = 1), caption = "전�
 
 ### 원형그래프
 
+#### R-Base Plot
+
 ```{r, pie for total, fig.width = 4, fig.height = 4}
 par(family = "나눔고딕")
 gray.2 <- gray.colors(12)[c(12, 7)]
 pie(tbl.vote, col = gray.2)
 title(main = "전체 찬반")
 text(x = 0, y = c(0.4, -0.4), labels = format(tbl.vote, big.mark = ","))
+```
+
+
+#### ggplot2
+
+```{r, coord_polar, message = FALSE, fig.width = 4, fig.height = 4}
+source("./theme_Nanum_kr.R")
+par(family = "나눔고딕")
+vote.df <- as.data.frame(tbl.vote)
+y.coord <- cumsum(vote.df$Freq)/2 + c(0, cumsum(head(vote.df$Freq, -1))/2)
+pie.label <- paste(levels(vote.df$vote), format(vote.df$Freq, big.mark = ","), sep = "\n") 
+str(vote.df)
+p1 <- ggplot(vote.df, aes(x = "", y = Freq, fill = vote)) 
+p2 <- p1 + 
+  geom_bar(width = 1, stat = "identity")
+p2
+p2.2 <- p1 + 
+  geom_bar(width = 1, stat = "identity", position = "dodge")
+p2.2
+p3.2 <- p2.2 + 
+  theme_bw()
+p3.2
+p4.2 <- p3.2 + 
+  theme.kr
+p4.2 
+p5.2 <- p4.2 + 
+  scale_x_discrete(name = "찬반") +
+  scale_y_continuous(name = "집계", breaks = vote.df$Freq, labels = format(vote.df$Freq, big.mark = ","))
+p5.2
+p6.2 <- p5.2 +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], labels = vote.df$vote)
+p6.2
+p7.2 <- p6.2 +
+  theme(legend.position = c(0.8, 0.85))
+p7.2
+p3 <- p2 + 
+  theme_bw()
+p3
+p4 <- p3 + 
+  theme.kr
+p4 
+p5 <- p4 + 
+  scale_x_discrete(name = "찬반") +
+  scale_y_continuous(name = "집계", breaks = cumsum(vote.df$Freq), labels = format(cumsum(vote.df$Freq), big.mark = ","))
+p5
+p6 <- p5 +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], labels = vote.df$vote)
+p6
+p7 <- p6 +
+  theme(legend.position = c(0.5, 0.25))
+p7
+pie.total.1 <- p2 + 
+  coord_polar(theta = "y", start = 3*pi/2, direction = -1)
+pie.total.1
+pie.total.2 <- pie.total.1 + 
+  scale_y_continuous(name = "", breaks = NULL) +
+  scale_x_discrete(name = "") 
+pie.total.2
+pie.total.3 <- pie.total.2 +
+  scale_fill_manual(name = "", values = rainbow(2)[2:1])
+pie.total.3
+pie.total.4 <- pie.total.3 +
+  theme_void(base_family = "NanumGothic")
+pie.total.4
+pie.total.5 <- pie.total.4 +
+  guides(fill = "none")
+pie.total.5
+pie.total.6 <- pie.total.5 +
+  geom_text(aes(y = y.coord), label = pie.label, family = "NanumGothic")
+pie.total.6
+pie.total.7 <- pie.total.6 +
+  ggtitle("전체 가부")
+pie.total.7
 ```
 
 ## 계급별 찬반
@@ -66,6 +142,8 @@ kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), 
 
 ### 원형그래프
 
+#### R-Base Plot
+
 ```{r, pie for class2, fig.width = 8, fig.height = 4}
 par(family = "나눔고딕")
 par(mfrow = c(1, 2))
@@ -76,6 +154,19 @@ pie(vote.class.2[, 2], labels = c("찬성", "반대"), col = gray.2)
 title(main = "품관촌민의 찬반")
 text(x = 0, y = c(0.4, -0.4), labels = format(vote.class.2[, 2], big.mark = ","))
 par(mfrow = c(1, 1))
+```
+
+#### ggplot2
+
+```{r, coord_polar.2, message = FALSE, fig.width = 4, fig.height = 4}
+(vote.class.2.df <- as.data.frame(vote.class.2))
+str(vote.class.2.df)
+vote.bureaus <- t(vote.class.2[, 1])
+vote.commons <- t(vote.class.2[, 2])
+(vote.bureaus.df <- as.data.frame(vote.bureaus))
+str(vote.bureaus.df)
+(vote.commons.df <- as.data.frame(vote.bureaus))
+str(vote.commons.df)
 ```
 
 ## 지역별 찬반
