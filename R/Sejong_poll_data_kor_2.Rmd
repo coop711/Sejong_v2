@@ -126,8 +126,8 @@ Count the vote by region class.2 wise.
 
 ```{r, region w.r.t class.2}
 class.2 <- sejong.poll.kr$class.2
-vote.region.bureau <- xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr, class.2 == "관료", drop = TRUE)
-kable(vote.region.bureau, caption = "집계(관료)")
+vote.region.bureaus <- xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr, class.2 == "관료", drop = TRUE)
+kable(vote.region.bureaus, caption = "집계(관료)")
 # xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr[class.2 == "Bureaus", ], drop = TRUE)
 vote.region.commons <- xtabs(소계 ~ 찬반 + 지역, data = sejong.poll.kr, class.2 == "품관촌민", drop = TRUE)
 kable(vote.region.commons, caption = "집계(품관촌민)", align = rep("r", 9))
