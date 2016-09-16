@@ -1,5 +1,5 @@
 ---
-title: "King Sejong's National Referenduml on Tax Reform (ggplot)"
+title: "King Sejong's National Referendum on Tax Reform (ggplot)"
 author: "coop711"
 date: "`r Sys.Date()`"
 output: html_document
@@ -9,16 +9,20 @@ output: html_document
 
 원자료는 [세종실록](http://sillok.history.go.kr/id/kda_11208010_005), 요약표는 오기수 교수의 논문에서.
 
-```{r, data, echo = FALSE}
+```{r, data, echo = FALSE, message = FALSE, results = 'hide'}
 knitr::opts_chunk$set(echo = TRUE)
 library(pander)
 library(knitr)
 library(ggplot2)
 library(grid)
 library(gridExtra)
+library(extrafont)
 panderOptions('table.split.table', Inf)
 load("sejong_poll_data_kr.rda")
 str(sejong.poll.kr)
+```
+
+```{r, kable, echo = FALSE}
 kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])
 ```
 
@@ -39,10 +43,11 @@ kable(t(as.table(format(prop.table(tbl.vote)*100, digits = 3, nsmall = 1))), cap
 
 #### R-Base Plot
 
-```{r, pie for total, fig.width = 4, fig.height = 4}
-par(family = "나눔고딕")
+```{r, pie for total, fig.width = 5, fig.height = 5}
+par(family = "NanumGothic")
 gray.2 <- gray.colors(12)[c(12, 7)]
-pie(tbl.vote, col = gray.2)
+rainbow.2 <- rainbow(2)[2:1]
+pie(tbl.vote, col = rainbow.2)
 title(main = "전체 찬반")
 text(x = 0, y = c(0.4, -0.4), labels = format(tbl.vote, big.mark = ","))
 ```
@@ -52,7 +57,7 @@ text(x = 0, y = c(0.4, -0.4), labels = format(tbl.vote, big.mark = ","))
 ```{r, coord_polar, message = FALSE, fig.width = 4, fig.height = 4}
 source("./theme_Nanum_kr.R")
 str(theme.kr)
-par(family = "나눔고딕")
+par(family = "NanumGothic")
 vote.df <- as.data.frame(tbl.vote)
 # y.coord <- cumsum(vote.df$Freq)/2 + c(0, cumsum(head(vote.df$Freq, -1))/2)
 y.coord <- cumsum(vote.df$Freq)/2
@@ -124,8 +129,8 @@ pie.total.7
 
 #### `pie.gg()`
 
-```{r, pie.gg, fig.width = 4, fig.height =4}
-pie.gg <- function(df, ggtitle = "", font.family = "NanumGothic"){
+```{r, pie.gg, fig.width = 4, fig.height = 4}
+pie.gg <- function(df, ggtitle = "", font.family = ""){
   n <- length(names(df))
   y.coord <- cumsum(df$Freq)
   pie.label <- paste(levels(df$vote), format(df$Freq, big.mark = ","), sep = "\n") 
@@ -150,7 +155,7 @@ pie.gg <- function(df, ggtitle = "", font.family = "NanumGothic"){
   return(pie.7)
 }
 dump("pie.gg", file = "./pie.gg.R")
-pie.gg(vote.df, ggtitle = "전체 가부")
+pie.gg(vote.df, ggtitle = "전체 가부", font.family = "NanumGothic")
 ```
 
 <P style = "page-break-before:always">
@@ -190,13 +195,13 @@ kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), 
 
 #### R-Base Plot
 
-```{r, pie for class2, fig.width = 8, fig.height = 4}
-par(family = "나눔고딕")
+```{r, pie for class2, fig.width = 10, fig.height = 5}
+par(family = "NanumGothic")
 par(mfrow = c(1, 2))
-pie(vote.class.2[, 1], labels = c("찬성", "반대"), col = gray.2)
+pie(vote.class.2[, 1], labels = c("찬성", "반대"), col = rainbow.2)
 title(main = "관료의 찬반")
 text(x = 0, y = c(0.4, -0.4), labels = vote.class.2[, 1])
-pie(vote.class.2[, 2], labels = c("찬성", "반대"), col = gray.2)
+pie(vote.class.2[, 2], labels = c("찬성", "반대"), col = rainbow.2)
 title(main = "품관촌민의 찬반")
 text(x = 0, y = c(0.4, -0.4), labels = format(vote.class.2[, 2], big.mark = ","))
 par(mfrow = c(1, 1))
@@ -208,8 +213,8 @@ par(mfrow = c(1, 1))
 (vote.class.2.df <- as.data.frame(vote.class.2))
 (vote.bureaus.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "관료", select = c("vote", "Freq")))
 (vote.commons.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "품관촌민", select = c("vote", "Freq")))
-pie.bureaus <- pie.gg(vote.bureaus.df, ggtitle = "관료의 찬반")
-pie.commons <- pie.gg(vote.commons.df, ggtitle = "품관촌민의 찬반")
+pie.bureaus <- pie.gg(vote.bureaus.df, ggtitle = "관료의 찬반", font.family = "NanumGothic")
+pie.commons <- pie.gg(vote.commons.df, ggtitle = "품관촌민의 찬반", font.family = "NanumGothic")
 grid.arrange(pie.bureaus, pie.commons, ncol = 2, top = "")
 ```
 
@@ -241,19 +246,19 @@ kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits = 1, nsmall = 
 
 서울의 계급별 찬반을 `barplot`으로 그려봄. `text()`의 좌표는 `locator()`로 찾아냄.
 
-```{r, seoul by class, fig.width = 6, fig.height = 4}
-par(family = "나눔고딕")
-barplot(vote.seoul.class, col = gray.2)
+```{r, seoul by class, fig.width = 6, fig.height = 5}
+par(family = "NanumGothic")
+barplot(vote.seoul.class, col = rainbow.2)
 title(main = "서울의 찬반")
 text(x = c(0.7, 1.9, 1.9, 3.1, 3.1), y = c(120, 450, 135, 500, 220), labels = c("194","393", "259", "117", "443"))
-legend("topleft", inset = 0.05, fill = gray.2, legend = c("찬성", "반대"))
+legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대"))
 ```
 
 #### ggplot
 
 ##### Stack
 
-```{r, seoul geom_bar stack, fig.width = 8, fig.height = 4}
+```{r, seoul geom_bar stack, fig.width = 8, fig.height = 5}
 vote.seoul.df <- as.data.frame(vote.seoul.class)
 x.stack <- vote.seoul.df[, 2]
 # y.stack <- unlist(tapply(vote.seoul.df$Freq, vote.seoul.df$class, function(x){cumsum(x) + c(0, cumsum(head(x, -1)))}))
@@ -276,7 +281,7 @@ b3.seoul
 
 #### Dodge
 
-```{r, seoul geom_bar dodge, fig.width = 8, fig.height = 4}
+```{r, seoul geom_bar dodge, fig.width = 8, fig.height = 5}
 b1.seoul.dodge <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = vote)) +
   geom_bar(stat = "identity", position = "dodge")
 b1.seoul.dodge
@@ -295,7 +300,7 @@ b3.seoul.dodge
 
 #### Fill
 
-```{r, seoul geom_bar fill, fig.width = 8, fig.height = 4}
+```{r, seoul geom_bar fill, fig.width = 8, fig.height = 5}
 y.fill <- unlist(tapply(vote.seoul.df$Freq, x.stack, function(x){cumsum(x)/sum(x)}))
 b1.seoul.fill <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = vote)) +
   geom_bar(stat = "identity", position = "fill")
@@ -315,7 +320,7 @@ b3.seoul.fill
 
 #### barplot.gg
 
-```{r, barplot.gg, fig.width = 8, fig.height = 4}
+```{r, barplot.gg, fig.width = 8, fig.height = 5}
 barplot.gg.stack <- function(df, base_family = "NanumGothic", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, cumsum))
@@ -326,7 +331,7 @@ b2 <- b1 +
   theme.kr +
   scale_x_discrete(name = xlab) +
   scale_y_continuous(name = "집계", breaks = NULL) +
-  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
@@ -358,7 +363,7 @@ b2 <- b1 +
   theme.kr +
   scale_x_discrete(name = xlab) +
   scale_y_continuous(name = "집계", breaks = NULL) +
-  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
@@ -378,9 +383,9 @@ dump(c("barplot.gg","barplot.gg.stack", "barplot.gg.dodge", "barplot.gg.fill"), 
 
 ### `mosaicplot()`
 
-```{r, mosaicplot for seoul, fig.width = 8, fig.height = 4}
-par(family = "나눔고딕")
-mosaicplot(t(vote.seoul.class), col = gray.2, main = "서울의 찬반", xlab = "계급" , ylab ="찬반")
+```{r, mosaicplot for seoul, fig.width = 8, fig.height = 5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.seoul.class), col = rainbow.2, main = "서울의 찬반", xlab = "계급" , ylab ="찬반")
 ```
 
 <P style = "page-break-before:always">
@@ -396,25 +401,25 @@ kable(format(prop.table(vote.region.bureaus[, -1], margin = 2)*100, digits = 1, 
 
 #### R-Base Plot
 
-```{r, barplot for regional bureaus, fig.width = 8, fig.height = 4}
-par(family = "나눔고딕")
-barplot(vote.region.bureaus[, -1], beside = FALSE, col = gray.2)
+```{r, barplot for regional bureaus, fig.width = 8, fig.height = 5}
+par(family = "NanumGothic")
+barplot(vote.region.bureaus[, -1], beside = FALSE, col = rainbow.2)
 title(main = "지방 관료들의 찬반")
-legend("topleft", inset = 0.05, fill = gray.2, legend = c("찬성", "반대"))
+legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대"))
 ```
 
 #### ggplot
 
-```{r, geom_bar for regional bureaus, fig.width = 8, fig.height = 4}
+```{r, geom_bar for regional bureaus, fig.width = 12, fig.height = 5}
 vote.region.bureaus.df <- as.data.frame(vote.region.bureaus[, -1])
 barplot.gg.stack(vote.region.bureaus.df, ggtitle = "지방 관료들의 찬반", xlab = "지역")
 ```
 
 ### `mosaicplot()`의 활용
 
-```{r, mosaic for local bureaus, fig.width = 8, fig.height = 4}
-par(family = "나눔고딕")
-mosaicplot(t(vote.region.bureaus[, -1]), col = gray.2, main = "", xlab = "계급", ylab = "찬반")
+```{r, mosaic for local bureaus, fig.width = 8, fig.height = 5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.region.bureaus[, -1]), col = rainbow.2, main = "", xlab = "계급", ylab = "찬반")
 title(main = "지방 관료들의 찬반")
 ```
 
@@ -426,26 +431,26 @@ title(main = "지방 관료들의 찬반")
 
 #### R-Base Plot
 
-```{r, barplot for commons, fig.width = 8, fig.height = 4}
-par(family = "나눔고딕")
-barplot(vote.region.commons, beside = FALSE, col = gray.2, axes = FALSE)
+```{r, barplot for commons, fig.width = 8, fig.height = 5}
+par(family = "NanumGothic")
+barplot(vote.region.commons, beside = FALSE, col = rainbow.2, axes = FALSE)
 axis(2, at = seq(0, 30000, by = 5000), labels = c("0", "", "1만", "", "2만", "", "3만"), las = 1)
 title(main = "품관촌민들의 지역별 찬반")
-legend("topleft", inset = 0.05, fill = gray.2, legend = c("찬성", "반대"))
+legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대"))
 ```
 
 #### ggplot
 
-```{r, geom_bar for commons, fig.width = 12, fig.height = 4}
+```{r, geom_bar for commons, fig.width = 8, fig.height = 5}
 vote.region.commons.df <- as.data.frame(vote.region.commons)
 barplot.gg.stack(vote.region.commons.df, ggtitle = "품관촌민의 찬반", xlab = "지역")
 ```
 
 ### `mosaicplot()`의 활용
 
-```{r, mosaicplot for commons, fig.width = 8, fig.height = 4}
-par(family = "나눔고딕")
-mosaicplot(t(vote.region.commons), col = gray.2, main = "품관촌민의 지역별 찬반", xlab = "지역", ylab = "찬반")
+```{r, mosaicplot for commons, fig.width = 8, fig.height = 5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.region.commons), col = rainbow.2, main = "품관촌민의 지역별 찬반", xlab = "지역", ylab = "찬반")
 ```
 
 <P style = "page-break-before:always">
@@ -463,29 +468,29 @@ kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 
 
 #### R-Base Plot
 
-```{r, barplot for chungcheong, fig.width = 8, fig.height = 4}
-par(family = "나눔고딕")
-barplot(prop.table(vote.chung.class, margin = 2), col = gray.2, ylim = c(0,  1.5), axes = FALSE)
+```{r, barplot for chungcheong, fig.width = 8, fig.height = 5}
+par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE, family = "NanumGothic")
+barplot(prop.table(vote.chung.class, margin = 2), col = rainbow.2, ylim = c(0,  1.1), axes = FALSE)
 axis(side = 2, at = c(0, 0.5, 1.0), labels = c("0", "50%", "100%"), las = 1)
 title(main = "충청도의 계급별 찬반 비율")
-legend("topleft", inset = 0.05, fill = gray.2, legend = c("찬성", "반대"))
+legend("right", inset = -0.2, fill = rainbow.2, legend = c("찬성", "반대"))
 text(x = c(0.6, 1.85, 1.85, 3.1, 3.1), y = c(0.5, 0.3, 0.8, 0.15, 0.65), labels = format(c(2, 35, 26, 6982, 14013), big.mark = ","))
 ```
 
 #### ggplot
 
-```{r, geom_bar fill for Chungcheong, fig.width = 8, fig.height = 4}
+```{r, geom_bar fill for Chungcheong, fig.width = 8, fig.height = 5}
 vote.chung.class.df <- as.data.frame(vote.chung.class)
-barplot.gg.fill(vote.chung.class.df, ggtitle = "충청도의 찬반", xlab = "계급")
+barplot.gg(vote.chung.class.df, position = "fill", ggtitle = "충청도의 찬반", xlab = "계급")
 ```
 
 ### `mosaicplot()`
 
 수효의 차이가 너무 커서 비교하기 어려움.
 
-```{r, mosaic chungcheong, fig.width= 8, fig.height = 4}
-par(family = "나눔고딕")
-mosaicplot(t(vote.chung.class), col = gray.2, main = "", xlab = "계급", ylab = "찬반")
+```{r, mosaic chungcheong, fig.width= 8, fig.height = 5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.chung.class), col = rainbow.2, main = "", xlab = "계급", ylab = "찬반")
 title(main = "충청도의 찬반")
 ```
 

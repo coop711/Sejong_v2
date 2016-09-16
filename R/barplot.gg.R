@@ -16,7 +16,7 @@ b2 <- b1 +
   theme.kr +
   scale_x_discrete(name = xlab) +
   scale_y_continuous(name = "집계", breaks = NULL) +
-  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
@@ -50,7 +50,7 @@ b2 <- b1 +
   theme.kr +
   scale_x_discrete(name = xlab) +
   scale_y_continuous(name = "집계", breaks = NULL) +
-  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)

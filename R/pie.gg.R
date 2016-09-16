@@ -1,5 +1,5 @@
 pie.gg <-
-function(df, ggtitle = "", font.family = "NanumGothic"){
+function(df, ggtitle = "", font.family = ""){
   n <- length(names(df))
   y.coord <- cumsum(df$Freq)
   pie.label <- paste(levels(df$vote), format(df$Freq, big.mark = ","), sep = "\n") 
