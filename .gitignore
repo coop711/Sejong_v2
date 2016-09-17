@@ -1,9 +1,9 @@
-.Rproj.user
+.Rproj.user/*
 .Rhistory
 .RData
 .DS_Store
-*.RData
-*.rda
-*.html
-*.png
+./R/*.RData
+./R/*.rda
+./R/*.html
+./pics/*.png
 ./R/rsconnect/*
