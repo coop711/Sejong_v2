@@ -21,7 +21,8 @@ str(sejong.poll.kr)
 ```
 
 ```{r, kable, echo = FALSE}
-kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])
+v.names.kr <- c("집계", "찬반", "계급", "지역", "관료여부")
+kable(sejong.poll.kr[c(4, 3, 5, 2, 1)], col.names = v.names.kr[c(4, 3, 5, 2, 1)])
 ```
 
 <P style = "page-break-before:always">
@@ -42,7 +43,7 @@ kable(t(as.table(format(prop.table(tbl.vote)*100, digits = 3, nsmall = 1))), cap
 
 ```{r, pie for total, fig.width = 5, fig.height = 5}
 # par(family = "NanumGothic")
-gray.2 <- gray.colors(12)[c(12, 7)]
+# gray.2 <- gray.colors(12)[c(12, 7)]
 rainbow.2 <- rainbow(2)[2:1]
 pie(tbl.vote, col = rainbow.2)
 title(main = "전체 찬반")
@@ -221,11 +222,12 @@ par(mfrow = c(1, 1))
 
 ```{r, coord_polar.2, message = FALSE, fig.width = 8, fig.height = 4}
 vote.class.2.df <- as.data.frame(vote.class.2)
-kable(format(vote.class.2.df, big.mark = ","), align = "r", caption = "관료와 품관촌민")
+v.names.class.kr <- c("찬반", "계급", "집계")
+kable(format(vote.class.2.df, big.mark = ","), align = c('c', 'c', 'r'), col.names = v.names.class.kr, caption = "관료와 품관촌민")
 vote.bureaus.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "관료", select = c("vote", "Freq"))
-kable(format(vote.bureaus.df, big.mark = ","), align = "r", caption = "관료의 찬반")
+kable(format(vote.bureaus.df, big.mark = ","), align = 'r', col.names = v.names.class.kr[-2], caption = "관료의 찬반")
 vote.commons.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "품관촌민", select = c("vote", "Freq"))
-kable(format(vote.commons.df, big.mark = ","), align = "r", caption = "품관촌민의 찬반")
+kable(format(vote.commons.df, big.mark = ","), align = 'r', row.names = FALSE, col.names = v.names.class.kr[-2], caption = "품관촌민의 찬반")
 pie.bureaus <- pie.gg(vote.bureaus.df, ggtitle = "관료의 찬반", font.family = "")
 pie.commons <- pie.gg(vote.commons.df, ggtitle = "품관촌민의 찬반", font.family = "")
 pies.grid <- grid.arrange(pie.bureaus, pie.commons, ncol = 2, top = "")
