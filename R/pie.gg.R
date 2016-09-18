@@ -20,7 +20,6 @@ function(df, ggtitle = "", font.family = ""){
   pie.6 <- pie.5 +
     geom_text(aes(y = y.coord/n), label = pie.label, family = font.family, position = position_stack())
   pie.7 <- pie.6 +
-    ggtitle(ggtitle) + 
-    theme(plot.margin = unit(c(1, 1, 1.5, 1), "lines"))
+    ggtitle(ggtitle)
   return(pie.7)
 }

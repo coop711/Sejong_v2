@@ -16,7 +16,7 @@ library(ggplot2)
 library(grid)
 library(gridExtra)
 # library(extrafont)
-load("sejong_poll_data_kr_win.rda")
+load("sejong_poll_data_kr_win_v2.rda")
 kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])
 ```
 
