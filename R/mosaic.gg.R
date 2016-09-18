@@ -17,7 +17,7 @@ m2 <- m1 +
   theme_bw(base_family = base_family)
 m2
 m3 <- m2 + 
-  geom_text(aes(x = center, y = 1.05), label = tbl.p.df[, 2], family = "NanumGothic")
+  geom_text(aes(x = center, y = 1.05), label = tbl.p.df[, 2], family = base_family)
 m3
 m4 <- m3 + 
   geom_text(aes(x = center, y = label.height/2), label = format(tbl.df$Freq, big.mark = ","), position = position_stack())

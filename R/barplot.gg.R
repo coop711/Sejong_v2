@@ -14,8 +14,8 @@ b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
 b2 <- b1 +
   theme_bw(base_family = font.family) + 
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = "Áý°è", breaks = NULL) +
-  scale_fill_manual(name = "Âù¹Ý", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
+  scale_y_continuous(name = "ì§‘ê³„", breaks = NULL) +
+  scale_fill_manual(name = "ì°¬ë°˜", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
@@ -30,8 +30,8 @@ b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
 b2 <- b1 +
   theme_bw(base_family = font.family) + 
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = "Áý°è", breaks = NULL) +
-  scale_fill_manual(name = "Âù¹Ý", values = rainbow(2)[2:1])
+  scale_y_continuous(name = "ì§‘ê³„", breaks = NULL) +
+  scale_fill_manual(name = "ì°¬ë°˜", values = rainbow(2)[2:1])
 b3 <- b2 +
   geom_text(aes(y = df$Freq/2), label = format(df$Freq, big.mark = ","), position = position_dodge(width = 0.9)) +
   ggtitle(ggtitle)
@@ -46,8 +46,8 @@ b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
 b2 <- b1 +
   theme_bw(base_family = font.family) +
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = "Áý°è", breaks = NULL) +
-  scale_fill_manual(name = "Âù¹Ý", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
+  scale_y_continuous(name = "ì§‘ê³„", breaks = NULL) +
+  scale_fill_manual(name = "ì°¬ë°˜", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
