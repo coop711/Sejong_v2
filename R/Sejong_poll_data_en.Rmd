@@ -1,0 +1,152 @@
+---
+title: "Sejong_poll_en"
+author: "coop711"
+date: "2015년 3월 18일"
+output: html_document
+---
+
+```{r, setup, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(pander)
+library(knitr)
+options(width = 180)
+```
+
+## Data input
+
+```{r, data}
+load("./sejong_poll_data.RData")
+```
+
+### Data 
+
+```{r, dataframe}
+kable(sejong.poll.2[4:1])
+```
+
+### Korean Factor Levels
+
+```{r, labels in Korean}
+sejong.poll.en <- sejong.poll.2
+sejong.poll.en$vote <- factor(sejong.poll.en$vote, levels = c("Yes", "No"))
+sejong.poll.en$class <- factor(sejong.poll.en$class, levels = class.labels)
+sejong.poll.en$region <- factor(sejong.poll.en$region, levels = region.labels)
+kable(sejong.poll.en[4:1])
+# kable(sejong.poll.en[4:1], align = NULL, col.names = vnames.en[4:1])
+```
+
+### Cross Tables
+
+```{r, cross tables}
+tbl.vote <- xtabs(counts ~ vote, data = sejong.poll.en)
+tbl.class <- xtabs(counts ~ class, data = sejong.poll.en)
+tbl.region <- xtabs(counts ~ region, data = sejong.poll.en)
+tbl.vote.class <- xtabs(counts ~ vote + class, data = sejong.poll.en)
+tbl.vote.region <- xtabs(counts ~ vote + region, data = sejong.poll.en)
+tbl.vote.class.region <- xtabs(counts ~ vote + class + region, data = sejong.poll.en)
+ftbl.vote.class.region <- ftable(xtabs(counts ~ vote + class + region, data = sejong.poll.en))
+```
+
+### Array
+
+We can set up the data as an array
+
+```{r, array structure}
+sejong.poll.array <- xtabs(counts ~ vote + class + region, data = sejong.poll.en)
+str(sejong.poll.array)
+sejong.poll.array
+```
+
+## Votes
+
+### Total
+
+Check the total vote with xtabs()
+
+```{r, total yes or no}
+vote.total <- xtabs(counts ~ vote, data = sejong.poll.en)
+kable(t(as.matrix(vote.total)), caption = "Total")
+# format(prop.table(vote.total)*100, digits = 3, nsmall = 1)
+kable(t(as.matrix(format(prop.table(vote.total)*100, digits = 3, nsmall = 1))), caption = "Percentage", align = rep("r", 2))
+vote.total.2 <- apply(sejong.poll.array, 1, sum)
+# kable(t(as.matrix(vote.total.2)))
+kable(t(as.matrix(vote.total.2)), caption = "Total")
+```
+
+### Vote by class
+
+```{r, by class}
+vote.class <- xtabs(counts ~ vote + class, data = sejong.poll.en)
+kable(vote.class, caption = "Classwise")
+vote.class.a <- apply(sejong.poll.array, 1:2, sum)
+kable(vote.class.a, caption = "Classwise")
+```
+
+### Commons vs Bureaucrats
+
+We need to analyse Commons separately. 
+
+```{r, commons vs bureaus}
+sejong.poll.en$class.2 <- factor(ifelse(sejong.poll.en$class == "Commons", "Commons", "Bureaus"), levels = c("Bureaus", "Commons"))
+kable(sejong.poll.en[c(4, 3, 5, 2, 1)])
+str(sejong.poll.en)
+```
+
+Compare the votes by `class.2`,  (Bureaucrats vs Commons)
+
+```{r, vote by class.2}
+vote.class.2 <- xtabs(counts ~ vote + class.2, data = sejong.poll.en)
+kable(vote.class.2, caption = "Bureaus and Commons")
+vote.class.2.a <- cbind("Bureaus" = rowSums(vote.class.a[, -5]), "Commons" =  vote.class.a[, 5])
+kable(vote.class.2.a, caption = "Bureaus and Commons")
+```
+
+Add subtotals to the margins, 
+
+```{r, subtotals}
+vote.class.2.am <- addmargins(vote.class.2)
+colnames(vote.class.2.am)[3] <- "계"
+rownames(vote.class.2.am)[3] <- "계"
+kable(vote.class.2.am, align = rep("r", 3))
+```
+
+Compute the marginal proportions. Note the use of `digits = 3` and `nsmall = 1`.
+
+```{r, proportions}
+kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), caption = "Bureaus and Commons", align = rep("r", 2))
+```
+
+### Votes by region with respect to class.2 
+
+Count the vote by region class.2 wise.
+
+```{r, region w.r.t class.2}
+class.2 <- sejong.poll.en$class.2
+vote.region.bureaus <- xtabs(counts ~ vote + region, data = sejong.poll.en, class.2 == "Bureaus", drop = TRUE)
+kable(vote.region.bureaus, caption = "Total of Bureaus)")
+# xtabs(counts ~ vote + region, data = sejong.poll.en[class.2 == "Bureaus", ], drop = TRUE)
+vote.region.commons <- xtabs(counts ~ vote + region, data = sejong.poll.en, class.2 == "Commons", drop = TRUE)
+kable(vote.region.commons, caption = "Total of Commons)", align = rep("r", 9))
+```
+
+Seoul has three times more Bureaucrats than other regions, so analyse further.
+
+```{r, Seoul}
+region <- sejong.poll.en$region
+vote.seoul.class <- xtabs(counts ~ vote + class, data = sejong.poll.en, region == "Seoul", drop = TRUE)
+kable(vote.seoul.class, caption = "Seoul")
+kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = "Seoul", align = rep("r", 3))
+```
+
+Chungcheong's case.
+
+```{r, Chungcheong}
+vote.chung.class <- xtabs(counts ~ vote + class, data = sejong.poll.en, region == "Chungcheong", drop = TRUE)
+kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "Chungcheong", align = rep("r", 3))
+```
+
+- Save the working directory image.
+
+```{r, save}
+save.image(file = "sejong_poll_data_en.RData")
+```
