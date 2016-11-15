@@ -1,7 +1,7 @@
 ---
 title: "Sejong_poll_en"
 author: "coop711"
-date: "2015년 3월 18일"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -123,26 +123,26 @@ Count the vote by region class.2 wise.
 ```{r, region w.r.t class.2}
 class.2 <- sejong.poll.en$class.2
 vote.region.bureaus <- xtabs(counts ~ vote + region, data = sejong.poll.en, class.2 == "Bureaus", drop = TRUE)
-kable(vote.region.bureaus, caption = "Total of Bureaus)")
+kable(vote.region.bureaus, caption = "Total of Bureaus")
 # xtabs(counts ~ vote + region, data = sejong.poll.en[class.2 == "Bureaus", ], drop = TRUE)
 vote.region.commons <- xtabs(counts ~ vote + region, data = sejong.poll.en, class.2 == "Commons", drop = TRUE)
-kable(vote.region.commons, caption = "Total of Commons)", align = rep("r", 9))
+kable(vote.region.commons, caption = "Total of Commons", align = rep("r", 9))
 ```
 
 Seoul has three times more Bureaucrats than other regions, so analyse further.
 
 ```{r, Seoul}
 region <- sejong.poll.en$region
-vote.seoul.class <- xtabs(counts ~ vote + class, data = sejong.poll.en, region == "Seoul", drop = TRUE)
+vote.seoul.class <- xtabs(counts ~ vote + class, data = sejong.poll.en, region == "SL", drop = TRUE)
 kable(vote.seoul.class, caption = "Seoul")
-kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = "Seoul", align = rep("r", 3))
+kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = "SL", align = rep("r", 3))
 ```
 
 Chungcheong's case.
 
 ```{r, Chungcheong}
-vote.chung.class <- xtabs(counts ~ vote + class, data = sejong.poll.en, region == "Chungcheong", drop = TRUE)
-kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "Chungcheong", align = rep("r", 3))
+vote.chung.class <- xtabs(counts ~ vote + class, data = sejong.poll.en, region == "CC", drop = TRUE)
+kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "CC", align = rep("r", 3))
 ```
 
 - Save the working directory image.

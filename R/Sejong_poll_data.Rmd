@@ -47,7 +47,9 @@ sejong.poll.2$class <- factor(sejong.poll.2$class, levels = class.levels, labels
 
 ```{r, region as factor}
 region.levels <- c("Seoul","yuhu", "gyunggi", "pyungan", "hwanghae", "chungcheong", "kangwon", "hamgil", "gyungsang", "jeolla")
-region.labels <- c("Seoul","Yuhu", "Gyunggi", "Pyungan", "Hwanghae", "Chungcheong", "Kangwon", "Hamgil", "Gyungsang", "Jeolla")
+# region.labels <- c("Seoul","Yuhu", "Gyunggi", "Pyungan", "Hwanghae", "Chungcheong", "Kangwon", "Hamgil", "Gyungsang", "Jeolla")
+region.labels <- c("SL","YH", "GG", "PA", "HH", "CC", "KW", "HG", "GS", "JL")
+
 sejong.poll.2$region <- factor(sejong.poll.2$region, levels = region.levels, labels = region.labels)
 ```
 
@@ -140,16 +142,16 @@ Seoul has three times more Bureaucrats than other regions, so analyse further.
 
 ```{r, Seoul}
 region <- sejong.poll.2$region
-vote.seoul.class <- xtabs(counts ~ vote + class, data = sejong.poll.2, region == "Seoul", drop = TRUE)
+vote.seoul.class <- xtabs(counts ~ vote + class, data = sejong.poll.2, region == "SL", drop = TRUE)
 kable(vote.seoul.class, caption = "Seoul")
-kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = "Seoul", align = rep("r", 3))
+kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = "SL", align = rep("r", 3))
 ```
 
 Chungcheong's case.
 
 ```{r, Chungcheong}
-vote.chung.class <- xtabs(counts ~ vote + class, data = sejong.poll.2, region == "Chungcheong", drop = TRUE)
-kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "Chungcheong", align = rep("r", 3))
+vote.chung.class <- xtabs(counts ~ vote + class, data = sejong.poll.2, region == "CC", drop = TRUE)
+kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "CC", align = rep("r", 3))
 ```
 
 - Save the working directory image.
