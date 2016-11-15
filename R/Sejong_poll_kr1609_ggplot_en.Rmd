@@ -1,0 +1,617 @@
+---
+title: "King Sejong's National Referendum on Tax Reform (ggplot)"
+author: "coop711"
+date: '`r Sys.Date()`'
+output: html_document
+---
+
+## Data 
+
+원자료는 [세종실록](http://sillok.history.go.kr/id/kda_11208010_005), 요약표는 오기수 교수 논문에서.
+
+```{r, data, echo = FALSE, message = FALSE, results = 'hide'}
+knitr::opts_chunk$set(echo = TRUE)
+library(pander)
+library(knitr)
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(extrafont)
+panderOptions('table.split.table', Inf)
+load("sejong_poll_data_en.RData")
+str(sejong.poll.2)
+```
+
+```{r, kable, echo = FALSE, results = 'asis'}
+kable(sejong.poll.2[c(4, 3, 5, 2, 1)])
+```
+
+<P style = "page-break-before:always">
+
+## Total Pros and Cons
+
+```{r, overall votes}
+# pander(format(tbl.vote, big.mark = ","))
+kable(t(as.matrix(format(tbl.vote, big.mark = ","))), caption = "Total Pros and Cons", align = 'c')
+kable(t(as.table(format(tbl.vote, big.mark = ","))), caption = "Total Pros and Cons", align = 'c')
+kable(t(as.table(format(prop.table(tbl.vote)*100, digits = 3, nsmall = 1))), caption = "Total Pros and Cons(%)", align = 'c')
+```
+
+<P style = "page-break-before:always">
+
+### Pie Charts
+
+#### R-Base Plot
+
+```{r, pie for total, fig.width = 5, fig.height = 5}
+par(family = "NanumGothic")
+gray.2 <- gray.colors(12)[c(12, 7)]
+rainbow.2 <- rainbow(2)[2:1]
+pie(tbl.vote, col = rainbow.2)
+title(main = "Total Pros and Cons")
+text(x = 0, y = c(0.4, -0.4), labels = format(tbl.vote, big.mark = ","))
+# dev.copy(png, "../pics/sejong_total_pie.png", width = 480, height = 480)
+# dev.off()
+```
+
+#### ggplot2
+
+```{r, coord_polar, message = FALSE, fig.width = 4, fig.height = 4}
+source("./theme_Nanum_kr.R")
+# str(theme.kr)
+# par(family = "NanumGothic")
+vote.df <- as.data.frame(tbl.vote)
+# y.coord <- cumsum(vote.df$Freq)/2 + c(0, cumsum(head(vote.df$Freq, -1))/2)
+y.coord <- cumsum(vote.df$Freq)/2
+pie.label <- paste(levels(vote.df$vote), format(vote.df$Freq, big.mark = ","), sep = "\n") 
+str(vote.df)
+p1 <- ggplot(vote.df, aes(x = "", y = Freq, fill = vote)) 
+p2 <- p1 + 
+  geom_bar(width = 1, stat = "identity")
+p2
+p2.2 <- p1 + 
+  geom_bar(width = 1, stat = "identity", position = "dodge")
+p2.2
+p3.2 <- p2.2 + 
+  theme_bw()
+p3.2
+p4.2 <- p3.2
+p4.2 
+p5.2 <- p4.2 + 
+  scale_x_discrete(name = "Pros and Cons") +
+  scale_y_continuous(name = "Total", breaks = vote.df$Freq, labels = format(vote.df$Freq, big.mark = ","))
+p5.2
+p6.2 <- p5.2 +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1], labels = vote.df$vote)
+p6.2
+p7.2 <- p6.2 +
+  theme(legend.position = c(0.8, 0.85))
+p7.2
+# ggsave("../pics/sejong_geom_bar_total_ggplot.png", p7.2, dpi = 72)
+p3 <- p2 + 
+  theme_bw()
+p3
+p4 <- p3
+p4 
+p5 <- p4 + 
+  scale_x_discrete(name = "Pros and Cons") +
+  scale_y_continuous(name = "Total", breaks = cumsum(vote.df$Freq), labels = format(cumsum(vote.df$Freq), big.mark = ","))
+p5
+p6 <- p5 +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1], labels = vote.df$vote)
+p6
+# ggsave("../pics/sejong_geom_bar_total_ggplot_stack.png", p6, dpi = 72)
+p7 <- p6 +
+  theme(legend.position = c(0.5, 0.25))
+p7
+pie.total.1 <- p2 + 
+  coord_polar(theta = "y", start = 3*pi/2, direction = -1)
+pie.total.1
+pie.total.2 <- pie.total.1 + 
+  scale_y_continuous(name = "", breaks = NULL) +
+  scale_x_discrete(name = "") 
+pie.total.2
+pie.total.3 <- pie.total.2 +
+  scale_fill_manual(name = "", values = rainbow(2)[2:1])
+pie.total.3
+pie.total.4 <- pie.total.3 +
+  theme_void(base_family = "NanumGothic")
+pie.total.4
+pie.total.5 <- pie.total.4 +
+  guides(fill = "none")
+pie.total.5
+pie.total.6 <- pie.total.5 +
+#  geom_text(aes(y = y.coord), label = pie.label, family = "NanumGothic")
+  geom_text(aes(y = y.coord), label = pie.label, family = "NanumGothic", position = position_stack())
+pie.total.6
+pie.total.7 <- pie.total.6 +
+  ggtitle("Total Pros and Cons") +
+  theme(plot.margin = unit(c(1, 1, 1.5, 1), "lines"))
+pie.total.7
+# ggsave("../pics/sejong_total_pie_ggplot.png", pie.total.7, dpi = 72)
+```
+
+#### `pie.gg()`
+
+```{r, pie.gg, fig.width = 4, fig.height = 4}
+pie.gg <- function(df, ggtitle = "", font.family = ""){
+  n <- length(names(df))
+  y.coord <- cumsum(df$Freq)
+  pie.label <- paste(levels(df$vote), format(df$Freq, big.mark = ","), sep = "\n") 
+  p1 <- ggplot(df, aes(x = "", y = Freq, fill = vote)) 
+  p2 <- p1 + 
+    geom_bar(width = 1, stat = "identity")
+  pie.1 <- p2 + 
+    coord_polar(theta = "y", start = 3*pi/2, direction = -1)
+  pie.2 <- pie.1 + 
+    scale_y_continuous(name = "", breaks = NULL) +
+    scale_x_discrete(name = "") 
+  pie.3 <- pie.2 +
+    scale_fill_manual(name = "", values = rainbow(n)[n:1])
+  pie.4 <- pie.3 +
+    theme_void(base_family = font.family)
+  pie.5 <- pie.4 +
+    guides(fill = "none")
+  pie.6 <- pie.5 +
+    geom_text(aes(y = y.coord/n), label = pie.label, family = font.family, position = position_stack())
+  pie.7 <- pie.6 +
+    ggtitle(ggtitle) + 
+    theme(plot.margin = unit(c(1, 1, 1.5, 1), "lines"))
+  return(pie.7)
+}
+dump("pie.gg", file = "./pie.gg.R")
+pie.gg(vote.df, ggtitle = "Total Pros and Cons", font.family = "NanumGothic")
+```
+
+<P style = "page-break-before:always">
+
+# Class and Region : Pros and Cons
+
+## Classwise Pros and Cons
+
+```{r, vote by classes}
+kable(format(vote.class, big.mark = ","), align = "r", caption = "Classwise Pros and Cons")
+kable(format(prop.table(vote.class, margin = 2)*100, digits = 3, nsmall = 1), align = "r", caption = "Classwise Pros and Cons(%)")
+```
+
+## Commons Regionwise Analysis
+
+Commons 수효가 상대적으로 많아서
+
+```{r, vote by class2}
+kable(format(vote.class.2, big.mark = ","), align = rep("r", 2), caption = "Commons")
+```
+
+소계를 교차표 주변에 계산
+
+```{r, addmargins}
+kable(format(vote.class.2.am, big.mark = ","), caption = "Bureaus and Commons(소계)", align = rep("r", 3))
+```
+
+백분율을 계산하여 주변에 Total. 
+
+```{r, Percentage}
+kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), caption = "Bureaus and Commons(%)", align = rep("r", 3))
+```
+
+<P style = "page-break-before:always">
+
+### Pie Charts
+
+#### R-Base Plot
+
+```{r, pie for class2, message = FALSE, fig.width = 10, fig.height = 5}
+par(family = "NanumGothic")
+par(mfrow = c(1, 2))
+pie(vote.class.2[, 1], labels = c("Yes", "No"), col = rainbow.2)
+title(main = "Bureaus' Pros and Cons")
+text(x = 0, y = c(0.4, -0.4), labels = vote.class.2[, 1])
+pie(vote.class.2[, 2], labels = c("Yes", "No"), col = rainbow.2)
+title(main = "Commons Pros and Cons")
+text(x = 0, y = c(0.4, -0.4), labels = format(vote.class.2[, 2], big.mark = ","))
+# dev.copy(png, "../pics/sejong_bureaus_commons_pie.png", width = 960, height = 480)
+# dev.off()
+par(mfrow = c(1, 1))
+```
+
+#### ggplot2
+
+```{r, coord_polar.2, message = FALSE, fig.width = 8, fig.height = 4}
+vote.class.2.df <- as.data.frame(vote.class.2)
+v.names.class.en <- c("Pros.Cons", "Class", "Total")
+kable(format(vote.class.2.df, big.mark = ","), align = c('c', 'c', 'r'), col.names = v.names.class.en, caption = "Bureaus and Commons")
+vote.bureaus.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "Bureaus", select = c("vote", "Freq"))
+kable(format(vote.bureaus.df, big.mark = ","), align = 'r', col.names = v.names.class.en[-2], caption = "Bureaus' Pros and Cons")
+vote.commons.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "Commons", select = c("vote", "Freq"))
+kable(format(vote.commons.df, big.mark = ","), align = 'r', row.names = FALSE, col.names = v.names.class.en[-2], caption = "Commons' Pros and Cons")
+pie.bureaus <- pie.gg(vote.bureaus.df, ggtitle = "Bureaus' Pros and Cons", font.family = "NanumGothic")
+pie.commons <- pie.gg(vote.commons.df, ggtitle = "Commons' Pros and Cons", font.family = "NanumGothic")
+pies.grid <- grid.arrange(pie.bureaus, pie.commons, ncol = 2, top = "")
+pies.grid
+# ggsave("../pics/sejong_bureaus_commons_pie_ggplot.png", pies.grid, width = 8, height = 4, dpi = 72)
+```
+
+<P style = "page-break-before:always">
+
+## Regionwise Pros and Cons
+
+### Bureaus and Commons
+
+```{r, by region}
+kable(vote.region.bureaus, caption = "Bureaus'들 Regionwise Pros and Cons")
+kable(format(prop.table(vote.region.bureaus, margin = 2)*100, digits = 3, nsmall = 1), align = rep("r", 9), caption = "Bureaus'들 Regionwise Pros and Cons(%)")
+kable(format(vote.region.commons, big.mark = ","), align = rep("r", 9), caption = "Commons들 Regionwise Pros and Cons")
+kable(format(prop.table(vote.region.commons, margin = 2)*100, digits = 1, nsmall = 1), align = rep("r", 9), caption = "Commons들 Regionwise Pros and Cons(%)")
+```
+
+## Seoul Pros and Cons
+
+```{r, Seoul}
+kable(vote.seoul.class, caption = "Seoul Pros and Cons")
+kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits = 1, nsmall = 1), align = rep("r", 3), caption = "Seoul Pros and Cons(%)")
+```
+
+<P style = "page-break-before:always">
+
+### Barplots
+
+#### R-Base Plot
+
+Seoul Classwise Pros and Cons을 `barplot`으로 그려봄. `text()` 좌표는 `locator()`로 찾아냄.
+
+```{r, seoul by class, fig.width = 6, fig.height = 4.5}
+par(family = "NanumGothic")
+barplot(vote.seoul.class, col = rainbow.2)
+title(main = "Seoul Pros and Cons")
+text(x = c(0.7, 1.9, 1.9, 3.1, 3.1), y = c(120, 450, 135, 500, 220), labels = c("194","393", "259", "117", "443"))
+legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("Yes", "No"))
+# dev.copy(png, "../pics/sejong_seoul_barplot.png", width = 480, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+##### Stack
+
+```{r, seoul geom_bar stack, fig.width = 6, fig.height = 4.5}
+vote.seoul.df <- as.data.frame(vote.seoul.class)
+x.stack <- vote.seoul.df[, 2]
+# y.stack <- unlist(tapply(vote.seoul.df$Freq, vote.seoul.df$class, function(x){cumsum(x) + c(0, cumsum(head(x, -1)))}))
+y.stack <- unlist(tapply(vote.seoul.df$Freq, vote.seoul.df$class, cumsum))
+b1.seoul <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = vote)) +
+  geom_bar(stat = "identity", position = "stack")
+b1.seoul
+b2.seoul <- b1.seoul +
+  theme_bw(base_family = "NanumGothic") +
+  theme.kr +
+  scale_x_discrete(name = "Class") +
+  scale_y_continuous(name = "Total", breaks = vote.seoul.df$Freq, labels = vote.seoul.df$Freq) +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1])
+b2.seoul  
+b3.seoul <- b2.seoul +
+# geom_text(aes(y = y.stack/2), label = vote.seoul.df$Freq)
+  geom_text(aes(y = y.stack/2), label = vote.seoul.df$Freq, position = position_stack())
+b3.seoul
+# ggsave("../pics/sejong_seoul_barplot_stack_ggplot.png", b3.seoul, width = 6, height = 4.5, dpi = 72)
+```
+
+#### Dodge
+
+```{r, seoul geom_bar dodge, fig.width = 6, fig.height = 4.5}
+b1.seoul.dodge <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = vote)) +
+  geom_bar(stat = "identity", position = "dodge")
+b1.seoul.dodge
+b2.seoul.dodge <- b1.seoul.dodge +
+  theme_bw(base_family = "NanumGothic") +
+  theme.kr +
+  scale_x_discrete(name = "Class") +
+  scale_y_continuous(name = "Total", breaks = vote.seoul.df$Freq, labels = vote.seoul.df$Freq) +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1])
+b2.seoul.dodge  
+b3.seoul.dodge <- b2.seoul.dodge +
+  geom_text(aes(y = vote.seoul.df$Freq/2), label = vote.seoul.df$Freq, position = position_dodge(width = 0.9)) +
+  ggtitle("Seoul Pros and Cons")
+b3.seoul.dodge
+# ggsave("../pics/sejong_seoul_barplot_dodge_ggplot.png", b3.seoul.dodge, width = 6, height = 4.5, dpi = 72)
+```
+
+#### Fill
+
+```{r, seoul geom_bar fill, fig.width = 6, fig.height = 4.5}
+y.fill <- unlist(tapply(vote.seoul.df$Freq, x.stack, function(x){cumsum(x)/sum(x)}))
+b1.seoul.fill <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = vote)) +
+  geom_bar(stat = "identity", position = "fill")
+b1.seoul.fill
+b2.seoul.fill <- b1.seoul.fill +
+  theme_bw(base_family = "NanumGothic") +
+  theme.kr +
+  scale_x_discrete(name = "Class") +
+  scale_y_continuous(name = "Total", breaks = vote.seoul.df$Freq, labels = vote.seoul.df$Freq) +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1])
+b2.seoul.fill  
+b3.seoul.fill <- b2.seoul.fill +
+  geom_text(aes(y = y.fill/2), label = vote.seoul.df$Freq, position = position_stack()) +
+  ggtitle("Seoul Pros and Cons")
+b3.seoul.fill
+# ggsave("../pics/sejong_seoul_barplot_fill_ggplot.png", b3.seoul.fill, width = 6, height = 4.5, dpi = 72)
+```
+
+#### barplot.gg
+
+```{r, barplot.gg, fig.width = 6, fig.height = 4.5}
+barplot.gg.stack <- function(df, base_family = "", ggtitle = "", xlab = ""){
+x <- df[, 2]
+y <- unlist(tapply(df$Freq, x, cumsum))
+b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
+  geom_bar(stat = "identity", position = "stack")
+b2 <- b1 +
+  theme_bw(base_family = base_family) +
+#  theme.kr +
+  scale_x_discrete(name = xlab) +
+  scale_y_continuous(name = "Total", breaks = NULL) +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
+b3 <- b2 +
+  geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
+  ggtitle(ggtitle)
+return(b3)
+}
+barplot.gg.dodge <- function(df, base_family = "", ggtitle = "", xlab = ""){
+x <- df[, 2]
+y <- unlist(tapply(df$Freq, x, cumsum))
+b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
+  geom_bar(stat = "identity", position = "dodge")
+b2 <- b1 +
+  theme_bw(base_family = base_family) +
+#  theme.kr +
+  scale_x_discrete(name = xlab) +
+  scale_y_continuous(name = "Total", breaks = NULL) +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1])
+b3 <- b2 +
+  geom_text(aes(y = df$Freq/2), label = format(df$Freq, big.mark = ","), position = position_dodge(width = 0.9)) +
+  ggtitle(ggtitle)
+return(b3)
+}
+barplot.gg.fill <- function(df, base_family = "", ggtitle = "", xlab = ""){
+x <- df[, 2]
+y <- unlist(tapply(df$Freq, x, function(x){cumsum(x)/sum(x)}))
+b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
+  geom_bar(stat = "identity", position = "fill")
+b2 <- b1 +
+  theme_bw(base_family = base_family) +
+#  theme.kr +
+  scale_x_discrete(name = xlab) +
+  scale_y_continuous(name = "Total", breaks = NULL) +
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
+b3 <- b2 +
+  geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
+  ggtitle(ggtitle)
+return(b3)
+}
+barplot.gg <- function(x, position, base_family = "", ggtitle = "", xlab = ""){
+  switch(position,
+         stack = barplot.gg.stack(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab),
+         dodge = barplot.gg.dodge(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab),
+         fill = barplot.gg.fill(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab))
+}
+(bar_seoul_stack <- barplot.gg(vote.seoul.df, position = "stack", base_family = "NanumGothic", ggtitle = "Seoul Pros and Cons", xlab = "Class"))
+# ggsave("../pics/sejong_seoul_barplot_stack_ggplotv2.png", bar_seoul_stack, width = 6, height = 4.5, dpi = 72)
+(bar_seoul_dodge <- barplot.gg(vote.seoul.df, position = "dodge", base_family = "NanumGothic", ggtitle = "Seoul Pros and Cons", xlab = "Class"))
+# ggsave("../pics/sejong_seoul_barplot_dodge_ggplotv2.png", bar_seoul_dodge, width = 6, height = 4.5, dpi = 72)
+(bar_seoul_fill <- barplot.gg(vote.seoul.df, position = "fill", base_family = "NanumGothic", ggtitle = "Seoul Pros and Cons", xlab = "Class"))
+# ggsave("../pics/sejong_seoul_barplot_fill_ggplotv2.png", bar_seoul_fill, width = 6, height = 4.5, dpi = 72)
+dump(c("barplot.gg","barplot.gg.stack", "barplot.gg.dodge", "barplot.gg.fill"), file = "./barplot.gg.R")
+```
+
+### mosaic plot
+
+#### R-Base Plot
+
+```{r, mosaicplot for seoul, fig.width = 6, fig.height = 4.5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.seoul.class), col = rainbow.2, main = "Seoul Pros and Cons", xlab = "Class" , ylab = "Pros and Cons")
+# dev.copy(png, "../pics/sejong_seoul_mosaic.png", width = 480, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+```{r, mosaic plot for seoul ggplot, fig.width = 6, fig.height = 4.5}
+vote.seoul.class.df <- as.data.frame(vote.seoul.class)
+vote.seoul.class.sum <- tapply(vote.seoul.class.df$Freq, vote.seoul.class.df[, 2], sum)
+vote.seoul.class.p.m <- prop.table(vote.seoul.class.sum)
+vote.seoul.class.p <- prop.table(vote.seoul.class)
+vote.seoul.class.p.2 <- prop.table(vote.seoul.class, margin = 2)
+vote.seoul.class.p.df <- as.data.frame(vote.seoul.class.p)
+vote.seoul.class.p.df$width <- vote.seoul.class.p.m[match(vote.seoul.class.p.df$class, names(vote.seoul.class.p.m))]
+vote.seoul.class.p.df$height <- as.data.frame(vote.seoul.class.p.2)$Freq
+vote.seoul.class.p.df$label.height <- unlist(tapply(vote.seoul.class.p.df$height, vote.seoul.class.p.df$class, cumsum))
+x.center <- (cumsum(vote.seoul.class.p.m) + c(0, head(cumsum(vote.seoul.class.p.m), -1)))/2
+vote.seoul.class.p.df$center <- x.center[match(vote.seoul.class.p.df$class, names(x.center))]
+m1 <- ggplot(vote.seoul.class.p.df, aes(x = center, y = height)) + 
+  geom_bar(aes(width = width, fill = vote), stat = "identity", col = "white", size = 2) 
+m1
+m2 <- m1 + 
+  theme_bw(base_family = "NanumGothic")
+m2
+m3 <- m2 + 
+  geom_text(aes(x = center, y = 1.05), label = vote.seoul.class.p.df$class, family = "NanumGothic")
+m3
+m4 <- m3 + 
+  geom_text(aes(x = center, y = label.height/2), label = format(vote.seoul.class.df$Freq, big.mark = ","), position = position_stack())
+m4
+x.breaks <- c(0, ifelse(cumsum(vote.seoul.class.p.m) < 0.1, 0.0, cumsum(vote.seoul.class.p.m)))
+x.label <- format(x.breaks, digits = 2, nsmall = 2)
+m5 <- m4 + 
+  scale_x_continuous(name = "Class", breaks = x.breaks, label = x.label) + 
+  scale_y_continuous(name = "Pros and Cons") + 
+  scale_fill_manual(name = "Pros and Cons", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE)) +
+  ggtitle("Seoul Pros and Cons")
+m5
+```
+
+```{r mosaic_gg, fig.width = 6, fig.height = 4.5}
+source("./mosaic.gg_en.R")
+mosaic_gg
+m5.seoul <- mosaic_gg(vote.seoul.class, base_family = "NanumGothic", ggtitle = "Seoul Pros and Cons", xlab = "Class")
+m5.seoul
+# ggsave("../pics/sejong_seoul_mosaic_ggplot.png", m5.seoul, width = 6, height = 4.5, dpi = 72)
+```
+
+<P style = "page-break-before:always">
+
+## Bureaus' Regionwise Pros and Cons (Except for Seoul)
+
+```{r, local bureaus}
+kable(vote.region.bureaus[, -1], caption = "Bureaus' Regionwise Pros and Cons (Except for Seoul)")
+kable(format(prop.table(vote.region.bureaus[, -1], margin = 2)*100, digits = 1, nsmall = 1), align = "r", caption = "Bureaus' Regionwise Pros and Cons (Except for Seoul)")
+```
+
+### Barplots
+
+#### R-Base Plot
+
+```{r, barplot for regional bureaus, fig.width = 9, fig.height = 4.5}
+par(family = "NanumGothic")
+barplot(vote.region.bureaus[, -1], beside = FALSE, col = rainbow.2)
+title(main = "Bureaus' Regionwise Pros and Cons (Except for Seoul)")
+legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("Yes", "No"))
+# dev.copy(png, "../pics/sejong_bureaus.png", width = 720, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+```{r, geom_bar for regional bureaus, fig.width = 9, fig.height = 4.5}
+vote.region.bureaus.df <- as.data.frame(vote.region.bureaus[, -1])
+barplot.gg(vote.region.bureaus.df, position = "stack", base_family = "NanumGothic", ggtitle = "Bureaus' Regionwise Pros and Cons (Except for Seoul)", xlab = "Region")
+# ggsave("../pics/sejong_bureaus_barplot_stack_ggplot.png", width = 9, height = 4.5, dpi = 72)
+```
+
+### mosaic plot
+
+#### R-Base Plot
+
+```{r, mosaic for local bureaus, fig.width = 9, fig.height = 4.5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.region.bureaus[, -1]), col = rainbow.2, main = "", xlab = "Region", ylab = "Pros and Cons")
+title(main = "Bureaus' Regionwise Pros and Cons")
+# dev.copy(png, "../pics/sejong_bureaus_mosaic.png", width = 720, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+```{r, mosaic plot for region ggplot, fig.width = 12, fig.height = 4.5}
+# source("./mosaic.gg.R")
+m5.bureaus <- mosaic_gg(vote.region.bureaus[, -1], base_family = "NanumGothic", ggtitle = "Bureaus' Regionwise Pros and Cons", xlab = "Regionwise Proprtion of Bureaus")
+m5.bureaus
+# ggsave("../pics/sejong_bureaus_mosaic_ggplot.png", m5.bureaus, width = 9, height = 4.5, dpi = 72)
+```
+
+<P style = "page-break-before:always">
+
+## Regionwise Commons' Pros and Cons
+
+### Barplots
+
+#### R-Base Plot
+
+```{r, barplot for commons, fig.width = 12, fig.height = 4.5}
+par(family = "NanumGothic")
+barplot(vote.region.commons, beside = FALSE, col = rainbow.2, axes = FALSE)
+axis(2, at = seq(0, 30000, by = 5000), labels = c("0", "", "10", "", "20", "", "30"), las = 1)
+title(main = "Commons' Regionwise Pros and Cons")
+legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("Yes", "No"))
+# dev.copy(png, "../pics/sejong_commons_barplot.png", width = 720, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+```{r, geom_bar for commons, fig.width = 12, fig.height = 4.5}
+vote.region.commons.df <- as.data.frame(vote.region.commons)
+barplot.gg(vote.region.commons.df, position = "stack", base_family = "NanumGothic", ggtitle = "Commons' Pros and Cons", xlab = "Region")
+# ggsave("../pics/sejong_commons_barplot_stack_ggplot.png", width = 9, height = 4.5, dpi = 72)
+```
+
+### mosaic plot
+
+#### R-Base Plot
+
+```{r, mosaicplot for commons, fig.width = 12, fig.height = 4.5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.region.commons), col = rainbow.2, main = "Commons; Regionwise Pros and Cons", xlab = "Region", ylab = "Pros and Cons")
+# dev.copy(png, "../pics/sejong_commons_mosaic.png", width = 720, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+```{r, mosaic plot for commons ggplot, fig.width = 12, fig.height = 4.5}
+# source("./mosaic.gg.R")
+m5.commons <- mosaic_gg(vote.region.commons, base_family = "NanumGothic", ggtitle = "Commons Pros and Cons", xlab = "Regionwise Commons Proportion")
+m5.commons
+# ggsave("../pics/sejong_commons_mosaic_ggplot.png", m5.commons, width = 12, height = 4.5, dpi = 72)
+```
+
+<P style = "page-break-before:always">
+
+## Chungcheong
+
+Bureaus'들 Pros and Cons과 Commons Pros and Cons이 다른 곳.
+
+```{r, chungcheong}
+kable(format(vote.chung.class, big.mark = ","), caption = "Chungcheong Case", align = "r")
+kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = "Chungcheong Case", align = "r")
+```
+
+### Barplots
+
+#### R-Base Plot
+
+```{r, barplot for chungcheong, fig.width = 6, fig.height = 4.5}
+par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE, family = "NanumGothic")
+barplot(prop.table(vote.chung.class, margin = 2), col = rainbow.2, ylim = c(0,  1.1), axes = FALSE)
+axis(side = 2, at = c(0, 0.5, 1.0), labels = c("0", "50%", "100%"), las = 1)
+title(main = "Chungcheong Classwise Pros and Cons 비율")
+legend("right", inset = -0.3, fill = rainbow.2, legend = c("Yes", "No"))
+text(x = c(0.6, 1.85, 1.85, 3.1, 3.1), y = c(0.5, 0.3, 0.8, 0.15, 0.65), labels = format(c(2, 35, 26, 6982, 14013), big.mark = ","))
+# dev.copy(png, "../pics/sejong_chungcheong_barplot.png", width = 480, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+```{r, geom_bar fill for Chungcheong, fig.width = 6, fig.height = 4.5}
+vote.chung.class.df <- as.data.frame(vote.chung.class)
+barplot.gg(vote.chung.class.df, position = "fill", base_family = "NanumGothic", ggtitle = "Chungcheong Pros and Cons", xlab = "Class")
+# ggsave("../pics/sejong_chungcheong_barplot_fill_ggplot.png", width = 6, height = 4.5, dpi = 72)
+```
+
+### mosaic plot
+
+수효 차이가 너무 커서 비교하기 어려움. '대신 등' 제외하고 작업
+
+```{r, mosaic chungcheong, fig.width = 9, fig.height = 4.5}
+par(family = "NanumGothic")
+mosaicplot(t(vote.chung.class[, -1]), col = rainbow.2, main = "", xlab = "Class", ylab = "Pros and Cons")
+title(main = "Chungcheong Pros and Cons")
+# dev.copy(png, "../pics/sejong_chungcheong_mosaic.png", width = 480, height = 360)
+# dev.off()
+```
+
+#### ggplot
+
+```{r, mosaic plot for chungcheong ggplot, fig.width = 12, fig.height = 4.5}
+# source("./mosaic.gg.R")
+m5.chungcheong <- mosaic_gg(vote.chung.class[, -1], base_family = "NanumGothic", ggtitle = "Chungcheong Pros and Cons", xlab = "Class")
+m5.chungcheong
+# ggsave("../pics/sejong_chungcheong_mosaic_ggplot.png", m5.chungcheong, width = 12, height = 4.5, dpi = 72)
+```
+
+## 자료 정리
+
+```{r, save}
+save.image(file = "./sejong_ggplot.RData")
+```
+

@@ -7,3 +7,4 @@
 ./R/*.html
 ./pics/*.png
 ./R/rsconnect/*
+.Rproj.user

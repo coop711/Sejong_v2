@@ -155,7 +155,7 @@ kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 
 - Save the working directory image.
 
 ```{r, save}
-save.image(file="sejong_poll_data.rda")
+save.image(file = "sejong_poll_data.RData")
 ```
 
 
