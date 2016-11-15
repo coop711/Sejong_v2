@@ -7,7 +7,9 @@ output: html_document
 
 ## Data 
 
-원자료는 [세종실록](http://sillok.history.go.kr/id/kda_11208010_005), 요약표는 오기수 교수 논문에서.
+Source are from [Sejong silok](http://sillok.history.go.kr/id/kda_11208010_005), summary table from Professor Oh, Kisoo.
+
+<img src = "../pics/sejong_poll_data.png"> 
 
 ```{r, data, echo = FALSE, message = FALSE, results = 'hide'}
 knitr::opts_chunk$set(echo = TRUE)
