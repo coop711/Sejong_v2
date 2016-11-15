@@ -425,14 +425,16 @@ kable(sejong.poll[4:1])</code></pre>
 class.labels &lt;- c(&quot;High&quot;,&quot;3rd.current&quot;, &quot;3rd.former&quot;, &quot;Chief&quot;, &quot;Commons&quot;)
 sejong.poll.2$class &lt;- factor(sejong.poll.2$class, levels = class.levels, labels = class.labels)</code></pre>
 <pre class="r"><code>region.levels &lt;- c(&quot;Seoul&quot;,&quot;yuhu&quot;, &quot;gyunggi&quot;, &quot;pyungan&quot;, &quot;hwanghae&quot;, &quot;chungcheong&quot;, &quot;kangwon&quot;, &quot;hamgil&quot;, &quot;gyungsang&quot;, &quot;jeolla&quot;)
-region.labels &lt;- c(&quot;Seoul&quot;,&quot;Yuhu&quot;, &quot;Gyunggi&quot;, &quot;Pyungan&quot;, &quot;Hwanghae&quot;, &quot;Chungcheong&quot;, &quot;Kangwon&quot;, &quot;Hamgil&quot;, &quot;Gyungsang&quot;, &quot;Jeolla&quot;)
+# region.labels &lt;- c(&quot;Seoul&quot;,&quot;Yuhu&quot;, &quot;Gyunggi&quot;, &quot;Pyungan&quot;, &quot;Hwanghae&quot;, &quot;Chungcheong&quot;, &quot;Kangwon&quot;, &quot;Hamgil&quot;, &quot;Gyungsang&quot;, &quot;Jeolla&quot;)
+region.labels &lt;- c(&quot;SL&quot;,&quot;YH&quot;, &quot;GG&quot;, &quot;PA&quot;, &quot;HH&quot;, &quot;CC&quot;, &quot;KW&quot;, &quot;HG&quot;, &quot;GS&quot;, &quot;JL&quot;)
+
 sejong.poll.2$region &lt;- factor(sejong.poll.2$region, levels = region.levels, labels = region.labels)</code></pre>
 <pre class="r"><code>str(sejong.poll.2)</code></pre>
 <pre><code>## 'data.frame':    44 obs. of  4 variables:
 ##  $ counts: int  21 194 259 393 443 117 1123 71 29 5 ...
 ##  $ vote  : Factor w/ 2 levels &quot;Yes&quot;,&quot;No&quot;: 1 2 1 2 1 2 1 2 1 2 ...
 ##  $ class : Factor w/ 5 levels &quot;High&quot;,&quot;3rd.current&quot;,..: 1 1 2 2 3 3 5 5 4 4 ...
-##  $ region: Factor w/ 10 levels &quot;Seoul&quot;,&quot;Yuhu&quot;,..: 1 1 1 1 1 1 2 2 3 3 ...</code></pre>
+##  $ region: Factor w/ 10 levels &quot;SL&quot;,&quot;YH&quot;,&quot;GG&quot;,..: 1 1 1 1 1 1 2 2 3 3 ...</code></pre>
 <pre class="r"><code>kable(sejong.poll.2[4:1])</code></pre>
 <table>
 <thead>
@@ -445,265 +447,265 @@ sejong.poll.2$region &lt;- factor(sejong.poll.2$region, levels = region.levels, 
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">High</td>
 <td align="left">Yes</td>
 <td align="right">21</td>
 </tr>
 <tr class="even">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">High</td>
 <td align="left">No</td>
 <td align="right">194</td>
 </tr>
 <tr class="odd">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.current</td>
 <td align="left">Yes</td>
 <td align="right">259</td>
 </tr>
 <tr class="even">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.current</td>
 <td align="left">No</td>
 <td align="right">393</td>
 </tr>
 <tr class="odd">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.former</td>
 <td align="left">Yes</td>
 <td align="right">443</td>
 </tr>
 <tr class="even">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.former</td>
 <td align="left">No</td>
 <td align="right">117</td>
 </tr>
 <tr class="odd">
-<td align="left">Yuhu</td>
+<td align="left">YH</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">1123</td>
 </tr>
 <tr class="even">
-<td align="left">Yuhu</td>
+<td align="left">YH</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">71</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">29</td>
 </tr>
 <tr class="even">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">5</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">17076</td>
 </tr>
 <tr class="even">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">236</td>
 </tr>
 <tr class="odd">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">High</td>
 <td align="left">No</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">6</td>
 </tr>
 <tr class="odd">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">35</td>
 </tr>
 <tr class="even">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">1326</td>
 </tr>
 <tr class="odd">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">28474</td>
 </tr>
 <tr class="even">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">17</td>
 </tr>
 <tr class="odd">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">17</td>
 </tr>
 <tr class="even">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">4454</td>
 </tr>
 <tr class="odd">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">15601</td>
 </tr>
 <tr class="even">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">High</td>
 <td align="left">No</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">35</td>
 </tr>
 <tr class="even">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">26</td>
 </tr>
 <tr class="odd">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">6982</td>
 </tr>
 <tr class="even">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">14013</td>
 </tr>
 <tr class="odd">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">5</td>
 </tr>
 <tr class="even">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">10</td>
 </tr>
 <tr class="odd">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">939</td>
 </tr>
 <tr class="even">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">6888</td>
 </tr>
 <tr class="odd">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">High</td>
 <td align="left">No</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">14</td>
 </tr>
 <tr class="even">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">75</td>
 </tr>
 <tr class="odd">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">7387</td>
 </tr>
 <tr class="even">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">55</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">16</td>
 </tr>
 <tr class="even">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">36262</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">377</td>
 </tr>
 <tr class="even">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">High</td>
 <td align="left">No</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Chief</td>
 <td align="left">Yes</td>
 <td align="right">42</td>
 </tr>
 <tr class="even">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Chief</td>
 <td align="left">No</td>
 <td align="right">12</td>
 </tr>
 <tr class="odd">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">29505</td>
 </tr>
 <tr class="even">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">257</td>
@@ -720,74 +722,74 @@ str(sejong.poll.array)</code></pre>
 ##  - attr(*, &quot;dimnames&quot;)=List of 3
 ##   ..$ vote  : chr [1:2] &quot;Yes&quot; &quot;No&quot;
 ##   ..$ class : chr [1:5] &quot;High&quot; &quot;3rd.current&quot; &quot;3rd.former&quot; &quot;Chief&quot; ...
-##   ..$ region: chr [1:10] &quot;Seoul&quot; &quot;Yuhu&quot; &quot;Gyunggi&quot; &quot;Pyungan&quot; ...
+##   ..$ region: chr [1:10] &quot;SL&quot; &quot;YH&quot; &quot;GG&quot; &quot;PA&quot; ...
 ##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;xtabs&quot; &quot;table&quot;
 ##  - attr(*, &quot;call&quot;)= language xtabs(formula = counts ~ vote + class + region, data = sejong.poll.2)</code></pre>
 <pre class="r"><code>sejong.poll.array</code></pre>
-<pre><code>## , , region = Seoul
+<pre><code>## , , region = SL
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes    21         259        443     0       0
 ##   No    194         393        117     0       0
 ## 
-## , , region = Yuhu
+## , , region = YH
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0     0    1123
 ##   No      0           0          0     0      71
 ## 
-## , , region = Gyunggi
+## , , region = GG
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0    29   17076
 ##   No      0           0          0     5     236
 ## 
-## , , region = Pyungan
+## , , region = PA
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0     6    1326
 ##   No      1           0          0    35   28474
 ## 
-## , , region = Hwanghae
+## , , region = HH
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0    17    4454
 ##   No      0           0          0    17   15601
 ## 
-## , , region = Chungcheong
+## , , region = CC
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0    35    6982
 ##   No      2           0          0    26   14013
 ## 
-## , , region = Kangwon
+## , , region = KW
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0     5     939
 ##   No      0           0          0    10    6888
 ## 
-## , , region = Hamgil
+## , , region = HG
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0     3      75
 ##   No      1           0          0    14    7387
 ## 
-## , , region = Gyungsang
+## , , region = GS
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
 ##   Yes     0           0          0    55   36262
 ##   No      0           0          0    16     377
 ## 
-## , , region = Jeolla
+## , , region = JL
 ## 
 ##      class
 ## vote   High 3rd.current 3rd.former Chief Commons
@@ -939,308 +941,308 @@ kable(sejong.poll.2[c(4, 3, 5, 2, 1)])</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">High</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">21</td>
 </tr>
 <tr class="even">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">High</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">194</td>
 </tr>
 <tr class="odd">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.current</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">259</td>
 </tr>
 <tr class="even">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.current</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">393</td>
 </tr>
 <tr class="odd">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.former</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">443</td>
 </tr>
 <tr class="even">
-<td align="left">Seoul</td>
+<td align="left">SL</td>
 <td align="left">3rd.former</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">117</td>
 </tr>
 <tr class="odd">
-<td align="left">Yuhu</td>
+<td align="left">YH</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">1123</td>
 </tr>
 <tr class="even">
-<td align="left">Yuhu</td>
+<td align="left">YH</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">71</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">29</td>
 </tr>
 <tr class="even">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">5</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">17076</td>
 </tr>
 <tr class="even">
-<td align="left">Gyunggi</td>
+<td align="left">GG</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">236</td>
 </tr>
 <tr class="odd">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">High</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">6</td>
 </tr>
 <tr class="odd">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">35</td>
 </tr>
 <tr class="even">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">1326</td>
 </tr>
 <tr class="odd">
-<td align="left">Pyungan</td>
+<td align="left">PA</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">28474</td>
 </tr>
 <tr class="even">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">17</td>
 </tr>
 <tr class="odd">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">17</td>
 </tr>
 <tr class="even">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">4454</td>
 </tr>
 <tr class="odd">
-<td align="left">Hwanghae</td>
+<td align="left">HH</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">15601</td>
 </tr>
 <tr class="even">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">High</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">35</td>
 </tr>
 <tr class="even">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">26</td>
 </tr>
 <tr class="odd">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">6982</td>
 </tr>
 <tr class="even">
-<td align="left">Chungcheong</td>
+<td align="left">CC</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">14013</td>
 </tr>
 <tr class="odd">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">5</td>
 </tr>
 <tr class="even">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">10</td>
 </tr>
 <tr class="odd">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">939</td>
 </tr>
 <tr class="even">
-<td align="left">Kangwon</td>
+<td align="left">KW</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">6888</td>
 </tr>
 <tr class="odd">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">High</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">3</td>
 </tr>
 <tr class="odd">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">14</td>
 </tr>
 <tr class="even">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">75</td>
 </tr>
 <tr class="odd">
-<td align="left">Hamgil</td>
+<td align="left">HG</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">7387</td>
 </tr>
 <tr class="even">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">55</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">16</td>
 </tr>
 <tr class="even">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">36262</td>
 </tr>
 <tr class="odd">
-<td align="left">Gyungsang</td>
+<td align="left">GS</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
 <td align="right">377</td>
 </tr>
 <tr class="even">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">High</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">Yes</td>
 <td align="right">42</td>
 </tr>
 <tr class="even">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Chief</td>
 <td align="left">Bureaus</td>
 <td align="left">No</td>
 <td align="right">12</td>
 </tr>
 <tr class="odd">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">Yes</td>
 <td align="right">29505</td>
 </tr>
 <tr class="even">
-<td align="left">Jeolla</td>
+<td align="left">JL</td>
 <td align="left">Commons</td>
 <td align="left">Commons</td>
 <td align="left">No</td>
@@ -1253,7 +1255,7 @@ kable(sejong.poll.2[c(4, 3, 5, 2, 1)])</code></pre>
 ##  $ counts : int  21 194 259 393 443 117 1123 71 29 5 ...
 ##  $ vote   : Factor w/ 2 levels &quot;Yes&quot;,&quot;No&quot;: 1 2 1 2 1 2 1 2 1 2 ...
 ##  $ class  : Factor w/ 5 levels &quot;High&quot;,&quot;3rd.current&quot;,..: 1 1 2 2 3 3 5 5 4 4 ...
-##  $ region : Factor w/ 10 levels &quot;Seoul&quot;,&quot;Yuhu&quot;,..: 1 1 1 1 1 1 2 2 3 3 ...
+##  $ region : Factor w/ 10 levels &quot;SL&quot;,&quot;YH&quot;,&quot;GG&quot;,..: 1 1 1 1 1 1 2 2 3 3 ...
 ##  $ class.2: Factor w/ 2 levels &quot;Bureaus&quot;,&quot;Commons&quot;: 1 1 1 1 1 1 2 2 1 1 ...</code></pre>
 <p>Compare the votes by <code>class.2</code>, (Bureaucrats vs Commons)</p>
 <pre class="r"><code>vote.class.2 &lt;- xtabs(counts ~ vote + class.2, data = sejong.poll.2)
@@ -1373,15 +1375,15 @@ kable(vote.region.bureaus, caption = &quot;Votes(Bureaus)&quot;)</code></pre>
 <thead>
 <tr class="header">
 <th align="left"></th>
-<th align="right">Seoul</th>
-<th align="right">Gyunggi</th>
-<th align="right">Pyungan</th>
-<th align="right">Hwanghae</th>
-<th align="right">Chungcheong</th>
-<th align="right">Kangwon</th>
-<th align="right">Hamgil</th>
-<th align="right">Gyungsang</th>
-<th align="right">Jeolla</th>
+<th align="right">SL</th>
+<th align="right">GG</th>
+<th align="right">PA</th>
+<th align="right">HH</th>
+<th align="right">CC</th>
+<th align="right">KW</th>
+<th align="right">HG</th>
+<th align="right">GS</th>
+<th align="right">JL</th>
 </tr>
 </thead>
 <tbody>
@@ -1419,15 +1421,15 @@ kable(vote.region.commons, caption = &quot;Votes(Commons)&quot;)</code></pre>
 <thead>
 <tr class="header">
 <th align="left"></th>
-<th align="right">Yuhu</th>
-<th align="right">Gyunggi</th>
-<th align="right">Pyungan</th>
-<th align="right">Hwanghae</th>
-<th align="right">Chungcheong</th>
-<th align="right">Kangwon</th>
-<th align="right">Hamgil</th>
-<th align="right">Gyungsang</th>
-<th align="right">Jeolla</th>
+<th align="right">YH</th>
+<th align="right">GG</th>
+<th align="right">PA</th>
+<th align="right">HH</th>
+<th align="right">CC</th>
+<th align="right">KW</th>
+<th align="right">HG</th>
+<th align="right">GS</th>
+<th align="right">JL</th>
 </tr>
 </thead>
 <tbody>
@@ -1459,7 +1461,7 @@ kable(vote.region.commons, caption = &quot;Votes(Commons)&quot;)</code></pre>
 </table>
 <p>Seoul has three times more Bureaucrats than other regions, so analyse further.</p>
 <pre class="r"><code>region &lt;- sejong.poll.2$region
-vote.seoul.class &lt;- xtabs(counts ~ vote + class, data = sejong.poll.2, region == &quot;Seoul&quot;, drop = TRUE)
+vote.seoul.class &lt;- xtabs(counts ~ vote + class, data = sejong.poll.2, region == &quot;SL&quot;, drop = TRUE)
 kable(vote.seoul.class, caption = &quot;Seoul&quot;)</code></pre>
 <table>
 <caption>Seoul</caption>
@@ -1486,9 +1488,9 @@ kable(vote.seoul.class, caption = &quot;Seoul&quot;)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = &quot;Seoul&quot;, align = rep(&quot;r&quot;, 3))</code></pre>
+<pre class="r"><code>kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits  = 3, nsmall = 1), caption = &quot;SL&quot;, align = rep(&quot;r&quot;, 3))</code></pre>
 <table>
-<caption>Seoul</caption>
+<caption>SL</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1513,10 +1515,10 @@ kable(vote.seoul.class, caption = &quot;Seoul&quot;)</code></pre>
 </tbody>
 </table>
 <p>Chungcheong’s case.</p>
-<pre class="r"><code>vote.chung.class &lt;- xtabs(counts ~ vote + class, data = sejong.poll.2, region == &quot;Chungcheong&quot;, drop = TRUE)
-kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = &quot;Chungcheong&quot;, align = rep(&quot;r&quot;, 3))</code></pre>
+<pre class="r"><code>vote.chung.class &lt;- xtabs(counts ~ vote + class, data = sejong.poll.2, region == &quot;CC&quot;, drop = TRUE)
+kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 1), caption = &quot;CC&quot;, align = rep(&quot;r&quot;, 3))</code></pre>
 <table>
-<caption>Chungcheong</caption>
+<caption>CC</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
