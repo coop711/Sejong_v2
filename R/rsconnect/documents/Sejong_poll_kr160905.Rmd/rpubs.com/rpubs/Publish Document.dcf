@@ -1,7 +1,8 @@
 name: Publish Document
+title:
 account: rpubs
 server: rpubs.com
-appId: https://api.rpubs.com/api/v1/document/208686/ce60273d9c1f4b3f998a1f33ff437367
-bundleId: https://api.rpubs.com/api/v1/document/208686/ce60273d9c1f4b3f998a1f33ff437367
-url: http://rpubs.com/publish/claim/208686/ec6434b74a2b43419a1ff488c8ccb02a
-when: 1473701244.93659
+appId: https://api.rpubs.com/api/v1/document/229173/0ff63984965e4aa79fa6f7fd6b838467
+bundleId: https://api.rpubs.com/api/v1/document/229173/0ff63984965e4aa79fa6f7fd6b838467
+url: http://rpubs.com/publish/claim/229173/13cac3a5fcee4d96bad587dec84a8384
+when: 1479782444.34428

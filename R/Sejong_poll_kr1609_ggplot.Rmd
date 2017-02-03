@@ -69,7 +69,7 @@ pie.label <- paste(levels(vote.df$vote), format(vote.df$Freq, big.mark = ","), s
 str(vote.df)
 p1 <- ggplot(vote.df, aes(x = "", y = Freq, fill = vote)) 
 p2 <- p1 + 
-  geom_bar(width = 1, stat = "identity")
+  geom_bar(width = 1, stat = "identity", position = position_stack(reverse = TRUE))
 p2
 p2.2 <- p1 + 
   geom_bar(width = 1, stat = "identity", position = "dodge")
@@ -126,7 +126,7 @@ pie.total.5 <- pie.total.4 +
 pie.total.5
 pie.total.6 <- pie.total.5 +
 #  geom_text(aes(y = y.coord), label = pie.label, family = "NanumGothic")
-  geom_text(aes(y = y.coord), label = pie.label, family = "NanumGothic", position = position_stack())
+  geom_text(aes(y = y.coord), label = pie.label, family = "NanumGothic", position = position_stack(reverse = TRUE))
 pie.total.6
 pie.total.7 <- pie.total.6 +
   ggtitle("전체 찬반") +
@@ -144,7 +144,7 @@ pie.gg <- function(df, ggtitle = "", font.family = ""){
   pie.label <- paste(levels(df$vote), format(df$Freq, big.mark = ","), sep = "\n") 
   p1 <- ggplot(df, aes(x = "", y = Freq, fill = vote)) 
   p2 <- p1 + 
-    geom_bar(width = 1, stat = "identity")
+    geom_bar(width = 1, stat = "identity", position = position_stack(reverse = TRUE))
   pie.1 <- p2 + 
     coord_polar(theta = "y", start = 3*pi/2, direction = -1)
   pie.2 <- pie.1 + 
@@ -157,7 +157,7 @@ pie.gg <- function(df, ggtitle = "", font.family = ""){
   pie.5 <- pie.4 +
     guides(fill = "none")
   pie.6 <- pie.5 +
-    geom_text(aes(y = y.coord/n), label = pie.label, family = font.family, position = position_stack())
+    geom_text(aes(y = y.coord/n), label = pie.label, family = font.family, position = position_stack(reverse = TRUE))
   pie.7 <- pie.6 +
     ggtitle(ggtitle) + 
     theme(plot.margin = unit(c(1, 1, 1.5, 1), "lines"))
@@ -283,7 +283,7 @@ x.stack <- vote.seoul.df[, 2]
 # y.stack <- unlist(tapply(vote.seoul.df$Freq, vote.seoul.df$class, function(x){cumsum(x) + c(0, cumsum(head(x, -1)))}))
 y.stack <- unlist(tapply(vote.seoul.df$Freq, vote.seoul.df$class, cumsum))
 b1.seoul <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = vote)) +
-  geom_bar(stat = "identity", position = "stack")
+  geom_bar(stat = "identity", position = position_stack(reverse = TRUE))
 b1.seoul
 b2.seoul <- b1.seoul +
   theme_bw(base_family = "NanumGothic") +
@@ -294,7 +294,7 @@ b2.seoul <- b1.seoul +
 b2.seoul  
 b3.seoul <- b2.seoul +
 # geom_text(aes(y = y.stack/2), label = vote.seoul.df$Freq)
-  geom_text(aes(y = y.stack/2), label = vote.seoul.df$Freq, position = position_stack())
+  geom_text(aes(y = y.stack/2), label = vote.seoul.df$Freq, position = position_stack(reverse = TRUE))
 b3.seoul
 # ggsave("../pics/sejong_seoul_barplot_stack_ggplot.png", b3.seoul, width = 6, height = 4.5, dpi = 72)
 ```
@@ -324,7 +324,7 @@ b3.seoul.dodge
 ```{r, seoul geom_bar fill, fig.width = 6, fig.height = 4.5}
 y.fill <- unlist(tapply(vote.seoul.df$Freq, x.stack, function(x){cumsum(x)/sum(x)}))
 b1.seoul.fill <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = vote)) +
-  geom_bar(stat = "identity", position = "fill")
+  geom_bar(stat = "identity", position = position_fill(reverse = TRUE))
 b1.seoul.fill
 b2.seoul.fill <- b1.seoul.fill +
   theme_bw(base_family = "NanumGothic") +
@@ -334,7 +334,7 @@ b2.seoul.fill <- b1.seoul.fill +
   scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
 b2.seoul.fill  
 b3.seoul.fill <- b2.seoul.fill +
-  geom_text(aes(y = y.fill/2), label = vote.seoul.df$Freq, position = position_stack()) +
+  geom_text(aes(y = y.fill/2), label = vote.seoul.df$Freq, position = position_stack(reverse = TRUE)) +
   ggtitle("서울의 찬반")
 b3.seoul.fill
 # ggsave("../pics/sejong_seoul_barplot_fill_ggplot.png", b3.seoul.fill, width = 6, height = 4.5, dpi = 72)
@@ -347,7 +347,7 @@ barplot.gg.stack <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, cumsum))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
-  geom_bar(stat = "identity", position = "stack")
+  geom_bar(stat = "identity", position = position_stack(reverse = TRUE))
 b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
@@ -355,7 +355,7 @@ b2 <- b1 +
   scale_y_continuous(name = "집계", breaks = NULL) +
   scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
-  geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
+  geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack(reverse = TRUE)) +
   ggtitle(ggtitle)
 return(b3)
 }
@@ -379,7 +379,7 @@ barplot.gg.fill <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, function(x){cumsum(x)/sum(x)}))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = vote)) +
-  geom_bar(stat = "identity", position = "fill")
+  geom_bar(stat = "identity", position = position_fill(reverse = TRUE))
 b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
@@ -387,7 +387,7 @@ b2 <- b1 +
   scale_y_continuous(name = "집계", breaks = NULL) +
   scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE))
 b3 <- b2 +
-  geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
+  geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack(reverse = TRUE)) +
   ggtitle(ggtitle)
 return(b3)
 }
