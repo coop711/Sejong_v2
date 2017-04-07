@@ -26,8 +26,8 @@ x.breaks <- c(0, ifelse(cumsum(tbl.p.m) < 0.1, 0.0, cumsum(tbl.p.m)))
 x.label <- format(x.breaks, digits = 2, nsmall = 2)
 m5 <- m4 + 
   scale_x_continuous(name = xlab, breaks = x.breaks, label = x.label) + 
-  scale_y_continuous(name = "ì°¬ë°˜") + 
-  scale_fill_manual(name = "ì°¬ë°˜", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE)) +
+  scale_y_continuous(name = "Âù¹Ý") + 
+  scale_fill_manual(name = "Âù¹Ý", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE)) +
   ggtitle(ggtitle) +
   theme(plot.margin = unit(c(1, 2, 1, 1), "lines"))
 m5
