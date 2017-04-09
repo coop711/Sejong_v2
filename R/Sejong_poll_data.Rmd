@@ -11,6 +11,9 @@ output: html_document
 
 Original data came from intenet version of Sejong silok, summarized by Oh, Ki-Soo.
 
+![](../pics/sejong_poll_data.png)
+
+
 ```{r, setup, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(pander)
@@ -19,7 +22,7 @@ options(width = 180)
 ```
 
 ```{r, reading data}
-sejong.poll <- read.table("../data/sejong_poll.txt", header = TRUE, sep = "")
+sejong.poll <- read.table("../data/sejong_poll.txt", header = TRUE, stringsAsFactors = FALSE)
 str(sejong.poll)
 # pander(sejong.poll)
 kable(sejong.poll[4:1])
@@ -49,7 +52,6 @@ sejong.poll.2$class <- factor(sejong.poll.2$class, levels = class.levels, labels
 region.levels <- c("Seoul","yuhu", "gyunggi", "pyungan", "hwanghae", "chungcheong", "kangwon", "hamgil", "gyungsang", "jeolla")
 # region.labels <- c("Seoul","Yuhu", "Gyunggi", "Pyungan", "Hwanghae", "Chungcheong", "Kangwon", "Hamgil", "Gyungsang", "Jeolla")
 region.labels <- c("SL","YH", "GG", "PA", "HH", "CC", "KW", "HG", "GS", "JL")
-
 sejong.poll.2$region <- factor(sejong.poll.2$region, levels = region.levels, labels = region.labels)
 ```
 

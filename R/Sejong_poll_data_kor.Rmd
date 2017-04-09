@@ -1,7 +1,7 @@
 ---
 title: "Sejong_poll_kr"
 author: "coop711"
-date: "2015년 3월 18일"
+date: "`Sys.Date()`"
 output: html_document
 ---
 
