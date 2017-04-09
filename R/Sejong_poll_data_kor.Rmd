@@ -1,7 +1,7 @@
 ---
 title: "Sejong_poll_kr"
 author: "coop711"
-date: "2015년 3월 18일"
+date: "`Sys.Date()`"
 output: html_document
 ---
 
@@ -15,7 +15,7 @@ options(width = 180)
 ## Data input
 
 ```{r, data}
-load("./sejong_poll_data.rda")
+load("./sejong_poll_data.RData")
 ```
 
 ### Data 
@@ -152,5 +152,5 @@ kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 
 - Save the working directory image.
 
 ```{r, save}
-save.image(file = "sejong_poll_data_kr.rda")
+save.image(file = "sejong_poll_data_kr.RData")
 ```
