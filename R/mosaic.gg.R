@@ -11,23 +11,31 @@ tbl.p.df$label.height <- unlist(tapply(tbl.p.df$height, tbl.p.df[, 2], cumsum))
 x.center <- (cumsum(tbl.p.m) + c(0, head(cumsum(tbl.p.m), -1)))/2
 tbl.p.df$center <- x.center[match(tbl.p.df[, 2], names(x.center))]
 m1 <- ggplot(tbl.p.df, aes(x = center, y = height, width = width)) + 
-  geom_bar(aes(fill = vote), stat = "identity", col = "white", size = 1, position = position_stack(reverse = TRUE)) 
+  geom_bar(aes(fill = rev(vote)), 
+           stat = "identity", 
+           col = "white", 
+           size = 1, 
+           position = position_stack()) 
 m1
 m2 <- m1 + 
   theme_bw(base_family = base_family)
 m2
 m3 <- m2 + 
-  geom_text(aes(x = center, y = 1.05), label = tbl.p.df[, 2], family = base_family)
+  geom_text(aes(x = center, y = 1.05), 
+            label = tbl.p.df[, 2], 
+            family = base_family)
 m3
 m4 <- m3 + 
-  geom_text(aes(x = center, y = label.height/2), label = format(tbl.df$Freq, big.mark = ","), position = position_stack(reverse = TRUE))
+  geom_text(aes(x = center, y = label.height/2), 
+            label = format(tbl.df$Freq, big.mark = ","), 
+            position = position_stack())
 m4
 x.breaks <- c(0, ifelse(cumsum(tbl.p.m) < 0.1, 0.0, cumsum(tbl.p.m)))
 x.label <- format(x.breaks, digits = 2, nsmall = 2)
 m5 <- m4 + 
   scale_x_continuous(name = xlab, breaks = x.breaks, label = x.label) + 
   scale_y_continuous(name = "찬반") + 
-  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend(reverse = TRUE)) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend()) +
   ggtitle(ggtitle) +
   theme(plot.margin = unit(c(1, 2, 1, 1), "lines"))
 m5

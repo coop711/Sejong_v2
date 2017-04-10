@@ -11,6 +11,7 @@
 
 <meta name="author" content="coop711" />
 
+<meta name="date" content="2017-04-11" />
 
 <title>Sejong_poll_kr</title>
 
@@ -118,14 +119,24 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Sejong_poll_kr</h1>
 <h4 class="author"><em>coop711</em></h4>
-<h4 class="date"><em>2015년 3월 18일</em></h4>
+<h4 class="date"><em>2017-04-11</em></h4>
 
 </div>
 
 
 <div id="data-input" class="section level2">
 <h2>Data input</h2>
-<pre class="r"><code>load(&quot;./sejong_poll_data.RData&quot;)</code></pre>
+<pre class="r"><code>load(&quot;./sejong_poll_data.RData&quot;)
+str(sejong.poll)</code></pre>
+<pre><code>## 'data.frame':    44 obs. of  4 variables:
+##  $ counts: int  21 194 259 393 443 117 1123 71 29 5 ...
+##  $ vote  : chr  &quot;yes&quot; &quot;no&quot; &quot;yes&quot; &quot;no&quot; ...
+##  $ class : chr  &quot;high&quot; &quot;high&quot; &quot;third.current&quot; &quot;third.current&quot; ...
+##  $ region: chr  &quot;Seoul&quot; &quot;Seoul&quot; &quot;Seoul&quot; &quot;Seoul&quot; ...</code></pre>
+<pre class="r"><code>ls()</code></pre>
+<pre><code>##  [1] &quot;class.2&quot;             &quot;class.labels&quot;        &quot;class.levels&quot;        &quot;region&quot;              &quot;region.labels&quot;       &quot;region.levels&quot;       &quot;sejong.poll&quot;         &quot;sejong.poll.2&quot;      
+##  [9] &quot;sejong.poll.array&quot;   &quot;vote.chung.class&quot;    &quot;vote.class&quot;          &quot;vote.class.2&quot;        &quot;vote.class.2.a&quot;      &quot;vote.class.2.am&quot;     &quot;vote.class.a&quot;        &quot;vote.region.bureaus&quot;
+## [17] &quot;vote.region.commons&quot; &quot;vote.seoul.class&quot;    &quot;vote.total&quot;          &quot;vote.total.2&quot;</code></pre>
 <div id="data" class="section level3">
 <h3>Data</h3>
 <pre class="r"><code>kable(sejong.poll[4:1])</code></pre>
@@ -410,7 +421,7 @@ $(document).ready(function () {
 <h3>Korean Factor Levels</h3>
 <pre class="r"><code>sejong.poll.kr &lt;- sejong.poll
 sejong.poll.kr$vote &lt;- factor(sejong.poll.kr$vote, levels = c(&quot;yes&quot;, &quot;no&quot;), labels = c(&quot;찬성&quot;, &quot;반대&quot;))
-class.labels.kr &lt;- c(&quot;대신 등&quot;, &quot;수령&quot;,  &quot;3품이하현직&quot;, &quot;3품이하전직&quot;, &quot;품관촌민&quot;) 
+class.labels.kr &lt;- c(&quot;대신 등&quot;, &quot;3품이하현직&quot;, &quot;3품이하전직&quot;, &quot;수령&quot;,  &quot;품관촌민&quot;) 
 sejong.poll.kr$class &lt;- factor(sejong.poll.kr$class, levels = class.levels, labels = class.labels.kr)
 region.labels.kr &lt;- c(&quot;서울&quot;, &quot;유후사&quot;, &quot;경기&quot;, &quot;평안&quot;, &quot;황해&quot;, &quot;충청&quot;, &quot;강원&quot;, &quot;함길&quot;, &quot;경상&quot;, &quot;전라&quot;)
 sejong.poll.kr$region &lt;- factor(sejong.poll.kr$region, levels = region.levels, labels = region.labels.kr)
@@ -441,25 +452,25 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">서울</td>
-<td align="left">수령</td>
+<td align="left">3품이하현직</td>
 <td align="left">찬성</td>
 <td align="center">259</td>
 </tr>
 <tr class="even">
 <td align="left">서울</td>
-<td align="left">수령</td>
+<td align="left">3품이하현직</td>
 <td align="left">반대</td>
 <td align="center">393</td>
 </tr>
 <tr class="odd">
 <td align="left">서울</td>
-<td align="left">3품이하현직</td>
+<td align="left">3품이하전직</td>
 <td align="left">찬성</td>
 <td align="center">443</td>
 </tr>
 <tr class="even">
 <td align="left">서울</td>
-<td align="left">3품이하현직</td>
+<td align="left">3품이하전직</td>
 <td align="left">반대</td>
 <td align="center">117</td>
 </tr>
@@ -477,13 +488,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">경기</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">29</td>
 </tr>
 <tr class="even">
 <td align="left">경기</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">5</td>
 </tr>
@@ -507,13 +518,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">평안</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">6</td>
 </tr>
 <tr class="odd">
 <td align="left">평안</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">35</td>
 </tr>
@@ -531,13 +542,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">황해</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">17</td>
 </tr>
 <tr class="odd">
 <td align="left">황해</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">17</td>
 </tr>
@@ -561,13 +572,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">충청</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">35</td>
 </tr>
 <tr class="even">
 <td align="left">충청</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">26</td>
 </tr>
@@ -585,13 +596,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">강원</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">5</td>
 </tr>
 <tr class="even">
 <td align="left">강원</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">10</td>
 </tr>
@@ -615,13 +626,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">함길</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">3</td>
 </tr>
 <tr class="odd">
 <td align="left">함길</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">14</td>
 </tr>
@@ -639,13 +650,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">경상</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">55</td>
 </tr>
 <tr class="odd">
 <td align="left">경상</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">16</td>
 </tr>
@@ -669,13 +680,13 @@ kable(sejong.poll.kr[4:1])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">전라</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">찬성</td>
 <td align="center">42</td>
 </tr>
 <tr class="even">
 <td align="left">전라</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">반대</td>
 <td align="center">12</td>
 </tr>
@@ -713,7 +724,7 @@ str(sejong.poll.array)</code></pre>
 <pre><code>##  int [1:2, 1:5, 1:10] 21 194 259 393 443 117 0 0 0 0 ...
 ##  - attr(*, &quot;dimnames&quot;)=List of 3
 ##   ..$ 찬반: chr [1:2] &quot;찬성&quot; &quot;반대&quot;
-##   ..$ 계급: chr [1:5] &quot;대신 등&quot; &quot;수령&quot; &quot;3품이하현직&quot; &quot;3품이하전직&quot; ...
+##   ..$ 계급: chr [1:5] &quot;대신 등&quot; &quot;3품이하현직&quot; &quot;3품이하전직&quot; &quot;수령&quot; ...
 ##   ..$ 지역: chr [1:10] &quot;서울&quot; &quot;유후사&quot; &quot;경기&quot; &quot;평안&quot; ...
 ##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;xtabs&quot; &quot;table&quot;
 ##  - attr(*, &quot;call&quot;)= language xtabs(formula = 소계 ~ 찬반 + 계급 + 지역, data = sejong.poll.kr)</code></pre>
@@ -721,72 +732,72 @@ str(sejong.poll.array)</code></pre>
 <pre><code>## , , 지역 = 서울
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성      21   259         443           0        0
-##   반대     194   393         117           0        0
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성      21         259         443     0        0
+##   반대     194         393         117     0        0
 ## 
 ## , , 지역 = 유후사
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0           0     1123
-##   반대       0     0           0           0       71
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0     0     1123
+##   반대       0           0           0     0       71
 ## 
 ## , , 지역 = 경기
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0          29    17076
-##   반대       0     0           0           5      236
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0    29    17076
+##   반대       0           0           0     5      236
 ## 
 ## , , 지역 = 평안
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0           6     1326
-##   반대       1     0           0          35    28474
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0     6     1326
+##   반대       1           0           0    35    28474
 ## 
 ## , , 지역 = 황해
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0          17     4454
-##   반대       0     0           0          17    15601
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0    17     4454
+##   반대       0           0           0    17    15601
 ## 
 ## , , 지역 = 충청
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0          35     6982
-##   반대       2     0           0          26    14013
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0    35     6982
+##   반대       2           0           0    26    14013
 ## 
 ## , , 지역 = 강원
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0           5      939
-##   반대       0     0           0          10     6888
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0     5      939
+##   반대       0           0           0    10     6888
 ## 
 ## , , 지역 = 함길
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0           3       75
-##   반대       1     0           0          14     7387
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0     3       75
+##   반대       1           0           0    14     7387
 ## 
 ## , , 지역 = 경상
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0          55    36262
-##   반대       0     0           0          16      377
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0    55    36262
+##   반대       0           0           0    16      377
 ## 
 ## , , 지역 = 전라
 ## 
 ##       계급
-## 찬반   대신 등  수령 3품이하현직 3품이하전직 품관촌민
-##   찬성       0     0           0          42    29505
-##   반대       2     0           0          12      257</code></pre>
+## 찬반   대신 등 3품이하현직 3품이하전직  수령 품관촌민
+##   찬성       0           0           0    42    29505
+##   반대       2           0           0    12      257</code></pre>
 </div>
 </div>
 <div id="votes" class="section level2">
@@ -857,9 +868,9 @@ kable(vote.class, caption = &quot;계급별&quot;)</code></pre>
 <tr class="header">
 <th></th>
 <th align="center">대신 등</th>
-<th align="center">수령</th>
 <th align="center">3품이하현직</th>
 <th align="center">3품이하전직</th>
+<th align="center">수령</th>
 <th align="center">품관촌민</th>
 </tr>
 </thead>
@@ -890,9 +901,9 @@ kable(vote.class.a, caption = &quot;계급별&quot;)</code></pre>
 <tr class="header">
 <th></th>
 <th align="center">대신 등</th>
-<th align="center">수령</th>
 <th align="center">3품이하현직</th>
 <th align="center">3품이하전직</th>
+<th align="center">수령</th>
 <th align="center">품관촌민</th>
 </tr>
 </thead>
@@ -948,28 +959,28 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">서울</td>
-<td align="left">수령</td>
+<td align="left">3품이하현직</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">259</td>
 </tr>
 <tr class="even">
 <td align="left">서울</td>
-<td align="left">수령</td>
+<td align="left">3품이하현직</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">393</td>
 </tr>
 <tr class="odd">
 <td align="left">서울</td>
-<td align="left">3품이하현직</td>
+<td align="left">3품이하전직</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">443</td>
 </tr>
 <tr class="even">
 <td align="left">서울</td>
-<td align="left">3품이하현직</td>
+<td align="left">3품이하전직</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">117</td>
@@ -990,14 +1001,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">경기</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">29</td>
 </tr>
 <tr class="even">
 <td align="left">경기</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">5</td>
@@ -1025,14 +1036,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">평안</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">6</td>
 </tr>
 <tr class="odd">
 <td align="left">평안</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">35</td>
@@ -1053,14 +1064,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">황해</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">17</td>
 </tr>
 <tr class="odd">
 <td align="left">황해</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">17</td>
@@ -1088,14 +1099,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">충청</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">35</td>
 </tr>
 <tr class="even">
 <td align="left">충청</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">26</td>
@@ -1116,14 +1127,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">강원</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">5</td>
 </tr>
 <tr class="even">
 <td align="left">강원</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">10</td>
@@ -1151,14 +1162,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">함길</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">3</td>
 </tr>
 <tr class="odd">
 <td align="left">함길</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">14</td>
@@ -1179,14 +1190,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="even">
 <td align="left">경상</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">55</td>
 </tr>
 <tr class="odd">
 <td align="left">경상</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">16</td>
@@ -1214,14 +1225,14 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">전라</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">찬성</td>
 <td align="center">42</td>
 </tr>
 <tr class="even">
 <td align="left">전라</td>
-<td align="left">3품이하전직</td>
+<td align="left">수령</td>
 <td align="left">관료</td>
 <td align="left">반대</td>
 <td align="center">12</td>
@@ -1246,7 +1257,7 @@ kable(sejong.poll.kr[c(4, 3, 5, 2, 1)])</code></pre>
 <pre><code>## 'data.frame':    44 obs. of  5 variables:
 ##  $ 소계   : int  21 194 259 393 443 117 1123 71 29 5 ...
 ##  $ 찬반   : Factor w/ 2 levels &quot;찬성&quot;,&quot;반대&quot;: 1 2 1 2 1 2 1 2 1 2 ...
-##  $ 계급   : Factor w/ 5 levels &quot;대신 등&quot;,&quot;수령&quot;,..: 1 1 2 2 3 3 5 5 4 4 ...
+##  $ 계급   : Factor w/ 5 levels &quot;대신 등&quot;,&quot;3품이하현직&quot;,..: 1 1 2 2 3 3 5 5 4 4 ...
 ##  $ 지역   : Factor w/ 10 levels &quot;서울&quot;,&quot;유후사&quot;,..: 1 1 1 1 1 1 2 2 3 3 ...
 ##  $ class.2: Factor w/ 2 levels &quot;관료&quot;,&quot;품관촌민&quot;: 1 1 1 1 1 1 2 2 1 1 ...</code></pre>
 <p>Compare the votes by <code>class.2</code>, (Bureaucrats vs Commons)</p>
@@ -1463,8 +1474,8 @@ kable(vote.seoul.class, caption = &quot;서울&quot;)</code></pre>
 <tr class="header">
 <th></th>
 <th align="center">대신 등</th>
-<th align="center">수령</th>
 <th align="center">3품이하현직</th>
+<th align="center">3품이하전직</th>
 </tr>
 </thead>
 <tbody>
@@ -1489,8 +1500,8 @@ kable(vote.seoul.class, caption = &quot;서울&quot;)</code></pre>
 <tr class="header">
 <th></th>
 <th align="center">대신 등</th>
-<th align="center">수령</th>
 <th align="center">3품이하현직</th>
+<th align="center">3품이하전직</th>
 </tr>
 </thead>
 <tbody>
@@ -1517,7 +1528,7 @@ kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 
 <tr class="header">
 <th></th>
 <th align="center">대신 등</th>
-<th align="center">3품이하전직</th>
+<th align="center">수령</th>
 <th align="center">품관촌민</th>
 </tr>
 </thead>
