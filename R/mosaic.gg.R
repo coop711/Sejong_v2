@@ -11,7 +11,11 @@ tbl.p.df$label.height <- unlist(tapply(tbl.p.df$height, tbl.p.df[, 2], cumsum))
 x.center <- (cumsum(tbl.p.m) + c(0, head(cumsum(tbl.p.m), -1)))/2
 tbl.p.df$center <- x.center[match(tbl.p.df[, 2], names(x.center))]
 m1 <- ggplot(tbl.p.df, aes(x = center, y = height, width = width)) + 
-  geom_bar(aes(fill = vote), stat = "identity", col = "white", size = 1, position = position_stack(reverse = TRUE)) 
+  geom_bar(aes(fill = rev(vote)), 
+           stat = "identity", 
+           col = "white", 
+           size = 1, 
+           position = position_stack()) 
 m1
 m2 <- m1 + 
   theme_bw(base_family = base_family)
