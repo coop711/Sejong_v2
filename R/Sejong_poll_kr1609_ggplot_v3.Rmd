@@ -11,13 +11,13 @@ output: html_document
 
 ```{r, data, echo = FALSE, message = FALSE, results = 'hide'}
 knitr::opts_chunk$set(echo = TRUE)
-library(pander)
+# library(pander)
 library(knitr)
 library(ggplot2)
 library(grid)
 library(gridExtra)
 library(extrafont)
-panderOptions('table.split.table', Inf)
+# panderOptions('table.split.table', Inf)
 load("sejong_poll_data_kr.RData")
 str(sejong.poll.kr)
 ```
