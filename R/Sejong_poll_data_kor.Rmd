@@ -1,7 +1,7 @@
 ---
 title: "Sejong_poll_kr"
 author: "coop711"
-date: "`Sys.Date()`"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -29,7 +29,7 @@ kable(sejong.poll[4:1])
 ```{r, labels in Korean}
 sejong.poll.kr <- sejong.poll
 sejong.poll.kr$vote <- factor(sejong.poll.kr$vote, levels = c("yes", "no"), labels = c("찬성", "반대"))
-class.labels.kr <- c("대신 등", "수령",  "3품이하현직", "3품이하전직", "품관촌민") 
+class.labels.kr <- c("대신 등", "3품이하현직", "3품이하전직", "수령", "품관촌민") 
 sejong.poll.kr$class <- factor(sejong.poll.kr$class, levels = class.levels, labels = class.labels.kr)
 region.labels.kr <- c("서울", "유후사", "경기", "평안", "황해", "충청", "강원", "함길", "경상", "전라")
 sejong.poll.kr$region <- factor(sejong.poll.kr$region, levels = region.levels, labels = region.labels.kr)

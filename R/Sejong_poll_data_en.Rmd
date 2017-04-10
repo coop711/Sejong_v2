@@ -24,7 +24,7 @@ load("./sejong_poll_data.RData")
 kable(sejong.poll.2[4:1])
 ```
 
-### Korean Factor Levels
+### Factor Levels
 
 ```{r, labels in Korean}
 sejong.poll.en <- sejong.poll.2

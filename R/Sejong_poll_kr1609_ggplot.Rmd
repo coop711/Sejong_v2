@@ -18,7 +18,7 @@ library(grid)
 library(gridExtra)
 library(extrafont)
 panderOptions('table.split.table', Inf)
-load("sejong_poll_data_kr.rda")
+load("sejong_poll_data_kr.RData")
 str(sejong.poll.kr)
 ```
 
