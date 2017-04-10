@@ -616,6 +616,6 @@ m5.chungcheong
 ## 자료 정리
 
 ```{r, save}
-# save.image(file = "./sejong_ggplot.RData")
+save.image(file = "./sejong_ggplot.RData")
 ```
 
