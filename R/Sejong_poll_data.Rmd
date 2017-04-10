@@ -16,7 +16,7 @@ Original data came from intenet version of Sejong silok, summarized by Oh, Ki-So
 
 ```{r, setup, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(pander)
+# library(pander)
 library(knitr)
 options(width = 180)
 ```
