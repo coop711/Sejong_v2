@@ -35,7 +35,7 @@ x.label <- format(x.breaks, digits = 2, nsmall = 2)
 m5 <- m4 + 
   scale_x_continuous(name = xlab, breaks = x.breaks, label = x.label) + 
   scale_y_continuous(name = ylab) + 
-  scale_fill_manual(name = fill.name, values = rainbow(2)[2:1], guide = guide_legend()) +
+  scale_fill_manual(name = fill.name, values = rainbow(2), labels = rev(vote.seoul.df$vote), guide = guide_legend()) +
   ggtitle(ggtitle) +
   theme(plot.margin = unit(c(1, 2, 1, 1), "lines"))
 m5
