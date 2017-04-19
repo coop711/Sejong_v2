@@ -46,7 +46,7 @@ kable(t(as.table(format(prop.table(tbl.vote)*100, digits = 3, nsmall = 1))), cap
 #### R-Base Plot
 
 ```{r, pie for total, fig.width = 5, fig.height = 5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 gray.2 <- gray.colors(12)[c(12, 7)]
 rainbow.2 <- rainbow(2)[2:1]
 pie(tbl.vote, col = rainbow.2)
@@ -59,9 +59,9 @@ text(x = 0, y = c(0.4, -0.4), labels = format(tbl.vote, big.mark = ","))
 #### ggplot2
 
 ```{r, coord_polar, message = FALSE, fig.width = 4, fig.height = 4}
-source("./theme_Malgun_kr.R")
+source("./theme_kr.R")
 str(theme.kr)
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 vote.df <- as.data.frame(tbl.vote)
 # y.coord <- cumsum(vote.df$Freq)/2 + c(0, cumsum(head(vote.df$Freq, -1))/2)
 y.coord <- cumsum(vote.df$Freq)/2
@@ -119,14 +119,14 @@ pie.total.3 <- pie.total.2 +
   scale_fill_manual(name = "", values = rainbow(2)[2:1])
 pie.total.3
 pie.total.4 <- pie.total.3 +
-  theme_void(base_family = "Malgun Gothic")
+  theme_void(base_family = "HCR Dotum LVT")
 pie.total.4
 pie.total.5 <- pie.total.4 +
   guides(fill = "none")
 pie.total.5
 pie.total.6 <- pie.total.5 +
-#  geom_text(aes(y = y.coord), label = pie.label, family = "Malgun Gothic")
-  geom_text(aes(y = y.coord), label = pie.label, family = "Malgun Gothic", position = position_stack(reverse = TRUE))
+#  geom_text(aes(y = y.coord), label = pie.label, family = "HCR Dotum LVT")
+  geom_text(aes(y = y.coord), label = pie.label, family = "HCR Dotum LVT", position = position_stack(reverse = TRUE))
 pie.total.6
 pie.total.7 <- pie.total.6 +
   ggtitle("전체 찬반") +
@@ -164,7 +164,7 @@ pie.gg <- function(df, ggtitle = "", font.family = ""){
   return(pie.7)
 }
 dump("pie.gg", file = "./pie.gg.R")
-pie.gg(vote.df, ggtitle = "전체 찬반", font.family = "Malgun Gothic")
+pie.gg(vote.df, ggtitle = "전체 찬반", font.family = "HCR Dotum LVT")
 ```
 
 <P style = "page-break-before:always">
@@ -205,7 +205,7 @@ kable(format(prop.table(vote.class.2, margin = 2)*100, digits = 3, nsmall = 1), 
 #### R-Base Plot
 
 ```{r, pie for class2, message = FALSE, fig.width = 10, fig.height = 5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 par(mfrow = c(1, 2))
 pie(vote.class.2[, 1], labels = c("찬성", "반대"), col = rainbow.2)
 title(main = "관료의 찬반")
@@ -228,8 +228,8 @@ vote.bureaus.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "관료", 
 kable(format(vote.bureaus.df, big.mark = ","), align = 'r', col.names = v.names.class.kr[-2], caption = "관료의 찬반")
 vote.commons.df <- subset(vote.class.2.df, vote.class.2.df$class.2 == "품관촌민", select = c("vote", "Freq"))
 kable(format(vote.commons.df, big.mark = ","), align = 'r', row.names = FALSE, col.names = v.names.class.kr[-2], caption = "품관촌민의 찬반")
-pie.bureaus <- pie.gg(vote.bureaus.df, ggtitle = "관료의 찬반", font.family = "Malgun Gothic")
-pie.commons <- pie.gg(vote.commons.df, ggtitle = "품관촌민의 찬반", font.family = "Malgun Gothic")
+pie.bureaus <- pie.gg(vote.bureaus.df, ggtitle = "관료의 찬반", font.family = "HCR Dotum LVT")
+pie.commons <- pie.gg(vote.commons.df, ggtitle = "품관촌민의 찬반", font.family = "HCR Dotum LVT")
 pies.grid <- grid.arrange(pie.bureaus, pie.commons, ncol = 2, top = "")
 pies.grid
 # ggsave("../pics/sejong_bureaus_commons_pie_ggplot.png", pies.grid, width = 8, height = 4, dpi = 72)
@@ -264,7 +264,7 @@ kable(format(prop.table(vote.seoul.class, margin = 2)*100, digits = 1, nsmall = 
 서울의 계급별 찬반을 `barplot`으로 그려봄. `text()`의 좌표는 `locator()`로 찾아냄.
 
 ```{r, seoul by class, fig.width = 6, fig.height = 4.5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 barplot(vote.seoul.class, col = rainbow.2)
 title(main = "서울의 찬반")
 text(x = c(0.7, 1.9, 1.9, 3.1, 3.1), y = c(120, 450, 135, 500, 220), labels = c("194","393", "259", "117", "443"))
@@ -286,11 +286,11 @@ b1.seoul <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = rev(vote))) 
   geom_bar(stat = "identity", position = position_stack())
 b1.seoul
 b2.seoul <- b1.seoul +
-  theme_bw(base_family = "Malgun Gothic") +
+  theme_bw(base_family = "HCR Dotum LVT") +
   theme.kr +
   scale_x_discrete(name = "계급") +
   scale_y_continuous(name = "집계", breaks = vote.seoul.df$Freq, labels = vote.seoul.df$Freq) +
-  scale_fill_manual(name = "찬반", values = rainbow(2), labels = rev(vote.seoul.df$vote))
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
 b2.seoul  
 b3.seoul <- b2.seoul +
 # geom_text(aes(y = y.stack/2), label = vote.seoul.df$Freq)
@@ -306,11 +306,11 @@ b1.seoul.dodge <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = rev(vo
   geom_bar(stat = "identity", position = "dodge")
 b1.seoul.dodge
 b2.seoul.dodge <- b1.seoul.dodge +
-  theme_bw(base_family = "Malgun Gothic") +
+  theme_bw(base_family = "HCR Dotum LVT") +
   theme.kr +
   scale_x_discrete(name = "계급") +
   scale_y_continuous(name = "집계", breaks = vote.seoul.df$Freq, labels = vote.seoul.df$Freq) +
-  scale_fill_manual(name = "찬반", values = rainbow(2), labels = rev(vote.seoul.df$vote))
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
 b2.seoul.dodge  
 b3.seoul.dodge <- b2.seoul.dodge +
   geom_text(aes(y = vote.seoul.df$Freq/2), label = vote.seoul.df$Freq, position = position_dodge(width = 0.9)) +
@@ -327,11 +327,11 @@ b1.seoul.fill <- ggplot(vote.seoul.df, aes(x = x.stack, y = Freq, fill = rev(vot
   geom_bar(stat = "identity", position = position_fill())
 b1.seoul.fill
 b2.seoul.fill <- b1.seoul.fill +
-  theme_bw(base_family = "Malgun Gothic") +
+  theme_bw(base_family = "HCR Dotum LVT") +
   theme.kr +
   scale_x_discrete(name = "계급") +
   scale_y_continuous(name = "집계", breaks = vote.seoul.df$Freq, labels = vote.seoul.df$Freq) +
-  scale_fill_manual(name = "찬반", values = rainbow(2), labels = rev(vote.seoul.df$vote))
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
 b2.seoul.fill  
 b3.seoul.fill <- b2.seoul.fill +
   geom_text(aes(y = y.fill/2), label = vote.seoul.df$Freq, position = position_stack()) +
@@ -343,7 +343,7 @@ b3.seoul.fill
 #### barplot.gg
 
 ```{r, barplot.gg, fig.width = 6, fig.height = 4.5}
-barplot.gg.stack <- function(df, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg.stack <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, cumsum))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = rev(vote))) +
@@ -352,14 +352,14 @@ b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = ylab, breaks = NULL) +
-  scale_fill_manual(name = fill.name, values = rainbow(2), labels = rev(vote.seoul.df$vote), guide = guide_legend())
+  scale_y_continuous(name = "집계", breaks = NULL) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend())
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
 return(b3)
 }
-barplot.gg.dodge <- function(df, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg.dodge <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, cumsum))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = rev(vote))) +
@@ -368,14 +368,14 @@ b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = ylab, breaks = NULL) +
-  scale_fill_manual(name = fill.name, values = rainbow(2), labels = rev(vote.seoul.df$vote))
+  scale_y_continuous(name = "집계", breaks = NULL) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
 b3 <- b2 +
   geom_text(aes(y = df$Freq/2), label = format(df$Freq, big.mark = ","), position = position_dodge(width = 0.9)) +
   ggtitle(ggtitle)
 return(b3)
 }
-barplot.gg.fill <- function(df, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg.fill <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, function(x){cumsum(x)/sum(x)}))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = rev(vote))) +
@@ -384,24 +384,24 @@ b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = ylab, breaks = NULL) +
-  scale_fill_manual(name = fill.name, values = rainbow(2), labels = rev(vote.seoul.df$vote), guide = guide_legend())
+  scale_y_continuous(name = "집계", breaks = NULL) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend())
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
 return(b3)
 }
-barplot.gg <- function(x, position, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg <- function(x, position, base_family = "", ggtitle = "", xlab = ""){
   switch(position,
-         stack = barplot.gg.stack(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab, ylab = "", fill.name = ""),
-         dodge = barplot.gg.dodge(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab, ylab = "", fill.name = ""),
-         fill = barplot.gg.fill(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab, ylab = "", fill.name = ""))
+         stack = barplot.gg.stack(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab),
+         dodge = barplot.gg.dodge(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab),
+         fill = barplot.gg.fill(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab))
 }
-(bar_seoul_stack <- barplot.gg(vote.seoul.df, position = "stack", base_family = "Malgun Gothic", ggtitle = "서울의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반"))
+(bar_seoul_stack <- barplot.gg(vote.seoul.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급"))
 # ggsave("../pics/sejong_seoul_barplot_stack_ggplotv2.png", bar_seoul_stack, width = 6, height = 4.5, dpi = 72)
-(bar_seoul_dodge <- barplot.gg(vote.seoul.df, position = "dodge", base_family = "Malgun Gothic", ggtitle = "서울의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반"))
+(bar_seoul_dodge <- barplot.gg(vote.seoul.df, position = "dodge", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급"))
 # ggsave("../pics/sejong_seoul_barplot_dodge_ggplotv2.png", bar_seoul_dodge, width = 6, height = 4.5, dpi = 72)
-(bar_seoul_fill <- barplot.gg(vote.seoul.df, position = "fill", base_family = "Malgun Gothic", ggtitle = "서울의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반"))
+(bar_seoul_fill <- barplot.gg(vote.seoul.df, position = "fill", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급"))
 # ggsave("../pics/sejong_seoul_barplot_fill_ggplotv2.png", bar_seoul_fill, width = 6, height = 4.5, dpi = 72)
 dump(c("barplot.gg","barplot.gg.stack", "barplot.gg.dodge", "barplot.gg.fill"), file = "./barplot.gg.R")
 ```
@@ -411,7 +411,7 @@ dump(c("barplot.gg","barplot.gg.stack", "barplot.gg.dodge", "barplot.gg.fill"), 
 #### R-Base Plot
 
 ```{r, mosaicplot for seoul, fig.width = 6, fig.height = 4.5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 mosaicplot(t(vote.seoul.class), col = rainbow.2, main = "서울의 찬반", xlab = "계급" , ylab = "찬반")
 # dev.copy(png, "../pics/sejong_seoul_mosaic.png", width = 480, height = 360)
 # dev.off()
@@ -435,10 +435,10 @@ m1 <- ggplot(vote.seoul.class.p.df, aes(x = center, y = height, width = width)) 
   geom_bar(aes(fill = rev(vote)), stat = "identity", col = "white", size = 2, position = position_stack())
 m1
 m2 <- m1 + 
-  theme_bw(base_family = "Malgun Gothic")
+  theme_bw(base_family = "HCR Dotum LVT")
 m2
 m3 <- m2 + 
-  geom_text(aes(x = center, y = 1.05), label = vote.seoul.class.p.df$class, family = "Malgun Gothic")
+  geom_text(aes(x = center, y = 1.05), label = vote.seoul.class.p.df$class, family = "HCR Dotum LVT")
 m3
 m4 <- m3 + 
   geom_text(aes(x = center, y = label.height/2), label = format(vote.seoul.class.df$Freq, big.mark = ","), position = position_stack())
@@ -448,7 +448,7 @@ x.label <- format(x.breaks, digits = 2, nsmall = 2)
 m5 <- m4 + 
   scale_x_continuous(name = "계급", breaks = x.breaks, label = x.label) + 
   scale_y_continuous(name = "찬반") + 
-  scale_fill_manual(name = "찬반", values = rainbow(2), labels = rev(vote.seoul.df$vote), guide = guide_legend()) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend()) +
   ggtitle("서울의 찬반")
 m5
 ```
@@ -456,7 +456,7 @@ m5
 ```{r mosaic_gg, fig.width = 6, fig.height = 4.5}
 source("./mosaic.gg.R")
 mosaic_gg
-m5.seoul <- mosaic_gg(vote.seoul.class, base_family = "Malgun Gothic", ggtitle = "서울의 찬반", xlab = "계급", ylab = "찬반", fill.name = "찬반")
+m5.seoul <- mosaic_gg(vote.seoul.class, base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급", ylab = "찬반", fill.name = "찬반")
 m5.seoul
 # ggsave("../pics/sejong_seoul_mosaic_ggplot.png", m5.seoul, width = 6, height = 4.5, dpi = 72)
 ```
@@ -475,7 +475,7 @@ kable(format(prop.table(vote.region.bureaus[, -1], margin = 2)*100, digits = 1, 
 #### R-Base Plot
 
 ```{r, barplot for regional bureaus, fig.width = 9, fig.height = 4.5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 barplot(vote.region.bureaus[, -1], beside = FALSE, col = rainbow.2)
 title(main = "지방 관료들의 찬반")
 legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대"))
@@ -487,7 +487,7 @@ legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대")
 
 ```{r, geom_bar for regional bureaus, fig.width = 9, fig.height = 4.5}
 vote.region.bureaus.df <- as.data.frame(vote.region.bureaus[, -1])
-barplot.gg(vote.region.bureaus.df, position = "stack", base_family = "Malgun Gothic", ggtitle = "지방 관료들의 찬반", xlab = "지역", ylab = "집계", fill.name = "찬반")
+barplot.gg(vote.region.bureaus.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "지방 관료들의 찬반", xlab = "지역")
 # ggsave("../pics/sejong_bureaus_barplot_stack_ggplot.png", width = 9, height = 4.5, dpi = 72)
 ```
 
@@ -496,7 +496,7 @@ barplot.gg(vote.region.bureaus.df, position = "stack", base_family = "Malgun Got
 #### R-Base Plot
 
 ```{r, mosaic for local bureaus, fig.width = 9, fig.height = 4.5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 mosaicplot(t(vote.region.bureaus[, -1]), col = rainbow.2, main = "", xlab = "지역", ylab = "찬반")
 title(main = "지방 관료들의 찬반")
 # dev.copy(png, "../pics/sejong_bureaus_mosaic.png", width = 720, height = 360)
@@ -507,7 +507,7 @@ title(main = "지방 관료들의 찬반")
 
 ```{r, mosaic plot for region ggplot, fig.width = 9, fig.height = 4.5}
 # source("./mosaic.gg.R")
-m5.bureaus <- mosaic_gg(vote.region.bureaus[, -1], base_family = "Malgun Gothic", ggtitle = "지방관료의 찬반", xlab = "지역별 관료들의 비중", ylab = "찬반", fill.name = "찬반")
+m5.bureaus <- mosaic_gg(vote.region.bureaus[, -1], base_family = "HCR Dotum LVT", ggtitle = "지방관료의 찬반", xlab = "지역별 관료들의 비중", ylab = "찬반", fill.name = "찬반")
 m5.bureaus
 # ggsave("../pics/sejong_bureaus_mosaic_ggplot.png", m5.bureaus, width = 9, height = 4.5, dpi = 72)
 ```
@@ -521,7 +521,7 @@ m5.bureaus
 #### R-Base Plot
 
 ```{r, barplot for commons, fig.width = 12, fig.height = 4.5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 barplot(vote.region.commons, beside = FALSE, col = rainbow.2, axes = FALSE)
 axis(2, at = seq(0, 30000, by = 5000), labels = c("0", "", "1만", "", "2만", "", "3만"), las = 1)
 title(main = "품관촌민들의 지역별 찬반")
@@ -534,7 +534,7 @@ legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대")
 
 ```{r, geom_bar for commons, fig.width = 10, fig.height = 4.5}
 vote.region.commons.df <- as.data.frame(vote.region.commons)
-barplot.gg(vote.region.commons.df, position = "stack", base_family = "Malgun Gothic", ggtitle = "품관촌민의 찬반", xlab = "지역", ylab = "집계", fill.name = "찬반")
+barplot.gg(vote.region.commons.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "품관촌민의 찬반", xlab = "지역")
 # ggsave("../pics/sejong_commons_barplot_stack_ggplot.png", width = 9, height = 4.5, dpi = 72)
 ```
 
@@ -543,7 +543,7 @@ barplot.gg(vote.region.commons.df, position = "stack", base_family = "Malgun Got
 #### R-Base Plot
 
 ```{r, mosaicplot for commons, fig.width = 9, fig.height = 4.5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 mosaicplot(t(vote.region.commons), col = rainbow.2, main = "품관촌민의 지역별 찬반", xlab = "지역", ylab = "찬반")
 # dev.copy(png, "../pics/sejong_commons_mosaic.png", width = 720, height = 360)
 # dev.off()
@@ -553,7 +553,7 @@ mosaicplot(t(vote.region.commons), col = rainbow.2, main = "품관촌민의 지�
 
 ```{r, mosaic plot for commons ggplot, fig.width = 12, fig.height = 4.5}
 # source("./mosaic.gg.R")
-m5.commons <- mosaic_gg(vote.region.commons, base_family = "Malgun Gothic", ggtitle = "품관촌민의 찬반", xlab = "지역별 품관촌민의 비중", ylab = "찬반", fill.name = "찬반")
+m5.commons <- mosaic_gg(vote.region.commons, base_family = "HCR Dotum LVT", ggtitle = "품관촌민의 찬반", xlab = "지역별 품관촌민의 비중", ylab = "찬반", fill.name = "찬반")
 m5.commons
 # ggsave("../pics/sejong_commons_mosaic_ggplot.png", m5.commons, width = 12, height = 4.5, dpi = 72)
 ```
@@ -574,7 +574,7 @@ kable(format(prop.table(vote.chung.class, margin = 2)*100, digits = 3, nsmall = 
 #### R-Base Plot
 
 ```{r, barplot for chungcheong, fig.width = 6, fig.height = 4.5}
-par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE, family = "Malgun Gothic")
+par(mar = c(5.1, 4.1, 4.1, 8.1), xpd = TRUE, family = "HCR Dotum LVT")
 barplot(prop.table(vote.chung.class, margin = 2), col = rainbow.2, ylim = c(0,  1.1), axes = FALSE)
 axis(side = 2, at = c(0, 0.5, 1.0), labels = c("0", "50%", "100%"), las = 1)
 title(main = "충청도의 계급별 찬반 비율")
@@ -588,7 +588,7 @@ text(x = c(0.6, 1.85, 1.85, 3.1, 3.1), y = c(0.5, 0.3, 0.8, 0.15, 0.65), labels 
 
 ```{r, geom_bar fill for Chungcheong, fig.width = 6, fig.height = 4.5}
 vote.chung.class.df <- as.data.frame(vote.chung.class)
-barplot.gg(vote.chung.class.df, position = "fill", base_family = "Malgun Gothic", ggtitle = "충청도의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반")
+barplot.gg(vote.chung.class.df, position = "fill", base_family = "HCR Dotum LVT", ggtitle = "충청도의 찬반", xlab = "계급")
 # ggsave("../pics/sejong_chungcheong_barplot_fill_ggplot.png", width = 6, height = 4.5, dpi = 72)
 ```
 
@@ -597,7 +597,7 @@ barplot.gg(vote.chung.class.df, position = "fill", base_family = "Malgun Gothic"
 수효의 차이가 너무 커서 비교하기 어려움. '대신 등' 제외하고 작업
 
 ```{r, mosaic chungcheong, fig.width = 9, fig.height = 4.5}
-par(family = "Malgun Gothic")
+par(family = "HCR Dotum LVT")
 mosaicplot(t(vote.chung.class[, -1]), col = rainbow.2, main = "", xlab = "계급", ylab = "찬반")
 title(main = "충청도의 찬반")
 # dev.copy(png, "../pics/sejong_chungcheong_mosaic.png", width = 480, height = 360)
@@ -608,7 +608,7 @@ title(main = "충청도의 찬반")
 
 ```{r, mosaic plot for chungcheong ggplot, fig.width = 12, fig.height = 4.5}
 # source("./mosaic.gg.R")
-m5.chungcheong <- mosaic_gg(vote.chung.class[, -1], base_family = "Malgun Gothic", ggtitle = "충청도의 찬반", xlab = "계급", ylab = "찬반", fill.name = "찬반")
+m5.chungcheong <- mosaic_gg(vote.chung.class[, -1], base_family = "HCR Dotum LVT", ggtitle = "충청도의 찬반", xlab = "계급", ylab = "찬반", fill.name = "찬반")
 m5.chungcheong
 # ggsave("../pics/sejong_chungcheong_mosaic_ggplot.png", m5.chungcheong, width = 12, height = 4.5, dpi = 72)
 ```

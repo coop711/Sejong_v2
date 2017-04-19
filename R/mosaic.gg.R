@@ -1,4 +1,4 @@
-mosaic_gg <- function(tbl, base_family ="", ggtitle ="", xlab =""){
+mosaic_gg <- function(tbl, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
 tbl.df <- as.data.frame(tbl)
 tbl.sum <- tapply(tbl.df$Freq, tbl.df[, 2], sum)
 tbl.p.m <- prop.table(tbl.sum)
@@ -34,8 +34,8 @@ x.breaks <- c(0, ifelse(cumsum(tbl.p.m) < 0.1, 0.0, cumsum(tbl.p.m)))
 x.label <- format(x.breaks, digits = 2, nsmall = 2)
 m5 <- m4 + 
   scale_x_continuous(name = xlab, breaks = x.breaks, label = x.label) + 
-  scale_y_continuous(name = "찬반") + 
-  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend()) +
+  scale_y_continuous(name = ylab) + 
+  scale_fill_manual(name = fill.name, values = rainbow(2), labels = rev(vote.seoul.df$vote), guide = guide_legend()) +
   ggtitle(ggtitle) +
   theme(plot.margin = unit(c(1, 2, 1, 1), "lines"))
 m5
