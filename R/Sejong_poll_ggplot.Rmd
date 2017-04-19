@@ -343,7 +343,7 @@ b3.seoul.fill
 #### barplot.gg
 
 ```{r, barplot.gg, fig.width = 6, fig.height = 4.5}
-barplot.gg.stack <- function(df, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg.stack <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, cumsum))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = rev(vote))) +
@@ -352,14 +352,14 @@ b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = ylab, breaks = NULL) +
-  scale_fill_manual(name = fill.name, values = rainbow(2)[2:1], guide = guide_legend())
+  scale_y_continuous(name = "집계", breaks = NULL) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend())
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
 return(b3)
 }
-barplot.gg.dodge <- function(df, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg.dodge <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, cumsum))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = rev(vote))) +
@@ -368,14 +368,14 @@ b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = ylab, breaks = NULL) +
-  scale_fill_manual(name = fill.name, values = rainbow(2)[2:1])
+  scale_y_continuous(name = "집계", breaks = NULL) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1])
 b3 <- b2 +
   geom_text(aes(y = df$Freq/2), label = format(df$Freq, big.mark = ","), position = position_dodge(width = 0.9)) +
   ggtitle(ggtitle)
 return(b3)
 }
-barplot.gg.fill <- function(df, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg.fill <- function(df, base_family = "", ggtitle = "", xlab = ""){
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, x, function(x){cumsum(x)/sum(x)}))
 b1 <- ggplot(df, aes(x = x, y = Freq, fill = rev(vote))) +
@@ -384,24 +384,24 @@ b2 <- b1 +
   theme_bw(base_family = base_family) +
 #  theme.kr +
   scale_x_discrete(name = xlab) +
-  scale_y_continuous(name = ylab, breaks = NULL) +
-  scale_fill_manual(name = fill.name, values = rainbow(2)[2:1], guide = guide_legend())
+  scale_y_continuous(name = "집계", breaks = NULL) +
+  scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], guide = guide_legend())
 b3 <- b2 +
   geom_text(aes(y = y/2), label = format(df$Freq, big.mark = ","), position = position_stack()) +
   ggtitle(ggtitle)
 return(b3)
 }
-barplot.gg <- function(x, position, base_family = "", ggtitle = "", xlab = "", ylab = "", fill.name = ""){
+barplot.gg <- function(x, position, base_family = "", ggtitle = "", xlab = ""){
   switch(position,
-         stack = barplot.gg.stack(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab, ylab = "", fill.name = ""),
-         dodge = barplot.gg.dodge(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab, ylab = "", fill.name = ""),
-         fill = barplot.gg.fill(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab, ylab = "", fill.name = ""))
+         stack = barplot.gg.stack(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab),
+         dodge = barplot.gg.dodge(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab),
+         fill = barplot.gg.fill(x, base_family = base_family, ggtitle = ggtitle, xlab = xlab))
 }
-(bar_seoul_stack <- barplot.gg(vote.seoul.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반"))
+(bar_seoul_stack <- barplot.gg(vote.seoul.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급"))
 # ggsave("../pics/sejong_seoul_barplot_stack_ggplotv2.png", bar_seoul_stack, width = 6, height = 4.5, dpi = 72)
-(bar_seoul_dodge <- barplot.gg(vote.seoul.df, position = "dodge", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반"))
+(bar_seoul_dodge <- barplot.gg(vote.seoul.df, position = "dodge", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급"))
 # ggsave("../pics/sejong_seoul_barplot_dodge_ggplotv2.png", bar_seoul_dodge, width = 6, height = 4.5, dpi = 72)
-(bar_seoul_fill <- barplot.gg(vote.seoul.df, position = "fill", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반"))
+(bar_seoul_fill <- barplot.gg(vote.seoul.df, position = "fill", base_family = "HCR Dotum LVT", ggtitle = "서울의 찬반", xlab = "계급"))
 # ggsave("../pics/sejong_seoul_barplot_fill_ggplotv2.png", bar_seoul_fill, width = 6, height = 4.5, dpi = 72)
 dump(c("barplot.gg","barplot.gg.stack", "barplot.gg.dodge", "barplot.gg.fill"), file = "./barplot.gg.R")
 ```
@@ -487,7 +487,7 @@ legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대")
 
 ```{r, geom_bar for regional bureaus, fig.width = 9, fig.height = 4.5}
 vote.region.bureaus.df <- as.data.frame(vote.region.bureaus[, -1])
-barplot.gg(vote.region.bureaus.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "지방 관료들의 찬반", xlab = "지역", ylab = "집계", fill.name = "찬반")
+barplot.gg(vote.region.bureaus.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "지방 관료들의 찬반", xlab = "지역")
 # ggsave("../pics/sejong_bureaus_barplot_stack_ggplot.png", width = 9, height = 4.5, dpi = 72)
 ```
 
@@ -534,7 +534,7 @@ legend("topleft", inset = 0.05, fill = rainbow.2, legend = c("찬성", "반대")
 
 ```{r, geom_bar for commons, fig.width = 10, fig.height = 4.5}
 vote.region.commons.df <- as.data.frame(vote.region.commons)
-barplot.gg(vote.region.commons.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "품관촌민의 찬반", xlab = "지역", ylab = "집계", fill.name = "찬반")
+barplot.gg(vote.region.commons.df, position = "stack", base_family = "HCR Dotum LVT", ggtitle = "품관촌민의 찬반", xlab = "지역")
 # ggsave("../pics/sejong_commons_barplot_stack_ggplot.png", width = 9, height = 4.5, dpi = 72)
 ```
 
@@ -588,7 +588,7 @@ text(x = c(0.6, 1.85, 1.85, 3.1, 3.1), y = c(0.5, 0.3, 0.8, 0.15, 0.65), labels 
 
 ```{r, geom_bar fill for Chungcheong, fig.width = 6, fig.height = 4.5}
 vote.chung.class.df <- as.data.frame(vote.chung.class)
-barplot.gg(vote.chung.class.df, position = "fill", base_family = "HCR Dotum LVT", ggtitle = "충청도의 찬반", xlab = "계급", ylab = "집계", fill.name = "찬반")
+barplot.gg(vote.chung.class.df, position = "fill", base_family = "HCR Dotum LVT", ggtitle = "충청도의 찬반", xlab = "계급")
 # ggsave("../pics/sejong_chungcheong_barplot_fill_ggplot.png", width = 6, height = 4.5, dpi = 72)
 ```
 
