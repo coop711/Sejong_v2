@@ -60,7 +60,7 @@ text(x = 0, y = c(0.4, -0.4), labels = format(tbl.vote, big.mark = ","))
 
 ```{r, coord_polar, message = FALSE, fig.width = 4, fig.height = 4}
 source("./theme_Malgun_kr.R")
-str(theme.kr)
+# str(theme.kr)
 par(family = "Malgun Gothic")
 vote.df <- as.data.frame(tbl.vote)
 # y.coord <- cumsum(vote.df$Freq)/2 + c(0, cumsum(head(vote.df$Freq, -1))/2)
@@ -312,8 +312,10 @@ b2.seoul.dodge <- b1.seoul.dodge +
   scale_y_continuous(name = "집계", breaks = vote.seoul.df$Freq, labels = vote.seoul.df$Freq) +
   scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], labels = vote.seoul.df$vote)
 b2.seoul.dodge  
+  N <- nrow(vote.seoul.df)
+  index <- as.vector(matrix(1:N, nrow = 2)[2:1, ])
 b3.seoul.dodge <- b2.seoul.dodge +
-  geom_text(aes(y = vote.seoul.df$Freq/2), label = vote.seoul.df[rev(vote.seoul.df$vote), "Freq"], position = position_dodge(width = 0.9)) +
+  geom_text(aes(y = vote.seoul.df$Freq/2), label = vote.seoul.df[index, "Freq"], position = position_dodge(width = 0.9)) +
   ggtitle("서울의 찬반")
 b3.seoul.dodge
 # ggsave("../pics/sejong_seoul_barplot_dodge_ggplot.png", b3.seoul.dodge, width = 6, height = 4.5, dpi = 72)
@@ -370,8 +372,10 @@ b2 <- b1 +
   scale_x_discrete(name = xlab) +
   scale_y_continuous(name = ylab, breaks = NULL) +
   scale_fill_manual(name = fill.name, values = rainbow(2)[2:1], labels = df$vote)
+  N <- nrow(df)
+  index <- as.vector(matrix(1:N, nrow = 2)[2:1, ])
 b3 <- b2 +
-  geom_text(aes(y = df$Freq/2), label = format(df[rev(df$vote), "Freq"], big.mark = ","), position = position_dodge(width = 0.9)) +
+  geom_text(aes(y = df$Freq/2), label = format(df[index, "Freq"], big.mark = ","), position = position_dodge(width = 0.9)) +
   ggtitle(ggtitle)
 return(b3)
 }
