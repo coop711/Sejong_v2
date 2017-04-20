@@ -34,8 +34,10 @@ b2 <- b1 +
   scale_x_discrete(name = xlab) +
   scale_y_continuous(name = ylab, breaks = NULL) +
   scale_fill_manual(name = fill.name, values = rainbow(2)[2:1], labels = df$vote)
+  N <- nrow(df)
+  index <- as.vector(matrix(1:N, nrow = 2)[2:1, ])
 b3 <- b2 +
-  geom_text(aes(y = df$Freq/2), label = format(df[rev(df$vote), "Freq"], big.mark = ","), position = position_dodge(width = 0.9)) +
+  geom_text(aes(y = df$Freq/2), label = format(df[index, "Freq"], big.mark = ","), position = position_dodge(width = 0.9)) +
   ggtitle(ggtitle)
 return(b3)
 }
