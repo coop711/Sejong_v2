@@ -441,7 +441,7 @@ m3 <- m2 +
   geom_text(aes(x = center, y = 1.05), label = vote.seoul.class.p.df$class, family = "Malgun Gothic")
 m3
 m4 <- m3 + 
-  geom_text(aes(x = center, y = label.height/2), label = format(vote.seoul.class.df$Freq, big.mark = ","), position = position_stack())
+  geom_text(aes(x = center, y = label.height/2), label = format(vote.seoul.class.df$Freq, big.mark = ","), position = position_stack(reverse = TRUE))
 m4
 x.breaks <- c(0, ifelse(cumsum(vote.seoul.class.p.m) < 0.1, 0.0, cumsum(vote.seoul.class.p.m)))
 x.label <- format(x.breaks, digits = 2, nsmall = 2)
