@@ -37,7 +37,7 @@ n.fill <- length(levels(df[, 1]))
 x <- df[, 2]
 y <- unlist(tapply(df$Freq, 
                    x, 
-                   cumsum))
+                   function(x){x / 2 + c(0, cumsum(head(x, -1)))}))
 y.breaks <- y
 # delta <- (max(y.breaks) - min(y.breaks)) / 20
 # y.breaks.sort <- sort(y.breaks)
@@ -59,14 +59,14 @@ b2 <- b1 +
                      breaks = y.breaks,
                      labels = y.label) +
   scale_fill_manual(name = fill.name, 
-                    values = rainbow(2)[2:1], 
+                    values = rainbow(n.fill)[n.fill:1], 
                     labels = df$vote, 
                     guide = guide_legend())
 b3 <- b2 +
-  geom_text(aes(y = y/2), 
+  geom_text(aes(y = y), 
             label = format(df$Freq, 
                            big.mark = ","), 
-            position = position_stack(reverse = TRUE)) +
+            position = "identity") +
   ggtitle(ggtitle)
 return(b3)
 }
@@ -116,10 +116,14 @@ function(df,
                             xlab = "", 
                             ylab = "", 
                             fill.name = ""){
+n.fill <- length(levels(df[, 1]))
 x <- df[, 2]
 y.fill <- unlist(tapply(df$Freq, 
                    x, 
                    function(x){cumsum(x)/sum(x)}))
+p.fill <- unlist(tapply(df$Freq, 
+                        x, 
+                        function(x){(x / 2 + c(0, cumsum(head(x, -1))))/sum(x)}))
 b1 <- ggplot(df, 
              aes(x = x, 
                  y = Freq, 
@@ -140,9 +144,9 @@ b2 <- b1 +
                     labels = df$vote, 
                     guide = guide_legend())
 b3 <- b2 +
-  geom_text(aes(y = y.fill/2), 
+  geom_text(aes(y = p.fill), 
             label = format(df$Freq, big.mark = ","), 
-            position = position_stack(reverse = TRUE)) +
+            position = "identity") +
   ggtitle(ggtitle)
 return(b3)
 }
