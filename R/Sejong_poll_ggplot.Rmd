@@ -92,6 +92,11 @@ p2.2 <- p1 +
            stat = "identity", 
            position = "dodge")
 p2.2
+```
+
+<P style = "page-break-before:always">
+
+```{r, message = FALSE, fig.width = 3.2, fig.height = 3.2}
 p3.2 <- p2.2 + 
   theme_bw() + theme.kr
 p3.2
@@ -177,6 +182,11 @@ p8 <- p5 +
             family = "HCR Dotum LVT", 
             position = position_stack(reverse = TRUE))
 p8
+```
+
+<P style = "page-break-before:always">
+
+```{r, message = FALSE, fig.width = 3.2, fig.height = 3.2}
 pie.total.1 <- p2 + 
   coord_polar(theta = "y", 
               start = 3 * pi /2 , 
