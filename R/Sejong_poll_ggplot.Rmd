@@ -57,7 +57,7 @@ kable(t(as.table(format(prop.table(tbl.vote)*100,
 ### 원형그래프
 
 ```{r, data for pie charts, message = FALSE}
-source("./theme_kr.R")
+source("./theme_Malgun_kr.R")
 # str(theme.kr)
 str(tbl.vote)
 kable(t(as.matrix(tbl.vote)))
@@ -119,7 +119,7 @@ p5.2
 p6.2 <- p5.2 +
   geom_text(aes(y = vote.df$Freq/2), 
             label = format(rev(vote.df$Freq), big.mark = ","), 
-#            family = "HCR Dotum LVT", 
+#            family = "Malgun Gothic", 
             position = position_dodge(width = 1))
 p6.2
 ```
@@ -133,7 +133,7 @@ p7.2
 p8.2 <- p5.2 +
   guides(fill = "none") +
   geom_text(aes(y = vote.df$Freq/2),
-            family = "HCR Dotum LVT", 
+            family = "Malgun Gothic", 
             label = rev(pie.label),
             position = position_dodge(width = 1))
 p8.2
@@ -163,7 +163,7 @@ p5
 p6 <- p5 + 
   geom_text(aes(y = y.coord/2), 
             label = format(vote.df$Freq, big.mark = ","), 
-#            family = "HCR Dotum LVT", 
+#            family = "Malgun Gothic", 
             position = position_stack(reverse = TRUE))  
 p6
 # ggsave("../pics/sejong_geom_bar_total_ggplot_stack.png", p6, dpi = 72)
@@ -179,7 +179,7 @@ p8 <- p5 +
   guides(fill = "none") +
   geom_text(aes(y = y.coord/2),
             label = pie.label,
-            family = "HCR Dotum LVT", 
+            family = "Malgun Gothic", 
             position = position_stack(reverse = TRUE))
 p8
 ```
@@ -207,7 +207,7 @@ pie.total.3 <- pie.total.2 +
                     values = rainbow(n.vote)[n.vote:1])
 pie.total.3
 pie.total.4 <- pie.total.3 +
-  theme_void(base_family = "HCR Dotum LVT")
+  theme_void(base_family = "Malgun Gothic")
 pie.total.4
 ```
 
@@ -218,10 +218,10 @@ pie.total.5 <- pie.total.4 +
   guides(fill = "none")
 pie.total.5
 pie.total.6 <- pie.total.5 +
-#  geom_text(aes(y = y.coord), label = pie.label, family = "HCR Dotum LVT")
+#  geom_text(aes(y = y.coord), label = pie.label, family = "Malgun Gothic")
   geom_text(aes(y = y.coord/2), 
             label = pie.label, 
-            family = "HCR Dotum LVT", 
+            family = "Malgun Gothic", 
             position = position_stack(reverse = TRUE))
 pie.total.6
 ```
@@ -288,7 +288,7 @@ dump("pie.gg",
 ```{r, message = FALSE, fig.width = 7, fig.height = 7}
 pie.gg(vote.df, 
        ggtitle = "전체 찬반", 
-       font.family = "HCR Dotum LVT")
+       font.family = "Malgun Gothic")
 ```
 
 <P style = "page-break-before:always">
@@ -376,10 +376,10 @@ kable(format(vote.commons.df,
 ```{r, coord_polar.2, message = FALSE, fig.width = 8, fig.height = 4}
 pie.bureaus <- pie.gg(vote.bureaus.df, 
                       ggtitle = "관료의 찬반", 
-                      font.family = "HCR Dotum LVT")
+                      font.family = "Malgun Gothic")
 pie.commons <- pie.gg(vote.commons.df, 
                       ggtitle = "품관촌민의 찬반", 
-                      font.family = "HCR Dotum LVT")
+                      font.family = "Malgun Gothic")
 pies.grid <- grid.arrange(pie.bureaus, 
                           pie.commons, 
                           ncol = 2, 
@@ -453,7 +453,7 @@ b1.seoul <- ggplot(vote.seoul.df,
            position = position_stack(reverse = TRUE))
 b1.seoul
 b2.seoul <- b1.seoul +
-  theme_bw(base_family = "HCR Dotum LVT") +
+  theme_bw(base_family = "Malgun Gothic") +
   theme.kr +
   scale_x_discrete(name = "계급") +
   scale_y_continuous(name = "집계", 
@@ -495,7 +495,7 @@ b1.seoul.dodge
 
 ```{r, fig.width = 6, fig.height = 4.5}
 b2.seoul.dodge <- b1.seoul.dodge +
-  theme_bw(base_family = "HCR Dotum LVT") +
+  theme_bw(base_family = "Malgun Gothic") +
   theme.kr +
   scale_x_discrete(name = "계급") +
   scale_y_continuous(name = "집계", 
@@ -550,7 +550,7 @@ b1.seoul.fill
 
 ```{r, fig.width = 6, fig.height = 4.5}
 b2.seoul.fill <- b1.seoul.fill +
-  theme_bw(base_family = "HCR Dotum LVT") +
+  theme_bw(base_family = "Malgun Gothic") +
   theme.kr +
   scale_x_discrete(name = "계급") +
   scale_y_continuous(name = "집계(%)", 
@@ -762,7 +762,7 @@ barplot.gg <- function(x,
 ```{r, seoul_stack, fig.width = 6, height = 4.5}
 (bar_seoul_stack <- barplot.gg(vote.seoul.df, 
                                position = "stack", 
-                               base_family = "HCR Dotum LVT", 
+                               base_family = "Malgun Gothic", 
                                ggtitle = "서울의 찬반", 
                                xlab = "계급", 
                                ylab = "집계", 
@@ -775,7 +775,7 @@ barplot.gg <- function(x,
 ```{r, seoul_dodge, fig.width = 6, height = 4.5}
 (bar_seoul_dodge <- barplot.gg(vote.seoul.df, 
                                position = "dodge", 
-                               base_family = "HCR Dotum LVT", 
+                               base_family = "Malgun Gothic", 
                                ggtitle = "서울의 찬반", 
                                xlab = "계급", 
                                ylab = "집계", 
@@ -788,7 +788,7 @@ barplot.gg <- function(x,
 ```{r, seoul_fill, fig.width = 6, height = 4.5}
 (bar_seoul_fill <- barplot.gg(vote.seoul.df, 
                               position = "fill", 
-                              base_family = "HCR Dotum LVT", 
+                              base_family = "Malgun Gothic", 
                               ggtitle = "서울의 찬반", 
                               xlab = "계급", 
                               ylab = "집계(%)", 
@@ -846,7 +846,7 @@ m1
 
 ```{r, fig.width = 6, fig.height = 4.5}
 m2 <- m1 + 
-  theme_bw(base_family = "HCR Dotum LVT")
+  theme_bw(base_family = "Malgun Gothic")
 m2
 ```
 
@@ -857,7 +857,7 @@ m3 <- m2 +
   geom_text(aes(x = center, 
                 y = 1.05), 
             label = vote.seoul.class.p.df$class, 
-            family = "HCR Dotum LVT")
+            family = "Malgun Gothic")
 m3
 ```
 
@@ -979,7 +979,7 @@ dump(list = "mosaic_gg", file = "./mosaic_gg.R")
 
 ```{r, message = FALSE, fig.width = 6, fig.height = 4.5}
 m5.seoul <- mosaic_gg(vote.seoul.class, 
-                      base_family = "HCR Dotum LVT", 
+                      base_family = "Malgun Gothic", 
                       ggtitle = "서울의 찬반", 
                       xlab = "계급", 
                       ylab = "찬반", 
@@ -1011,7 +1011,7 @@ kable(format(prop.table(vote.region.bureaus[, -1],
 vote.region.bureaus.df <- as.data.frame(vote.region.bureaus[, -1])
 barplot.gg(vote.region.bureaus.df, 
            position = "stack", 
-           base_family = "HCR Dotum LVT", 
+           base_family = "Malgun Gothic", 
            ggtitle = "지방 관료들의 찬반", 
            xlab = "지역", 
            ylab = "집계", 
@@ -1026,7 +1026,7 @@ barplot.gg(vote.region.bureaus.df,
 ```{r, mosaic plot for region ggplot, fig.width = 9, fig.height = 4.5}
 # source("./mosaic.gg.R")
 m5.bureaus <- mosaic_gg(vote.region.bureaus[, -1], 
-                        base_family = "HCR Dotum LVT", 
+                        base_family = "Malgun Gothic", 
                         ggtitle = "지방관료의 찬반", 
                         xlab = "지역별 관료들의 비중(누적 %)", 
                         ylab = "찬반(%)", 
@@ -1045,7 +1045,7 @@ m5.bureaus
 vote.region.commons.df <- as.data.frame(vote.region.commons)
 barplot.gg(vote.region.commons.df, 
            position = "stack", 
-           base_family = "HCR Dotum LVT", 
+           base_family = "Malgun Gothic", 
            ggtitle = "품관촌민의 찬반", 
            xlab = "지역", 
            ylab = "집계", 
@@ -1060,7 +1060,7 @@ barplot.gg(vote.region.commons.df,
 ```{r, mosaic plot for commons ggplot, fig.width = 12, fig.height = 4.5}
 # source("./mosaic.gg.R")
 m5.commons <- mosaic_gg(vote.region.commons, 
-                        base_family = "HCR Dotum LVT", 
+                        base_family = "Malgun Gothic", 
                         ggtitle = "품관촌민의 찬반", 
                         xlab = "지역별 품관촌민의 비중(누적%)", 
                         ylab = "찬반(%)", 
@@ -1093,7 +1093,7 @@ kable(format(prop.table(vote.chung.class,
 vote.chung.class.df <- as.data.frame(vote.chung.class)
 barplot.gg(vote.chung.class.df, 
            position = "fill", 
-           base_family = "HCR Dotum LVT", 
+           base_family = "Malgun Gothic", 
            ggtitle = "충청도의 찬반", 
            xlab = "계급", 
            ylab = "집계(%)", 
@@ -1108,7 +1108,7 @@ barplot.gg(vote.chung.class.df,
 ```{r, mosaic plot for chungcheong ggplot, fig.width = 12, fig.height = 4.5}
 # source("./mosaic.gg.R")
 m5.chungcheong <- mosaic_gg(vote.chung.class[, -1], 
-                            base_family = "HCR Dotum LVT", 
+                            base_family = "Malgun Gothic", 
                             ggtitle = "충청도의 찬반", 
                             xlab = "계급(누적%)", 
                             ylab = "찬반(%)", 
