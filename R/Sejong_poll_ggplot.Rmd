@@ -441,9 +441,10 @@ y.stack <- unlist(tapply(vote.seoul.df$Freq,
                          vote.seoul.df$class, 
                          function(x){x / 2 + 
                              c(0, cumsum(head(x, -1)))}))
-# y.stack <- unlist(tapply(vote.seoul.df$Freq, 
-#                         vote.seoul.df$class, 
-#                         cumsum))
+y.breaks <- unlist(tapply(vote.seoul.df$Freq, 
+                         vote.seoul.df$class, 
+                         cumsum))
+y.label <- format(y.breaks, big.mark = ",")
 b1.seoul <- ggplot(vote.seoul.df, 
                    aes(x = x.stack, 
                        y = Freq, 
@@ -456,8 +457,8 @@ b2.seoul <- b1.seoul +
   theme.kr +
   scale_x_discrete(name = "계급") +
   scale_y_continuous(name = "집계", 
-                     breaks = y.stack, 
-                     labels = y.stack) +
+                     breaks = y.breaks, 
+                     labels = y.label) +
   scale_fill_manual(name = "찬반", 
                     values = rainbow(n.fill)[n.fill:1], 
                     labels = vote.seoul.df$vote)
@@ -593,7 +594,10 @@ x <- df[, 2]
 y <- unlist(tapply(df$Freq, 
                    x, 
                    function(x){x / 2 + c(0, cumsum(head(x, -1)))}))
-y.breaks <- y
+y.breaks <- unlist(tapply(df$Freq, 
+                         x, 
+                         cumsum))
+y.label <- format(y.breaks, big.mark = ",")
 # delta <- (max(y.breaks) - min(y.breaks)) / 20
 # y.breaks.sort <- sort(y.breaks)
 # diff(y.breaks.sort) < delta 
@@ -893,7 +897,7 @@ m5 <- m4 +
                      label = y.label) + 
   scale_fill_manual(name = "찬반", 
                     values = rainbow(2)[2:1], 
-                    labels = rev(vote.seoul.df$vote), 
+                    labels = vote.seoul.df$vote, 
                     guide = guide_legend()) +
   ggtitle("서울의 찬반")
 m5

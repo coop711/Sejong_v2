@@ -38,7 +38,10 @@ x <- df[, 2]
 y <- unlist(tapply(df$Freq, 
                    x, 
                    function(x){x / 2 + c(0, cumsum(head(x, -1)))}))
-y.breaks <- y
+y.breaks <- unlist(tapply(df$Freq, 
+                         x, 
+                         cumsum))
+y.label <- format(y.breaks, big.mark = ",")
 # delta <- (max(y.breaks) - min(y.breaks)) / 20
 # y.breaks.sort <- sort(y.breaks)
 # diff(y.breaks.sort) < delta 
