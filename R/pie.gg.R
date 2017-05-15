@@ -1,7 +1,7 @@
 pie.gg <-
 function(df, ggtitle = "", font.family = ""){
   n <- length(names(df))
-  y.coord <- cumsum(df$Freq)
+  y.coord <- df$Freq/2 + c(0, cumsum(head(df$Freq, -1)))
   pie.label <- paste(levels(df$vote), format(df$Freq, big.mark = ","), 
                      sep = "\n") 
   p1 <- ggplot(df, aes(x = "", 
@@ -27,10 +27,10 @@ function(df, ggtitle = "", font.family = ""){
   pie.5 <- pie.4 +
     guides(fill = "none")
   pie.6 <- pie.5 +
-    geom_text(aes(y = y.coord/2), 
+    geom_text(aes(y = y.coord), 
               label = pie.label, 
               family = font.family, 
-              position = position_stack(reverse = TRUE))
+              position = position_identity())
   pie.7 <- pie.6 +
     ggtitle(ggtitle) + 
     theme(plot.margin = unit(c(1, 1, 1.5, 1), "lines"), 

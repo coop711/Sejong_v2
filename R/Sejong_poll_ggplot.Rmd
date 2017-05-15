@@ -63,8 +63,7 @@ str(tbl.vote)
 kable(t(as.matrix(tbl.vote)))
 vote.df <- as.data.frame(tbl.vote)
 n.vote <- length(levels(vote.df[, 1]))
-# y.coord <- cumsum(vote.df$Freq)/2 + c(0, cumsum(head(vote.df$Freq, -1))/2)
-y.coord <- cumsum(vote.df$Freq)
+y.coord <- vote.df$Freq/2 + c(0, cumsum(head(vote.df$Freq, -1)))
 pie.label <- paste(levels(vote.df$vote), 
                    format(vote.df$Freq, 
                           big.mark = ","), 
@@ -128,7 +127,7 @@ p6.2
 
 ```{r, message = FALSE, fig.width = 3.2, fig.height = 3.2}
 p7.2 <- p6.2 +
-  theme(legend.position = c(0.75, 0.85))
+  theme(legend.position = c(0.25, 0.75))
 p7.2
 p8.2 <- p5.2 +
   guides(fill = "none") +
@@ -149,8 +148,8 @@ p3
 p4 <- p3 + 
   scale_x_discrete(name = "찬반") +
   scale_y_continuous(name = "집계", 
-                     breaks = y.coord, 
-                     labels = format(y.coord, big.mark = ","))
+                     breaks = cumsum(vote.df$Freq), 
+                     labels = format(cumsum(vote.df$Freq), big.mark = ","))
 p4
 ```
 
@@ -161,10 +160,10 @@ p5 <- p4 +
   scale_fill_manual(name = "찬반", values = rainbow(2)[2:1], labels = vote.df$vote)
 p5
 p6 <- p5 + 
-  geom_text(aes(y = y.coord/2), 
+  geom_text(aes(y = y.coord), 
             label = format(vote.df$Freq, big.mark = ","), 
 #            family = "Malgun Gothic", 
-            position = position_stack(reverse = TRUE))  
+            position = position_identity())  
 p6
 # ggsave("../pics/sejong_geom_bar_total_ggplot_stack.png", p6, dpi = 72)
 ```
@@ -177,10 +176,10 @@ p7 <- p6 +
 p7
 p8 <- p5 + 
   guides(fill = "none") +
-  geom_text(aes(y = y.coord/2),
+  geom_text(aes(y = y.coord),
             label = pie.label,
             family = "Malgun Gothic", 
-            position = position_stack(reverse = TRUE))
+            position = position_identity())
 p8
 ```
 
@@ -218,11 +217,10 @@ pie.total.5 <- pie.total.4 +
   guides(fill = "none")
 pie.total.5
 pie.total.6 <- pie.total.5 +
-#  geom_text(aes(y = y.coord), label = pie.label, family = "Malgun Gothic")
-  geom_text(aes(y = y.coord/2), 
+  geom_text(aes(y = y.coord), 
             label = pie.label, 
             family = "Malgun Gothic", 
-            position = position_stack(reverse = TRUE))
+            position = position_identity())
 pie.total.6
 ```
 
@@ -243,7 +241,7 @@ pie.total.7
 ```{r, pie.gg, fig.width = 3.2, fig.height = 3.2}
 pie.gg <- function(df, ggtitle = "", font.family = ""){
   n <- length(names(df))
-  y.coord <- cumsum(df$Freq)
+  y.coord <- df$Freq/2 + c(0, cumsum(head(df$Freq, -1)))
   pie.label <- paste(levels(df$vote), format(df$Freq, big.mark = ","), 
                      sep = "\n") 
   p1 <- ggplot(df, aes(x = "", 
@@ -269,10 +267,10 @@ pie.gg <- function(df, ggtitle = "", font.family = ""){
   pie.5 <- pie.4 +
     guides(fill = "none")
   pie.6 <- pie.5 +
-    geom_text(aes(y = y.coord/2), 
+    geom_text(aes(y = y.coord), 
               label = pie.label, 
               family = font.family, 
-              position = position_stack(reverse = TRUE))
+              position = position_identity())
   pie.7 <- pie.6 +
     ggtitle(ggtitle) + 
     theme(plot.margin = unit(c(1, 1, 1.5, 1), "lines"), 
