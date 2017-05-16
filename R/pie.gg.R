@@ -1,7 +1,7 @@
 pie.gg <-
 function(df, ggtitle = "", font.family = ""){
   n <- length(names(df))
-  y.coord <- df$Freq/2 + c(0, cumsum(head(df$Freq, -1)))
+  y.coord <- df$Freq / 2 + c(0, cumsum(head(df$Freq, -1)))
   pie.label <- paste(levels(df$vote), format(df$Freq, big.mark = ","), 
                      sep = "\n") 
   p1 <- ggplot(df, aes(x = "", 
