@@ -14,12 +14,12 @@ tbl.p.df <- as.data.frame(tbl.p)
 tbl.p.df$width <- tbl.p.m[match(tbl.p.df[, 2], names(tbl.p.m))]
 tbl.p.df$height <- as.data.frame(tbl.p.2)$Freq
 tbl.p.df$label.height <- unlist(tapply(tbl.p.df$height, tbl.p.df[, 2], function(x) x / 2 + c(0, cumsum(head(x, -1)))))
-# tbl.p.df$label.height <- unlist(tapply(tbl.p.df$height, tbl.p.df[, 2], cumsum))
+tbl.p.df$y.breaks <- unlist(tapply(tbl.p.df$height, tbl.p.df[, 2], cumsum))
 x.center <- tbl.p.m / 2 + c(0, cumsum(head(tbl.p.m, -1)))
 # x.center <- (cumsum(tbl.p.m) + c(0, head(cumsum(tbl.p.m), -1)))/2
 tbl.p.df$center <- x.center[match(tbl.p.df[, 2], names(x.center))]
 m1 <- ggplot(tbl.p.df, aes(x = center, y = height, width = width)) + 
-  geom_bar(aes(fill = vote), 
+  geom_bar(aes(fill = tbl.df[1]), 
            stat = "identity", 
            col = "white", 
            size = 1, 
@@ -38,7 +38,7 @@ x.breaks <- c(0, ifelse(cumsum(tbl.p.m) < 0.1, 0.0, cumsum(tbl.p.m)))
 x.label <- format(x.breaks * 100, 
                   digits = 3, 
                   nsmall = 1)
-y.breaks <- tbl.p.df$label.height
+y.breaks <- tbl.p.df$y.breaks
 delta <- (max(y.breaks) - min(y.breaks)) / 20
 y.breaks.sort <- sort(y.breaks)
 diff(y.breaks.sort) < delta 
@@ -56,7 +56,7 @@ m5 <- m4 +
                      label = y.label) + 
   scale_fill_manual(name = fill.name, 
                     values = rainbow(N)[N:1], 
-                    labels = tbl.df$vote, 
+                    labels = tbl.df[[1]], 
                     guide = guide_legend()) +
   ggtitle(ggtitle) +
   theme(plot.margin = unit(c(1, 2, 1, 1), "lines"))
