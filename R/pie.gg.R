@@ -34,6 +34,6 @@ function(df, ggtitle = "", font.family = ""){
   pie.7 <- pie.6 +
     ggtitle(ggtitle) + 
     theme(plot.margin = unit(c(1, 1, 1.5, 1), "lines"), 
-          plot.title = element_text(hjust = 0.5))
+          plot.title = element_text(hjust = 0.5, size = 20))
   return(pie.7)
 }
