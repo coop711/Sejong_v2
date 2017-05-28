@@ -42,11 +42,11 @@ y.breaks <- unlist(tapply(df$Freq,
                          x, 
                          cumsum))
 y.label <- format(y.breaks, big.mark = ",")
-# delta <- (max(y.breaks) - min(y.breaks)) / 20
-# y.breaks.sort <- sort(y.breaks)
-# diff(y.breaks.sort) < delta 
-# index <- which(diff(y.breaks.sort)  > delta)
-# y.breaks <- c(0, y.breaks.sort[c(index, length(y.breaks.sort))])
+delta <- (max(y.breaks) - min(y.breaks)) / 20
+y.breaks.sort <- sort(y.breaks)
+diff(y.breaks.sort) < delta 
+index <- which(diff(y.breaks.sort)  > delta)
+y.breaks <- c(0, y.breaks.sort[c(index, length(y.breaks.sort))])
 y.label <- format(y.breaks, big.mark = ",")
 b1 <- ggplot(df, 
              aes(x = x, 
