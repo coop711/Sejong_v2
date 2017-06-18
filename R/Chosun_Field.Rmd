@@ -15,7 +15,7 @@ output: html_document
 
 ```{r, field table}
 library(knitr)
-include_graphics("../pics/chosun_field.png", dpi = 72)
+include_graphics("../pics/chosun_field_history.png", dpi = 72)
 ```
 
 ## Data
