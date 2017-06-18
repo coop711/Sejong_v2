@@ -106,5 +106,5 @@ g8 <- g7 +
         plot.subtitle = element_text(family = "HCR Dotum LVT"),
         legend.position = c(0.9, 0.8))
 g8
-ggsave("../pics/chosun_tax.png", dpi = 72)
+ggsave("../pics/chosun_tax_ggplot.png", dpi = 72)
 ```
