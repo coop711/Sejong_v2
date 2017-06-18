@@ -7,7 +7,7 @@ output: html_document
 
 1769년(영조 45년) 도별 수조 현황표를 막대그래프로 표시
 
-![](../pics/chosun_tax.png)
+![](../pics/chosun_tax_history.png)
 
 ## Data Setup
 
