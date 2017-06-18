@@ -9,14 +9,21 @@ output: html_document
 
 조선시대 전답 통계를 stacked area graph로 표시
 
+<!--
 ![](../pics/chosun_field.png)
+-->
+
+```{r, field table}
+library(knitr)
+include_graphics("../pics/chosun_field.png", dpi = 72)
+```
 
 ## Data
 
 ```{r, data}
 library(knitr)
 year <- c(1404, 1414, 1432, 1592, 1603, 1634, 1719, 1784, 1786, 1807, 1864)
-province <- c("경기도", "충청도", "전라도", "경상도", "강원도", "황해도", "함경도", "평안도")
+province <- c("경기도", "충청도", "전라도", "경상도", "황해도", "강원도", "함경도", "평안도")
 field <- matrix(c(NA, 223090, 173990, 224625, 90922, 59989, 3271, 6648,
                   NA, 223090, 279090, 226025, 90925, 59989, 3271, 6648,
                   207119, 236300, 377588, 301147, 104772, 65916, 130413, 308751, 
@@ -31,8 +38,12 @@ field <- matrix(c(NA, 223090, 173990, 224625, 90922, 59989, 3271, 6648,
 
 rownames(field) <- year
 colnames(field) <- province
-kable(field)
+str(field)
+options(digits = 2)
+mean.field <- colMeans(field, na.rm = TRUE)
+prop.field <- colMeans(field, na.rm = TRUE)/sum(colMeans(field, na.rm = TRUE)) * 100
 ```
+
 ## Reshape
 
 `matrix` (array)에 특화된 `melt` 사용
@@ -45,30 +56,99 @@ kable(field.melt)
 
 ## ggplot
 
-```{r. ggplot, warning = FALSE, fig.width = 9, fig.height = 5}
+```{r, ggplot, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 library(ggplot2)
+# library(extrafont)
 source("./theme_kr.R")
-g0 <- ggplot(data = field.melt, 
-             mapping = aes(x = Year, y = Area, fill = Province))
+g0 <- ggplot()
 g1 <- g0 +
-  geom_area(colour = "black", 
+  geom_area(data = field.melt, 
+            mapping = aes(x = Year, y = Area, fill = Province),
+            colour = "black", 
             size = 0.2, 
             alpha = 0.4, 
-            na.rm = TRUE) +
-  scale_fill_brewer(palette = "Spectral", 
-                    breaks = levels(field.melt$Province)) +
-  theme.kr
+            na.rm = TRUE)
 g1
-g2<- g1 + 
+```
+
+```{r, ggplot2, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
+g2 <- g1 +
+  scale_fill_brewer(palette = "Spectral", 
+                    name = "",
+                    breaks = levels(field.melt$Province)) +
+  theme_bw() +
+  theme.kr
+g2
+g3<- g2 + 
   scale_x_continuous(name = "연도", 
                      breaks = as.numeric(row.names(field)[-9]),
-                     labels = row.names(field)[-9]) +
-  theme(axis.text.x = element_text(angle = 90))
-g2
-g3 <- g2 + 
-  scale_y_continuous(name = "토지 면적(결)",
-                     breaks = cumsum(field[3, ]),
-                     labels = format(cumsum(field[3, ]), big.mark = ","))
+                     labels = row.names(field)[-9])
 g3
+g4 <- g3 +
+  theme(axis.text.x = element_text(angle = 90))
+g4
+g5 <- g4 + 
+  scale_y_continuous(name = "토지 면적(결)",
+                     breaks = cumsum(rev(field[3, ])),
+                     labels = format(cumsum(rev(field[3, ])), big.mark = ","))
+g5
+g6 <- g5 +
+  labs(title = "조선 시대 도별 논밭통계", subtitle = "(도표 안의 수치는 기록된 값들의 평균)") +
+  theme(plot.subtitle = element_text(family = "HCR Dotum LVT", hjust = 1))
+g6
+g7 <- g6 +
+  theme(plot.title = element_text(size = 16, hjust = 0.5))
+g7
+#  x.max <- max(year) + 0.15 * diff(range(year))
+# g8 <- g7 +
+#  scale_x_continuous(name = "연도", 
+#                     breaks = as.numeric(row.names(field)[-9]),
+#                     labels = row.names(field)[-9],
+#                     limits = c(min(year), x.max)) +
+#  theme(legend.position = c(0.95, 0.5),
+#        legend.box.background = element_rect(fill = "white", colour = "black"),
+#        legend.title = element_blank())
+# g8
+g9 <- g7 +
+  theme(legend.position = c(0.75, 0.9),
+        legend.box.background = element_rect(fill = "white", colour = "black"),
+        legend.direction = "horizontal")
+g9
+
+y.coord <- apply(field[3:4, ], 2, mean)
+y.text <- cumsum(c(0, head(rev(y.coord), -1))) + rev(y.coord) / 2
+mean.text <- rev(paste(province, 
+                       ":", 
+                       format(mean.field, big.mark = ","), 
+                       "결(", 
+                       format(prop.field, digits = 2, nsmall = 0), 
+                       "%)", 
+                       sep = "" ))
+text.df <- data.frame(x = (year[3] + year[4]) / 2, 
+                      y = y.text, 
+                      label = mean.text, 
+                      row.names = NULL, 
+                      stringsAsFactors = FALSE)
+
+g10 <- g9 +
+  guides(fill = FALSE) +
+  geom_text(data = text.df, 
+            mapping = aes(x = x, y = y), 
+            label = mean.text, 
+            family = "HCR Dotum LVT", size = 3) +
+  annotate("text", x = 1592, y = 1650000, 
+           label = "임진왜란", 
+           colour = "red",
+           size = 5,
+           family = "HCR Dotum LVT")
+#  theme(text = element_text(family = "HCR Dotum LVT"))
+#  annotate("text", 
+#           x = text.df$x, 
+#           y = text.df$y, 
+#           label = mean.text, 
+#           family = "HCR Dotum LVT")
+
+g10
+ggsave("../pics/chosun_field.png", dpi = 72)
 ```
 
