@@ -1,7 +1,7 @@
 ---
 title: "Chosun Field"
 author: "coop711"
-date: '2017 6 17 '
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -16,8 +16,9 @@ output: html_document
 ```{r, field table}
 options(warn = -1)
 library(knitr)
-include_graphics("../pics/chosun_field_history.png", dpi = 72)
+include_graphics("../pics/chosun_field_history.png", dpi = NA)
 ```
+<P style = "page-break-before:always">
 
 ## Data
 
@@ -35,8 +36,9 @@ field <- matrix(c(NA, 223090, 173990, 224625, 90922, 59989, 3271, 6648,
                   110932, 255519, 348489, 335730, 129244, 40889, 109556, 105760,
                   109932, 255519, 348489, 336730, 129244, 40889, 109556, 106041,
                   112090, 256528, 340103, 337128, 132211, 41151, 117746, 119635, 
-                  111912, 255585, 339743, 337472, 132373, 40926, 117746, 119735), ncol = 8, byrow = TRUE)
-
+                  111912, 255585, 339743, 337472, 132373, 40926, 117746, 119735), 
+                ncol = 8, 
+                byrow = TRUE)
 rownames(field) <- year
 colnames(field) <- province
 str(field)
@@ -44,6 +46,10 @@ options(digits = 2)
 mean.field <- colMeans(field, na.rm = TRUE)
 prop.field <- colMeans(field, na.rm = TRUE)/sum(colMeans(field, na.rm = TRUE)) * 100
 ```
+
+<!--
+<P style = "page-break-before:always">
+-->
 
 ## Reshape
 
@@ -54,6 +60,8 @@ library(reshape2)
 field.melt <- melt(field, varnames = c("Year", "Province"), value.name = "Area")
 kable(field.melt)
 ```
+
+<P style = "page-break-before:always">
 
 ## ggplot
 
@@ -72,6 +80,8 @@ g1 <- g0 +
 g1
 ```
 
+<P style = "page-break-before:always">
+
 ```{r, ggplot2, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 g2 <- g1 +
   scale_fill_brewer(palette = "Spectral", 
@@ -80,26 +90,56 @@ g2 <- g1 +
   theme_bw() +
   theme.kr
 g2
+```
+
+<P style = "page-break-before:always">
+
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 g3<- g2 + 
   scale_x_continuous(name = "연도", 
                      breaks = as.numeric(row.names(field)[-9]),
                      labels = row.names(field)[-9])
 g3
+```
+
+<P style = "page-break-before:always">
+
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 g4 <- g3 +
   theme(axis.text.x = element_text(angle = 90))
 g4
+```
+
+<P style = "page-break-before:always">
+
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 g5 <- g4 + 
   scale_y_continuous(name = "토지 면적(결)",
                      breaks = cumsum(rev(field[3, ])),
                      labels = format(cumsum(rev(field[3, ])), big.mark = ","))
 g5
+```
+
+<P style = "page-break-before:always">
+
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 g6 <- g5 +
   labs(title = "조선 시대 도별 논밭통계", subtitle = "(도표 안의 수치는 기록된 값들의 평균)") +
   theme(plot.subtitle = element_text(family = "HCR Dotum LVT", hjust = 1))
 g6
+```
+
+<P style = "page-break-before:always">
+
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 g7 <- g6 +
   theme(plot.title = element_text(size = 16, hjust = 0.5))
 g7
+```
+
+<P style = "page-break-before:always">
+
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 #  x.max <- max(year) + 0.15 * diff(range(year))
 # g8 <- g7 +
 #  scale_x_continuous(name = "연도", 
@@ -115,7 +155,9 @@ g9 <- g7 +
         legend.box.background = element_rect(fill = "white", colour = "black"),
         legend.direction = "horizontal")
 g9
+```
 
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
 y.coord <- apply(field[3:4, ], 2, mean)
 y.text <- cumsum(c(0, head(rev(y.coord), -1))) + rev(y.coord) / 2
 mean.text <- rev(paste(province, 
@@ -130,7 +172,11 @@ text.df <- data.frame(x = (year[3] + year[4]) / 2,
                       label = mean.text, 
                       row.names = NULL, 
                       stringsAsFactors = FALSE)
+```
 
+<P style = "page-break-before:always">
+
+```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 6.75}
 g10 <- g9 +
   guides(fill = FALSE) +
   geom_text(data = text.df, 
@@ -150,6 +196,7 @@ g10 <- g9 +
 #           family = "HCR Dotum LVT")
 
 g10
+
 ggsave("../pics/chosun_field_ggplot.png", dpi = 72)
 ```
 
