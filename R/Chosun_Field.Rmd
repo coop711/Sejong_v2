@@ -16,7 +16,7 @@ output: html_document
 ```{r, field table}
 options(warn = -1)
 library(knitr)
-include_graphics("../pics/chosun_field_history.png", dpi = NA)
+include_graphics("../pics/chosun_field_history.png", dpi = 72)
 ```
 <P style = "page-break-before:always">
 
