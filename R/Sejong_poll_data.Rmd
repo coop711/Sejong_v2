@@ -65,7 +65,8 @@ kable(sejong.poll.2[4:1])
 We can set up the data as an array
 
 ```{r, array structure}
-sejong.poll.array <- xtabs(counts ~ vote + class + region, data = sejong.poll.2)
+sejong.poll.array <- xtabs(counts ~ vote + class + region, 
+                           data = sejong.poll.2)
 str(sejong.poll.array)
 sejong.poll.array
 ```
@@ -77,22 +78,32 @@ sejong.poll.array
 Check the total vote with xtabs()
 
 ```{r, total yes or no}
-vote.total <- xtabs(counts ~ vote, data = sejong.poll.2)
-kable(t(as.matrix(vote.total)), caption = "Total")
+vote.total <- xtabs(counts ~ vote, 
+                    data = sejong.poll.2)
+kable(t(as.matrix(vote.total)), 
+      caption = "Total")
 # format(prop.table(vote.total)*100, digits = 3, nsmall = 1)
-kable(t(as.matrix(format(prop.table(vote.total)*100, digits = 3, nsmall = 1))), caption = "Percentage", align = rep("r", 2))
+kable(t(as.matrix(format(prop.table(vote.total) * 100, 
+                         digits = 3, 
+                         nsmall = 1))), 
+      caption = "Percentage", 
+      align = rep("r", 2))
 vote.total.2 <- apply(sejong.poll.array, 1, sum)
 # kable(t(as.matrix(vote.total.2)))
-kable(t(as.matrix(vote.total.2)), caption = "Total")
+kable(t(as.matrix(vote.total.2)), 
+      caption = "Total")
 ```
 
 ### Vote by class
 
 ```{r, by class}
-vote.class <- xtabs(counts ~ vote + class, data = sejong.poll.2)
-kable(vote.class, caption = "By Class")
+vote.class <- xtabs(counts ~ vote + class, 
+                    data = sejong.poll.2)
+kable(vote.class, 
+      caption = "By Class")
 vote.class.a <- apply(sejong.poll.array, 1:2, sum)
-kable(vote.class.a, caption = "By Class")
+kable(vote.class.a, 
+      caption = "By Class")
 ```
 
 ### Commons vs Bureaucrats
@@ -100,7 +111,9 @@ kable(vote.class.a, caption = "By Class")
 We need to analyse Commons separately. 
 
 ```{r, commons vs bureaus}
-sejong.poll.2$class.2 <- factor(ifelse(sejong.poll.2$class == "Commons", "Commons", "Bureaus"), levels = c("Bureaus", "Commons"))
+sejong.poll.2$class.2 <- factor(ifelse(sejong.poll.2$class == "Commons", 
+                                       "Commons", "Bureaus"), 
+                                levels = c("Bureaus", "Commons"))
 kable(sejong.poll.2[c(4, 3, 5, 2, 1)])
 str(sejong.poll.2)
 ```
@@ -108,7 +121,8 @@ str(sejong.poll.2)
 Compare the votes by `class.2`,  (Bureaucrats vs Commons)
 
 ```{r, vote by class.2}
-vote.class.2 <- xtabs(counts ~ vote + class.2, data = sejong.poll.2)
+vote.class.2 <- xtabs(counts ~ vote + class.2, 
+                      data = sejong.poll.2)
 kable(vote.class.2, caption = "By Bureaus and Commons")
 vote.class.2.a <- cbind("Bureaus" = rowSums(vote.class.a[, -5]), "Commons" =  vote.class.a[, 5])
 kable(vote.class.2.a, caption = "By Bureaus and Commons")
@@ -133,7 +147,10 @@ Count the vote by region class.2 wise.
 
 ```{r, region w.r.t class.2}
 class.2 <- sejong.poll.2$class.2
-vote.region.bureaus <- xtabs(counts ~ vote + region, data = sejong.poll.2, class.2 == "Bureaus", drop = TRUE)
+vote.region.bureaus <- xtabs(counts ~ vote + region, 
+                             data = sejong.poll.2, 
+                             class.2 == "Bureaus", 
+                             drop = TRUE)
 kable(vote.region.bureaus, caption = "Votes(Bureaus)")
 # xtabs(counts ~ vote + region, data = sejong.poll.2[class.2 == "Bureaus", ], drop = TRUE)
 vote.region.commons <- xtabs(counts ~ vote + region, data = sejong.poll.2, class.2 == "Commons", drop = TRUE)

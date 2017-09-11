@@ -92,7 +92,7 @@ chosun.melt <- melt(chosun.df,
 str(chosun.melt)
 ```
 
-### geom_line, geom_pint, ...
+### geom_line(), geom_point(), ...
 
 ```{r, ggplot, fig.width = 9, fig.height = 5}
 g1 <- ggplot(data = chosun.melt, 
