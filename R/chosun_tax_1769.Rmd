@@ -9,6 +9,8 @@ output: html_document
 
 ![](../pics/chosun_tax_history.png)
 
+<P style = "page-break-before:always">
+
 ## Data Setup
 
 ```{r, data}
@@ -19,6 +21,8 @@ collected <- c(8620, 31657, 67277, 25283, 3532, 27265, 0, 0)
 tax.df <- data.frame(province, expected, collected, stringsAsFactors = FALSE)
 tax.df
 ```
+
+<P style = "page-break-before:always">
 
 ## Barplot(R Base)
 
@@ -43,6 +47,8 @@ title(main = main.title, sub = sub.title, cex.main = 2)
 text(x = 18, y = 60000, main.text, cex = 1.6, adj = 0.5)
 ```
 
+<P style = "page-break-before:always">
+
 ## ggplot
 
 ### Data for ggplot
@@ -60,16 +66,17 @@ tax.df.melt
 str(tax.df.melt)
 ```
 
-### Geom_bar
+<P style = "page-break-before:always">
 
-```{r, fig.width = 8, fig.height = 4}
+### `geom_bar()`
+
+```{r, fig.width = 8, fig.height = 4, tidy = TRUE, fig.keep = 'all'}
 library(ggplot2)
 source("./theme_kr.R")
 g0 <- ggplot(data = tax.df.melt, 
              mapping = aes(x = province.f, y = amount, fill = tax)) 
 (g1 <- g0 + 
   geom_bar(stat = "identity", position = position_dodge())) 
-# g1
 g2 <- g1 +
   geom_text(mapping = aes(x = province.f, 
                           y = amount + 2000, 
@@ -106,5 +113,8 @@ g8 <- g7 +
         plot.subtitle = element_text(family = "HCR Dotum LVT"),
         legend.position = c(0.9, 0.8))
 g8
+```
+
+```{r}
 ggsave("../pics/chosun_tax_ggplot.png", dpi = 72)
 ```
