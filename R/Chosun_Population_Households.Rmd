@@ -11,6 +11,8 @@ output: html_document
 knitr::include_graphics("../pics/chosun_population_households.png", dpi = 96)
 ```
 
+<P style = "page-break-before:always">
+
 ## Data
 
 ```{r, data}
@@ -75,6 +77,8 @@ dev.copy(png,
          height = 450)
 dev.off()
 ```
+
+<P style = "page-break-before:always">
 
 ## ggplot
 
