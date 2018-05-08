@@ -38,8 +38,15 @@ sejong.poll.kr$region <- factor(sejong.poll.kr$region, levels = region.levels, l
 vnames.kr <- c("소계", "찬반", "계급", "지역")
 # names(sejong.poll.kr) <- vnames.kr
 kable(sejong.poll.kr[4:1])
-# kable(sejong.poll.kr[4:1], align = NULL, col.names = vnames.kr[4:1])
 ```
+
+<P style = "page-break-before:always">
+
+```{r, echo = FALSE}
+kable(sejong.poll.kr[4:1], align = NULL, col.names = vnames.kr[4:1])
+```
+
+<P style = "page-break-before:always">
 
 ### Cross Tables
 
