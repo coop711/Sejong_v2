@@ -16,7 +16,7 @@ output: html_document
 ```{r, field table}
 options(warn = -1)
 library(knitr)
-include_graphics("../pics/chosun_field_history.png", dpi = 72)
+include_graphics("../pics/chosun_field_history.png", dpi = NA)
 ```
 <P style = "page-break-before:always">
 
@@ -43,8 +43,8 @@ rownames(field) <- year
 colnames(field) <- province
 str(field)
 options(digits = 2)
-mean.field <- colMeans(field, na.rm = TRUE)
-prop.field <- colMeans(field, na.rm = TRUE)/sum(colMeans(field, na.rm = TRUE)) * 100
+mean_field <- colMeans(field, na.rm = TRUE)
+prop_field <- colMeans(field, na.rm = TRUE)/sum(colMeans(field, na.rm = TRUE)) * 100
 ```
 
 <!--
@@ -57,8 +57,11 @@ prop.field <- colMeans(field, na.rm = TRUE)/sum(colMeans(field, na.rm = TRUE)) *
 
 ```{r, reshape}
 library(reshape2)
-field.melt <- melt(field, varnames = c("Year", "Province"), value.name = "Area")
-kable(field.melt)
+field_melt <- melt(field, 
+                   varnames = c("Year", "Province"), 
+                   value.name = "Area")
+str(field_melt)
+# kable(field_melt)
 ```
 
 <P style = "page-break-before:always">
@@ -71,7 +74,7 @@ library(ggplot2)
 source("./theme_kr.R")
 g0 <- ggplot()
 g1 <- g0 +
-  geom_area(data = field.melt, 
+  geom_area(data = field_melt, 
             mapping = aes(x = Year, y = Area, fill = Province),
             colour = "black", 
             size = 0.2, 
@@ -86,7 +89,7 @@ g1
 g2 <- g1 +
   scale_fill_brewer(palette = "Spectral", 
                     name = "",
-                    breaks = levels(field.melt$Province)) +
+                    breaks = levels(field_melt$Province)) +
   theme_bw() +
   theme.kr
 g2
@@ -158,18 +161,18 @@ g9
 ```
 
 ```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 5}
-y.coord <- apply(field[3:4, ], 2, mean)
-y.text <- cumsum(c(0, head(rev(y.coord), -1))) + rev(y.coord) / 2
-mean.text <- rev(paste(province, 
+y_coord <- apply(field[3:4, ], 2, mean)
+y_text <- cumsum(c(0, head(rev(y_coord), -1))) + rev(y_coord) / 2
+mean_text <- rev(paste(province, 
                        ":", 
-                       format(mean.field, big.mark = ","), 
+                       format(mean_field, big.mark = ","), 
                        "결(", 
-                       format(prop.field, digits = 2, nsmall = 0), 
+                       format(prop_field, digits = 2, nsmall = 0), 
                        "%)", 
-                       sep = "" ))
-text.df <- data.frame(x = (year[3] + year[4]) / 2, 
-                      y = y.text, 
-                      label = mean.text, 
+                       sep = ""))
+text_df <- data.frame(x = (year[3] + year[4]) / 2, 
+                      y = y_text, 
+                      label = mean_text, 
                       row.names = NULL, 
                       stringsAsFactors = FALSE)
 ```
@@ -179,9 +182,9 @@ text.df <- data.frame(x = (year[3] + year[4]) / 2,
 ```{r, warning = FALSE, message = FALSE, fig.width = 9, fig.height = 6.75}
 g10 <- g9 +
   guides(fill = FALSE) +
-  geom_text(data = text.df, 
+  geom_text(data = text_df, 
             mapping = aes(x = x, y = y), 
-            label = mean.text, 
+            label = mean_text, 
             family = "HCR Dotum LVT", size = 3) +
   annotate("text", x = 1592, y = 1650000, 
            label = "임진왜란", 
@@ -190,9 +193,9 @@ g10 <- g9 +
            family = "HCR Dotum LVT")
 #  theme(text = element_text(family = "HCR Dotum LVT"))
 #  annotate("text", 
-#           x = text.df$x, 
-#           y = text.df$y, 
-#           label = mean.text, 
+#           x = text_df$x, 
+#           y = text_df$y, 
+#           label = mean_text, 
 #           family = "HCR Dotum LVT")
 
 g10
