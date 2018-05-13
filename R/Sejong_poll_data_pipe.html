@@ -473,8 +473,9 @@ sejong_poll_array %&gt;% str</code></pre>
 <div id="total" class="section level3">
 <h3>Total</h3>
 <p>Check the total vote with xtabs()</p>
-<pre class="r"><code>sejong_poll %&gt;% 
-  xtabs(counts ~ vote, data = .) %&gt;%
+<pre class="r"><code>vote_total &lt;- sejong_poll %&gt;% 
+  xtabs(counts ~ vote, data = .) 
+vote_total %&gt;%
   as.matrix %&gt;%
   t %&gt;%
   kable(align = c(&quot;c&quot;, &quot;c&quot;))</code></pre>
@@ -492,8 +493,7 @@ sejong_poll_array %&gt;% str</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>sejong_poll %&gt;% 
-  xtabs(counts ~ vote, data = .) %&gt;%
+<pre class="r"><code>vote_total %&gt;%
   prop.table %&gt;%
   `*`(100) %&gt;%
   format(digits = 3, nsmall = 1) %&gt;%
@@ -514,8 +514,9 @@ sejong_poll_array %&gt;% str</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>sejong_poll_array %&gt;% 
-  apply(MARGIN = 1, FUN = sum) %&gt;%
+<pre class="r"><code>vote_total_a &lt;- sejong_poll_array %&gt;% 
+  apply(MARGIN = 1, FUN = sum) 
+vote_total_a %&gt;%
   as.matrix %&gt;%
   t %&gt;%
   kable(align = c(&quot;c&quot;, &quot;c&quot;))</code></pre>

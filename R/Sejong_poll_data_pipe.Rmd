@@ -79,21 +79,22 @@ sejong_poll_array %>% ftable
 Check the total vote with xtabs()
 
 ```{r, total yes or no}
-sejong_poll %>% 
-  xtabs(counts ~ vote, data = .) %>%
+vote_total <- sejong_poll %>% 
+  xtabs(counts ~ vote, data = .) 
+vote_total %>%
   as.matrix %>%
   t %>%
   kable(align = c("c", "c"))
-sejong_poll %>% 
-  xtabs(counts ~ vote, data = .) %>%
+vote_total %>%
   prop.table %>%
   `*`(100) %>%
   format(digits = 3, nsmall = 1) %>%
   as.matrix %>%
   t %>%
   kable(align = c("c", "c"))
-sejong_poll_array %>% 
-  apply(MARGIN = 1, FUN = sum) %>%
+vote_total_a <- sejong_poll_array %>% 
+  apply(MARGIN = 1, FUN = sum) 
+vote_total_a %>%
   as.matrix %>%
   t %>%
   kable(align = c("c", "c"))
